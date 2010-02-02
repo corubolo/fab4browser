@@ -1,0 +1,9 @@
+#summary Dependency for the Fab4 browser package
+#labels Featured
+
+= Introduction =
+The Fab4 browser package includes dependencies and some default extensions.
+The dependencies are managed with the Maven2 POM file; the main project includes all the extensions avalable at the moment, creating a single boundle. 
+The extension can be included as simple JAR files, but have to be also added to the classpath in order to be loaded. 
+
+= Details =
