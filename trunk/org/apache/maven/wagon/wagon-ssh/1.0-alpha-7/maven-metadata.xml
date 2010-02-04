@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.apache.maven.wagon</groupId>
+  <artifactId>wagon-ssh</artifactId>
+  <version>1.0-alpha-7</version>
+</metadata>

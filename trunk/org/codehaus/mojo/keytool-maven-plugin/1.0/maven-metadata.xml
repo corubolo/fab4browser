@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.codehaus.mojo</groupId>
+  <artifactId>keytool-maven-plugin</artifactId>
+  <version>1.0</version>
+</metadata>

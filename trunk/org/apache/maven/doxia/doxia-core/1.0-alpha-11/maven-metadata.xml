@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.apache.maven.doxia</groupId>
+  <artifactId>doxia-core</artifactId>
+  <version>1.0-alpha-11</version>
+</metadata>
