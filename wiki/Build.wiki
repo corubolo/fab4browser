@@ -1,0 +1,10 @@
+#summary contains the build instructions.
+
+= Build instructions =
+
+It should be simple to build the fab4browserpackage using Maven2. 
+
+  * Download and install Maven from http://maven.apache.org/
+  * Open a shell, and increase the Maven heap space: export MAVEN_OPTS=-Xmx1024m
+  * change directory to the fab4browserpackage folder, 'cd folder' 
+  * run mvn install
