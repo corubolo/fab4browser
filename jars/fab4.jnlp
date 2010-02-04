@@ -3,10 +3,10 @@
   <information>
     <title>Fab4 Document Browser</title>
     <vendor>The University of Liverpool</vendor>
-    <description>Fab4 version 0.92</description>
+    <description>Fab4 version 0.96</description>
     <homepage href="http://bodoni.lib.liv.ac.uk/fab4/" />
   </information>
-  <resources>http://fab4browser.googlecode.com/svn/trunk/http://fab4browser.googlecode.com/svn/trunk/jars/
+  <resources>
     <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars/ApachePOI-3.6modified.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars/ApachePOIAdditions-0.1.jar" />
