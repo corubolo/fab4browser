@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.codehaus.plexus</groupId>
+  <artifactId>plexus-component-api</artifactId>
+  <versioning>
+    <latest>1.0-alpha-16</latest>
+    <release>1.0-alpha-16</release>
+    <versions>
+      <version>1.0-alpha-15</version>
+      <version>1.0-alpha-16</version>
+    </versions>
+  </versioning>
+</metadata>

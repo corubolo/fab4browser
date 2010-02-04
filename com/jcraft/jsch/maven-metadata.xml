@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>com.jcraft</groupId>
+  <artifactId>jsch</artifactId>
+  <versioning>
+    <latest>0.1.27</latest>
+    <release>0.1.27</release>
+    <versions>
+      <version>0.1.24</version>
+      <version>0.1.27</version>
+    </versions>
+  </versioning>
+</metadata>

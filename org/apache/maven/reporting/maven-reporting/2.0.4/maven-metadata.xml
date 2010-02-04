@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.apache.maven.reporting</groupId>
+  <artifactId>maven-reporting</artifactId>
+  <version>2.0.4</version>
+</metadata>

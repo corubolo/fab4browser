@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<metadata>
+  <groupId>org.codehaus.plexus</groupId>
+  <artifactId>plexus-utils</artifactId>
+  <versioning>
+    <latest>1.5.15</latest>
+    <release>1.5.15</release>
+    <versions>
+      <version>1.0.4</version>
+      <version>1.0.5</version>
+      <version>1.1</version>
+      <version>1.2</version>
+      <version>1.4.1</version>
+      <version>1.4.2</version>
+      <version>1.4.5</version>
+      <version>1.4.6</version>
+      <version>1.4.9</version>
+      <version>1.5.15</version>
+    </versions>
+  </versioning>
+</metadata>
