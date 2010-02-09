@@ -4,7 +4,7 @@
     <title>Fab4 Document Browser</title>
     <vendor>The University of Liverpool</vendor>
     <description>Fab4 version 0.97</description>
-    <homepage href="http://bodoni.lib.liv.ac.uk/fab4/" />
+    <homepage href="http://bodoni.lib.liv.ac.uk/fab4/About.html" />
   </information>
   <resources>
     <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m"/>
