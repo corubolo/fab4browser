@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="http://fab4browser.googlecode.com/svn/trunk/jars0.97/" href="fab4.jnlp">
+  <information>
+    <title>Fab4 Document Browser</title>
+    <vendor>The University of Liverpool</vendor>
+    <description>Fab4 version 0.97</description>
+    <homepage href="http://bodoni.lib.liv.ac.uk/fab4/" />
+  </information>
+  <resources>
+    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m"/>
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/ApachePOI-3.6modified.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/ApachePOIAdditions-0.2.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/batik-awt-util-1.7.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/batik-transcoder-1.7.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/commons-codec-1.2.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/commons-httpclient-3.0.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/commons-io-1.4.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/commons-logging-1.1.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/commons-vfs-1.0.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/DVI-20060102.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/fab4annotations-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/fab4browser-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/fab4browserutility-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/fab4rdfannotations-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/freehep-graphics-base-2.1.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/freehep-graphics2d-2.1.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/freehep-graphicsio-2.1.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/freehep-graphicsio-emf-2.1.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/freehep-io-2.0.5.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/iRODS4Multivalent-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/jai_imageio-1.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/jargon-2.2.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/jaxen-1.1.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/jdom-1.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/junique-0.4.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/junit-3.8.2.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/log4j-1.2.15.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/loopy-0.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/lucene-core-2.9.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/metadata-extractor-2.4.0-beta-1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/multivalent-20060102bin.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/multivalent4fab4-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/nestedvmlib-20090809.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/odtMediaAdaptor-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/PICTDecoder-0.2.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/pptmediaadaptor-0.7.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/servlet-api-2.5.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/swing-layout-1.0.3.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/sword-common-fab4-1.1.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/xmlMA-0.97.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/xmlsec-1.4.2.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.97/xom-1.1.jar" />
+  </resources>
+  <application-desc main-class="uk.ac.liverpool.fab4.Fab4">
+    <argument>-single</argument>
+    <!--argument>-aserver=http://shaman.cheshire3.org/sword/annotations/</argument-->
+    <!--argument>-asearchserver=http://shaman.cheshire3.org/services/annotations/</argument-->
+    <argument>http://bodoni.lib.liv.ac.uk/fab4/</argument>
+  </application-desc>
+  <security>
+    <all-permissions />
+  </security>
+</jnlp>
+
