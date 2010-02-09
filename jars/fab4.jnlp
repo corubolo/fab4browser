@@ -7,7 +7,7 @@
     <homepage href="http://bodoni.lib.liv.ac.uk/fab4/" />
   </information>
   <resources>
-    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" />
+    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m"/>
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars/ApachePOI-3.6modified.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars/ApachePOIAdditions-0.1.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars/batik-awt-util-1.7.jar" />
