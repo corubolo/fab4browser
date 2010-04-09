@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jnlp spec="1.0+" codebase="http://fab4browser.googlecode.com/svn/trunk/jars0.98/" href="fab4.jnlp">
+<jnlp spec="1.0+" codebase="http://fab4browser.googlecode.com/svn/trunk/jars0.98/" href="fab4-j.jnlp">
   <information>
     <title>Fab4 Document Browser</title>
     <vendor>The University of Liverpool</vendor>
