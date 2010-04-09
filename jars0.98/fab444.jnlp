@@ -7,7 +7,7 @@
     <homepage href="http://code.google.com/p/fab4browser/" />
   </information>
   <resources>
-    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m" />
+    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m"  />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/ApachePOI-0.98.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/ApachePOIAdditions-0.2.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/audioma-0.98.jar" />
@@ -26,7 +26,7 @@
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/DVI-20060102.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/en_us-1.2.2.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/fab4annotations-0.98.jar" />
-    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/fab4browser-0.98.jar" />
+    <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/fab4browser-0.98.jar" main="true"/>
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/fab4browserutility-0.98.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/fab4rdfannotations-0.98.jar" />
     <jar href="http://fab4browser.googlecode.com/svn/trunk/jars0.98/freehep-graphics-base-2.1.3.jar" />
