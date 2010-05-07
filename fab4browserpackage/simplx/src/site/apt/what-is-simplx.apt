@@ -1,0 +1,27 @@
+Simplification tools for 80% Java solutions
+
+    These packages provide a miscellany of tools for simplified access to common functionality.  They are designed and built on two princples:
+
+	* Solving 80% of a problem leads to simple solutions that can be commonly used.  And if done right, they leave enough scope open for the other 20% to be addressed.
+
+	* It's better that the code should work hard than the user.
+
+    Currently the packages contain the following:
+
+	* Building XML trees with minimal code
+
+	* Reading and writing XML files
+
+	* Reading and writing Java objects using Xstream
+
+	* Reflection-based implementations of common methods (equals, hashCode, toString, compareTo)
+
+	* Parsing command-line options to main() methods
+
+	* A stream to write to java.log files
+
+	* A quick mock httpd daemon helpful for testing, including JUnit tests
+
+	* A class to compare XML documents, filtering out any irrelevant content
+
+	* An Xstream converter for including raw XML tree content in an object

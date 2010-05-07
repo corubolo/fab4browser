@@ -1,0 +1,2291 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<printfTests>
+    <test expected="%" format="%%"/>
+    <test expected=" %" format="%2.2%"/>
+    <test expected="%         " format="%-10%"/>
+    <test expected="%hi" format="%%%s"> <arg type="String">hi</arg> </test>
+    <test expected="%%s" format="%%%%s"> <arg type="String">hi</arg> </test>
+    <test expected="%%hi" format="%%%%%s"> <arg type="String">hi</arg> </test>
+    <test expected="hi % there" format="%s %% %s"> <arg type="String">hi</arg> <arg type="String">there</arg> </test>
+    <test expected="hi     % there" format="%s %*.*% %s">
+	<arg type="String">hi</arg>
+	<arg type="int">5</arg>
+	<arg type="int">1</arg>
+	<arg type="String">there</arg>
+    </test>
+
+    <!-- newline -->
+    <test expected="hi&#10;there" format="%s&#10;%s"> <arg type="String">hi</arg> <arg type="String">there</arg> </test>
+
+    <!-- %s / %S -->
+    <test expected="hi" format="%s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%.1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%.5s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="    h" format="%5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="%#1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%#.1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%#1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%#5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%#.5s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%#5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%#1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="    h" format="%#5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="%-1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%-.1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%-1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="%-5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%-.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="%-5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%-1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="h    " format="%-5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="%+1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%+.1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%+1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%+5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%+.5s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="%+5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%+1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="    h" format="%+5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="% 1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="% .1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="% 1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="% 5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="% .5s"> <arg type="String">hi</arg> </test>
+    <test expected="   hi" format="% 5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="% 1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="    h" format="% 5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="%- 1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%- .1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%- 1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="%- 5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%- .5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="%- 5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="%- 1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="h    " format="%- 5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="hi" format="% -1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="% -.1s"> <arg type="String">hi</arg> </test>
+    <test expected="h" format="% -1.1s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="% -5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="% -.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi   " format="% -5.5s"> <arg type="String">hi</arg> </test>
+    <test expected="hi" format="% -1.5s"> <arg type="String">hi</arg> </test>
+    <test expected="h    " format="% -5.1s"> <arg type="String">hi</arg> </test>
+
+    <test expected="1,234,567.890000" format="%'f" gen="no"> <arg type="double">1234567.89</arg> </test>
+    <test expected="  hi" format="%4S" gen="no"> <arg type="String">hi</arg> </test>
+
+    <!-- %c / %C tests -->
+    <test expected="q" format="%c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%c"> <arg type="int">113</arg> </test>
+
+    <test expected="q" format="%c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%1.1c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%1.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%#1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#1.1c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#1.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%#1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#1.1c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%#1.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%#5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%01c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%0.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%01.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%0.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%01.5c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%-1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%-.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%-1.1c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%-5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%-.5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%-5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%-1.5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%-5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%+1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%+.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%+1.1c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%+5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%+.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%+5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%+1.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="%+5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="% 1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% .1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% 1.1c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="% 5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% .5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="% 5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% 1.5c"> <arg type="char">q</arg> </test>
+    <test expected="    q" format="% 5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="%- 1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%- .1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%- 1.1c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%- 5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%- .5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%- 5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="%- 1.5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="%- 5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="q" format="% -1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% -.1c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% -1.1c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="% -5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% -.5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="% -5.5c"> <arg type="char">q</arg> </test>
+    <test expected="q" format="% -1.5c"> <arg type="char">q</arg> </test>
+    <test expected="q    " format="% -5.1c"> <arg type="char">q</arg> </test>
+
+    <test expected="   q" format="%4C" gen="no"> <arg type="char">q</arg> </test>
+
+    <!-- %d / %D tests -->
+    <test expected="13" format="%d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%d"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%+d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%+d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="% d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="% d"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="% 5d"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="% 5d"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%05d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%05d"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%0+5d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0+5d"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%0 5d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%#d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#d"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%#+d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#+d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%# d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%# d"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="%# 5d"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="%# 5d"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%#05d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#05d"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%#0+5d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0+5d"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%#0 5d"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%d"> <arg type="int">13</arg> </test>
+    <test expected="13" format="%-d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-d"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%-+d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-+d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%- d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%- d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%- 5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%- 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13   " format="%-05d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-05d"> <arg type="int">-13</arg> </test>
+    <test expected="+13  " format="%-0+5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-0+5d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-0 5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-0 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%-#d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-#d"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%-#+d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-#+d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%-# d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-# d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-# 5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-# 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13   " format="%-#05d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#05d"> <arg type="int">-13</arg> </test>
+    <test expected="+13  " format="%-#0+5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#0+5d"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-#0 5d"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#0 5d"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%-d"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%D"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%+D"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%+D"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="% D"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="% D"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="% 5D"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="% 5D"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%05D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%05D"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%0+5D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0+5D"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%0 5D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0 5D"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%#D"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#D"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%#+D"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#+D"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%# D"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%# D"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="%# 5D"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="%# 5D"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%#05D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#05D"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%#0+5D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0+5D"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%#0 5D"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0 5D"> <arg type="int">-13</arg> </test>
+
+    <!-- %i tests (becomes %d) -->
+    <test expected="13" format="%i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%i"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%+i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%+i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="% i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="% i"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="% 5i"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="% 5i"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%05i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%05i"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%0+5i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0+5i"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%0 5i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%0 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%#i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#i"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%#+i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%#+i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%# i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%# i"> <arg type="int">-13</arg> </test>
+    <test expected="   13" format="%# 5i"> <arg type="int">13</arg> </test>
+    <test expected="  -13" format="%# 5i"> <arg type="int">-13</arg> </test>
+    <test expected="00013" format="%#05i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#05i"> <arg type="int">-13</arg> </test>
+    <test expected="+0013" format="%#0+5i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0+5i"> <arg type="int">-13</arg> </test>
+    <test expected=" 0013" format="%#0 5i"> <arg type="int">13</arg> </test>
+    <test expected="-0013" format="%#0 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%i"> <arg type="int">13</arg> </test>
+    <test expected="13" format="%-i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-i"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%-+i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-+i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%- i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%- i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%- 5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%- 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13   " format="%-05i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-05i"> <arg type="int">-13</arg> </test>
+    <test expected="+13  " format="%-0+5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-0+5i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-0 5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-0 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%-#i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-#i"> <arg type="int">-13</arg> </test>
+    <test expected="+13" format="%-#+i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-#+i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13" format="%-# i"> <arg type="int">13</arg> </test>
+    <test expected="-13" format="%-# i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-# 5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-# 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13   " format="%-#05i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#05i"> <arg type="int">-13</arg> </test>
+    <test expected="+13  " format="%-#0+5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#0+5i"> <arg type="int">-13</arg> </test>
+    <test expected=" 13  " format="%-#0 5i"> <arg type="int">13</arg> </test>
+    <test expected="-13  " format="%-#0 5i"> <arg type="int">-13</arg> </test>
+    <test expected="13" format="%-i"> <arg type="int">13</arg> </test>
+
+    <!-- %x / %X tests -->
+    <test expected="d" format="%x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="%x"> <arg type="int">-13</arg> </test>
+    <test expected="d" format="%+x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="%+x"> <arg type="int">-13</arg> </test>
+    <test expected="d" format="% x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="% x"> <arg type="int">-13</arg> </test>
+    <test expected="    d" format="% 5x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="% 5x"> <arg type="int">-13</arg> </test>
+    <test expected="0000d" format="%05x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="%05x"> <arg type="int">-13</arg> </test>
+    <test expected="0000d" format="%0+5x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="%0+5x"> <arg type="int">-13</arg> </test>
+    <test expected="0000d" format="%0 5x"> <arg type="int">13</arg> </test>
+    <test expected="fffffff3" format="%0 5x"> <arg type="int">-13</arg> </test>
+    <test expected="0xd" format="%#x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%#x"> <arg type="int">-13</arg> </test>
+    <test expected="0xd" format="%#+x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%#+x"> <arg type="int">-13</arg> </test>
+    <test expected="0xd" format="%# x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%# x"> <arg type="int">-13</arg> </test>
+    <test expected="  0xd" format="%# 5x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%# 5x"> <arg type="int">-13</arg> </test>
+    <test expected="0x00d" format="%#05x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%#05x"> <arg type="int">-13</arg> </test>
+    <test expected="0x00d" format="%#0+5x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%#0+5x"> <arg type="int">-13</arg> </test>
+    <test expected="0x00d" format="%#0 5x"> <arg type="int">13</arg> </test>
+    <test expected="0xfffffff3" format="%#0 5x"> <arg type="int">-13</arg> </test>
+    <test expected="D" format="%X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="%X"> <arg type="int">-13</arg> </test>
+    <test expected="D" format="%+X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="%+X"> <arg type="int">-13</arg> </test>
+    <test expected="D" format="% X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="% X"> <arg type="int">-13</arg> </test>
+    <test expected="    D" format="% 5X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="% 5X"> <arg type="int">-13</arg> </test>
+    <test expected="0000D" format="%05X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="%05X"> <arg type="int">-13</arg> </test>
+    <test expected="0000D" format="%0+5X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="%0+5X"> <arg type="int">-13</arg> </test>
+    <test expected="0000D" format="%0 5X"> <arg type="int">13</arg> </test>
+    <test expected="FFFFFFF3" format="%0 5X"> <arg type="int">-13</arg> </test>
+    <test expected="0XD" format="%#X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%#X"> <arg type="int">-13</arg> </test>
+    <test expected="0XD" format="%#+X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%#+X"> <arg type="int">-13</arg> </test>
+    <test expected="0XD" format="%# X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%# X"> <arg type="int">-13</arg> </test>
+    <test expected="  0XD" format="%# 5X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%# 5X"> <arg type="int">-13</arg> </test>
+    <test expected="0X00D" format="%#05X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%#05X"> <arg type="int">-13</arg> </test>
+    <test expected="0X00D" format="%#0+5X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%#0+5X"> <arg type="int">-13</arg> </test>
+    <test expected="0X00D" format="%#0 5X"> <arg type="int">13</arg> </test>
+    <test expected="0XFFFFFFF3" format="%#0 5X"> <arg type="int">-13</arg> </test>
+
+    <!-- %o / %O tests -->
+    <test expected="15" format="%o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%o"> <arg type="int">-13</arg> </test>
+    <test expected="15" format="%+o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%+o"> <arg type="int">-13</arg> </test>
+    <test expected="15" format="% o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="% o"> <arg type="int">-13</arg> </test>
+    <test expected="   15" format="% 5o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="% 5o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%05o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%05o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%0+5o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%0+5o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%0 5o"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%0 5o"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%#o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#o"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%#+o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#+o"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%# o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%# o"> <arg type="int">-13</arg> </test>
+    <test expected="  015" format="%# 5o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%# 5o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#05o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#05o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#0+5o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#0+5o"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#0 5o"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#0 5o"> <arg type="int">-13</arg> </test>
+    <test expected="15" format="%O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%O"> <arg type="int">-13</arg> </test>
+    <test expected="15" format="%+O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%+O"> <arg type="int">-13</arg> </test>
+    <test expected="15" format="% O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="% O"> <arg type="int">-13</arg> </test>
+    <test expected="   15" format="% 5O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="% 5O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%05O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%05O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%0+5O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%0+5O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%0 5O"> <arg type="int">13</arg> </test>
+    <test expected="37777777763" format="%0 5O"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%#O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#O"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%#+O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#+O"> <arg type="int">-13</arg> </test>
+    <test expected="015" format="%# O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%# O"> <arg type="int">-13</arg> </test>
+    <test expected="  015" format="%# 5O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%# 5O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#05O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#05O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#0+5O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#0+5O"> <arg type="int">-13</arg> </test>
+    <test expected="00015" format="%#0 5O"> <arg type="int">13</arg> </test>
+    <test expected="037777777763" format="%#0 5O"> <arg type="int">-13</arg> </test>
+
+    <!-- %e / %E -->
+    <test expected="1.234000e+00" format="%e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000e+00" format="%10e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2340000000e+00" format="%.10e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2340000000e+00" format="%10.10e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000e+00" format="%3e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234e+00" format="%.3e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234e+00" format="%3.3e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000e+00" format="%2e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23e+00" format="%.2e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23e+00" format="%2.2e"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000e+00" format="%0e"> <arg type="double">1.234</arg> </test>
+    <test expected="1e+00" format="%.0e"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.234000E+10" format="%E"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234000E+09" format="%E"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1.234000E+00" format="%E"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2340000000E+10" format="%.10E"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234E+09" format="%.3E"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1E+00" format="%.0E"> <arg type="double">1.234</arg> </test>
+    <test expected="1.E+00" format="%#.0E"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.500000e+00" format="%e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000e+00" format="%10e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5000000000e+00" format="%.10e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5000000000e+00" format="%10.10e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000e+00" format="%3e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500e+00" format="%.3e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500e+00" format="%3.3e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000e+00" format="%2e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.50e+00" format="%.2e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.50e+00" format="%2.2e"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000e+00" format="%0e"> <arg type="double">1.5</arg> </test>
+    <test expected="2e+00" format="%.0e"> <arg type="double">1.5</arg> </test>
+
+    <test expected="1.234000e+10" format="%e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234000e+10" format="%10e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2340000000e+10" format="%.10e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2340000000e+10" format="%10.10e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234000e+10" format="%3e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%.3e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%3.3e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234000e+10" format="%2e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%.2e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%2.2e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234000e+10" format="%0e"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%.0e"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="1.234568e+00" format="%e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1e+00" format="%.0e"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="1.234568e+00" format="%-e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%-10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%-.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%-10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%-3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%-.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%-3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%-2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%-.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%-2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%-0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1e+00" format="%-.0e"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+1.234568e+00" format="%+e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%+10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900e+00" format="%+.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900e+00" format="%+10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%+3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235e+00" format="%+.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235e+00" format="%+3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%+2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23e+00" format="%+.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23e+00" format="%+2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%+0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1e+00" format="%+.0e"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+1.234568e+00" format="%-+e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%-+10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900e+00" format="%-+.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900e+00" format="%-+10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%-+3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235e+00" format="%-+.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235e+00" format="%-+3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%-+2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23e+00" format="%-+.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23e+00" format="%-+2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568e+00" format="%-+0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1e+00" format="%-+.0e"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected=" 1.234568e+00" format="% e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568e+00" format="% 10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.2345678900e+00" format="% .10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.2345678900e+00" format="% 10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568e+00" format="% 3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.235e+00" format="% .3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.235e+00" format="% 3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568e+00" format="% 2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.23e+00" format="% .2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.23e+00" format="% 2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568e+00" format="% 0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1e+00" format="% .0e"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="1.234568e+00" format="%#e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%#10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%#.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900e+00" format="%#10.10e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%#3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%#.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235e+00" format="%#3.3e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%#2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%#.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23e+00" format="%#2.2e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568e+00" format="%#0e"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.e+00" format="%#.0e"> <arg type="double">1.23456789</arg> </test>
+
+    <!-- %f / %F -->
+    <test expected="1.234000" format="%f"> <arg type="double">1.234</arg> </test>
+    <test expected="  1.234000" format="%10f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2340000000" format="%.10f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2340000000" format="%10.10f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000" format="%3f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%.3f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%3.3f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000" format="%2f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%.2f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%2.2f"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000" format="%0f"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%.0f"> <arg type="double">1.234</arg> </test>
+
+    <test expected="12340000000.000000" format="%F"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1234000000.000000" format="%F"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1.234000" format="%F"> <arg type="double">1.234</arg> </test>
+    <test expected="12340000000.0000000000" format="%.10F"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1234000000.000" format="%.3F"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1" format="%.0F"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.500000" format="%f"> <arg type="double">1.5</arg> </test>
+    <test expected="  1.500000" format="%10f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5000000000" format="%.10f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5000000000" format="%10.10f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000" format="%3f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500" format="%.3f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500" format="%3.3f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000" format="%2f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.50" format="%.2f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.50" format="%2.2f"> <arg type="double">1.5</arg> </test>
+    <test expected="1.500000" format="%0f"> <arg type="double">1.5</arg> </test>
+    <test expected="2" format="%.0f"> <arg type="double">1.5</arg> </test>
+
+    <test expected="12340000000.000000" format="%f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000000" format="%10f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.0000000000" format="%.10f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.0000000000" format="%10.10f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000000" format="%3f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000" format="%.3f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000" format="%3.3f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000000" format="%2f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.00" format="%.2f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.00" format="%2.2f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000.000000" format="%0f"> <arg type="double">1.234e10</arg> </test>
+    <test expected="12340000000" format="%.0f"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="1.234568" format="%f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="  1.234568" format="%10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1" format="%.0f"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="1.234568" format="%-f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568  " format="%-10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%-.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%-10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%-3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%-.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%-3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%-2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%-.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%-2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%-0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1" format="%-.0f"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+1.234568" format="%+f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" +1.234568" format="%+10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900" format="%+.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900" format="%+10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%+3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235" format="%+.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235" format="%+3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%+2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23" format="%+.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23" format="%+2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%+0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1" format="%+.0f"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+1.234568" format="%-+f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568 " format="%-+10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900" format="%-+.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.2345678900" format="%-+10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%-+3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235" format="%-+.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.235" format="%-+3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%-+2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23" format="%-+.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.23" format="%-+2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1.234568" format="%-+0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+1" format="%-+.0f"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected=" 1.234568" format="% f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="  1.234568" format="% 10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.2345678900" format="% .10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.2345678900" format="% 10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568" format="% 3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.235" format="% .3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.235" format="% 3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568" format="% 2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.23" format="% .2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.23" format="% 2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1.234568" format="% 0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 1" format="% .0f"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="1.234568" format="%#f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="  1.234568" format="%#10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%#.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2345678900" format="%#10.10f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%#3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%#.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.235" format="%#3.3f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%#2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%#.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%#2.2f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.234568" format="%#0f"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1." format="%#.0f"> <arg type="double">1.23456789</arg> </test>
+
+    <!-- %g / %G -->
+    <test expected="0" format="%.0g"> <arg type="double">0</arg> </test>
+    <test expected="0" format="%.1g"> <arg type="double">0</arg> </test>
+    <test expected="0" format="%.2g"> <arg type="double">0</arg> </test>
+    <test expected="1e+10" format="%.0g"> <arg type="double">1.2e10</arg> </test>
+    <test expected="1e+10" format="%.1g"> <arg type="double">1.2e10</arg> </test>
+    <test expected="1.2e+10" format="%.2g"> <arg type="double">1.2e10</arg> </test>
+
+    <test expected="1.5" format="%g"> <arg type="double">1.5</arg> </test>
+    <test expected="       1.5" format="%10g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.10g"> <arg type="double">1.5</arg> </test>
+    <test expected="       1.5" format="%10.10g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%3.3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%2.2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%0g"> <arg type="double">1.5</arg> </test>
+
+    <test expected="2" format="%.0g"> <arg type="double">1.5</arg> </test>
+    <test expected="2" format="%0.0g"> <arg type="double">1.5</arg> </test>
+
+    <!--
+       - I used to have examples here to test other rounding, but that differs.  However,
+       - this could just be because the actual representation of the floating point
+       - numbers is different.  For example, 2.5 was 2 in Java and 3 in printf, which
+       - could have been Java rounding towards the nearest even, or could be because
+       - in Java 2.5 was really 2.4999999.  C doesn't specify the floating point
+       - representation or the rounding used in printf, so this variance is not really
+       - a point for testing.
+       -->
+
+    <test expected="1.234" format="%g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="%10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="%10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.23457" format="%g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="   1.23457" format="%10g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23456789" format="%.10g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23456789" format="%10.10g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23457" format="%3g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%.3g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23" format="%3.3g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23457" format="%2g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2" format="%.2g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.2" format="%2.2g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1.23457" format="%0g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1" format="%.0g"> <arg type="double">1.23456789</arg> </test>
+    <test expected="1" format="%0.0g"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="1.5" format="%g"> <arg type="double">1.5</arg> </test>
+    <test expected="       1.5" format="%10g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.10g"> <arg type="double">1.5</arg> </test>
+    <test expected="       1.5" format="%10.10g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%3.3g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%.2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%2.2g"> <arg type="double">1.5</arg> </test>
+    <test expected="1.5" format="%0g"> <arg type="double">1.5</arg> </test>
+
+    <test expected="2" format="%.0g"> <arg type="double">1.5</arg> </test>
+    <test expected="2" format="%0.0g"> <arg type="double">1.5</arg> </test>
+
+    <test expected="1.234" format="%-g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234     " format="%-10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234     " format="%-10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%-.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%-3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%-.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%-2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%-.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%-0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%+g"> <arg type="double">1.234</arg> </test>
+    <test expected="    +1.234" format="%+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="    +1.234" format="%+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%-+g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected=" 1.234" format="% g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="% 10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% .10g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="% 10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="% .3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="% 3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="% .2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="% 2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="% .0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="% 0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected=" 1.234" format="%- g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234    " format="%- 10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- .10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234    " format="%- 10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="%- .3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="%- 3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="%- .2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="%- 2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="%- .0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="%- 0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%-+g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.234" format="%g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="%10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="%10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.234" format="%-g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234     " format="%-10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234     " format="%-10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%-.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%-3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%-.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%-2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234" format="%-0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%-.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1" format="%-0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%+g"> <arg type="double">1.234</arg> </test>
+    <test expected="    +1.234" format="%+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="    +1.234" format="%+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%-+g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected=" 1.234" format="% g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="% 10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% .10g"> <arg type="double">1.234</arg> </test>
+    <test expected="     1.234" format="% 10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="% .3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="% 3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="% .2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="% 2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="% 0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="% .0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="% 0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected=" 1.234" format="%- g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234    " format="%- 10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- .10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234    " format="%- 10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="%- .3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.23" format="%- 3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="%- .2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.2" format="%- 2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1.234" format="%- 0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="%- .0g"> <arg type="double">1.234</arg> </test>
+    <test expected=" 1" format="%- 0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="+1.234" format="%-+g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234    " format="%-+10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.23" format="%-+3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.2" format="%-+2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1.234" format="%-+0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="+1" format="%-+0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.23400" format="%#g"> <arg type="double">1.234</arg> </test>
+    <test expected="   1.23400" format="%#10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000000" format="%#.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234000000" format="%#10.10g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23400" format="%#3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%#.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23" format="%#3.3g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23400" format="%#2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%#.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.2" format="%#2.2g"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23400" format="%#0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1." format="%#.0g"> <arg type="double">1.234</arg> </test>
+    <test expected="1." format="%#0.0g"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1234000000" format="%10.10g"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1234000000" format="%.10g"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1000000000" format="%.10g"> <arg type="double">1e9</arg> </test>
+    <test expected=" 123400000" format="%10.10g"> <arg type="double">1.234e8</arg> </test>
+    <test expected="123400000" format="%.10g"> <arg type="double">1.234e8</arg> </test>
+
+    <test expected="1.234E+10" format="%G"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234E+09" format="%G"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1.234" format="%G"> <arg type="double">1.234</arg> </test>
+    <test expected="1.234E+10" format="%.10G"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23E+09" format="%.3G"> <arg type="double">1.234e9</arg> </test>
+    <test expected="1" format="%.0G"> <arg type="double">1.234</arg> </test>
+    <test expected="1." format="%#.0G"> <arg type="double">1.234</arg> </test>
+    <test expected="1.23400" format="%#G"> <arg type="double">1.234</arg> </test>
+
+    <test expected="1.234e+10" format="%g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="1.234e+10" format="%-g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10 " format="%-10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10 " format="%-10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%-.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%-3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%-.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%-2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%-.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%-0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%-+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected=" 1.234e+10" format="% g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% .10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="% .3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="% 3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="% .2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="% 2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="% .0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="% 0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected=" 1.234e+10" format="%- g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- .10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="%- .3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="%- 3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="%- .2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="%- 2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="%- .0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="%- 0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%-+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="1.234e+10" format="%g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="1.234e+10" format="%-g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10 " format="%-10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10 " format="%-10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%-.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.23e+10" format="%-3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%-.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.2e+10" format="%-2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1.234e+10" format="%-0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%-.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="1e+10" format="%-0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%-+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected=" 1.234e+10" format="% g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% .10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="% .3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="% 3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="% .2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="% 2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="% 0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="% .0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="% 0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected=" 1.234e+10" format="%- g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- .10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="%- .3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.23e+10" format="%- 3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="%- .2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.2e+10" format="%- 2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1.234e+10" format="%- 0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="%- .0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected=" 1e+10" format="%- 0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="+1.234e+10" format="%-+g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+10.10g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.23e+10" format="%-+3.3g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.2e+10" format="%-+2.2g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1.234e+10" format="%-+0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+.0g"> <arg type="double">1.234e10</arg> </test>
+    <test expected="+1e+10" format="%-+0.0g"> <arg type="double">1.234e10</arg> </test>
+
+    <!-- %a / %A -->
+    <compare approximate="yes"/>
+
+    <test expected="0x1.3be76c8b43958p+0" format="%a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b43958p+0" format="%10a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b44p+0" format="%.10a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b44p+0" format="%10.10a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b43958p+0" format="%3a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3bep+0" format="%.3a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3bep+0" format="%3.3a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b43958p+0" format="%2a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3cp+0" format="%.2a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3cp+0" format="%2.2a"> <arg type="double">1.234</arg> </test>
+    <test expected="0x1.3be76c8b43958p+0" format="%0a"> <arg type="double">1.234</arg> </test>
+
+    <test expected="0X1.6FC2BA8P+33" format="%A"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0X1.263562P+30" format="%A"> <arg type="double">1.234e9</arg> </test>
+    <test expected="0X1.3BE76C8B43958P+0" format="%A"> <arg type="double">1.234</arg> </test>
+    <test expected="0X1.6FC2BA8000P+33" format="%.10A"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0X1.263P+30" format="%.3A"> <arg type="double">1.234e9</arg> </test>
+    <test expected="0X1.6FC2BA8P+33" format="%#A"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="0x1.8p+0" format="%a"> <arg type="double">1.5</arg> </test>
+    <test expected="  0x1.8p+0" format="%10a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8000000000p+0" format="%.10a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8000000000p+0" format="%10.10a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.800000000p+0" format="%9.9a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.80000000p+0" format="%8.8a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8000000p+0" format="%7.7a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.800000p+0" format="%6.6a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8p+0" format="%3a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.800p+0" format="%.3a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.800p+0" format="%3.3a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8p+0" format="%2a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.80p+0" format="%.2a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.80p+0" format="%2.2a"> <arg type="double">1.5</arg> </test>
+    <test expected="0x1.8p+0" format="%0a"> <arg type="double">1.5</arg> </test>
+
+    <test expected="0x1.6fc2ba8p+33" format="%a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8p+33" format="%10a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8000p+33" format="%.10a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8000p+33" format="%10.10a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8p+33" format="%3a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fcp+33" format="%.3a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fcp+33" format="%3.3a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8p+33" format="%2a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.70p+33" format="%.2a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.70p+33" format="%2.2a"> <arg type="double">1.234e10</arg> </test>
+    <test expected="0x1.6fc2ba8p+33" format="%0a"> <arg type="double">1.234e10</arg> </test>
+
+    <test expected="0x1.3c0ca4283de1bp+0" format="%a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%0a"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="0x1.3c0ca4283de1bp+0" format="%-a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%-10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%-.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%-10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%-3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%-.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%-3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%-2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%-.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%-2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%-0a"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%+a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%+10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283ep+0" format="%+.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283ep+0" format="%+10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%+3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c1p+0" format="%+.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c1p+0" format="%+3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%+2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3cp+0" format="%+.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3cp+0" format="%+2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%+0a"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%-+a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%-+10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283ep+0" format="%-+.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283ep+0" format="%-+10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%-+3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c1p+0" format="%-+.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c1p+0" format="%-+3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%-+2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3cp+0" format="%-+.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3cp+0" format="%-+2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="+0x1.3c0ca4283de1bp+0" format="%-+0a"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected=" 0x1.3c0ca4283de1bp+0" format="% a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283de1bp+0" format="% 10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283ep+0" format="% .10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283ep+0" format="% 10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283de1bp+0" format="% 3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c1p+0" format="% .3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c1p+0" format="% 3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283de1bp+0" format="% 2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3cp+0" format="% .2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3cp+0" format="% 2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected=" 0x1.3c0ca4283de1bp+0" format="% 0a"> <arg type="double">1.23456789</arg> </test>
+
+    <test expected="0x1.3c0ca4283de1bp+0" format="%#a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%#10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%#.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283ep+0" format="%#10.10a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%#3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%#.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c1p+0" format="%#3.3a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%#2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%#.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3cp+0" format="%#2.2a"> <arg type="double">1.23456789</arg> </test>
+    <test expected="0x1.3c0ca4283de1bp+0" format="%#0a"> <arg type="double">1.23456789</arg> </test>
+
+    <compare approximate="no"/>
+
+    <!-- Special floating values -->
+    <test expected="       nan" format="%10.5f"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%#10.5f"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000nan" format="%010.5f"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%+10.5f"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="% 10.5f"> <arg type="float">NaN</arg> </test>
+    <test expected="       inf" format="%10.5f"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%10.5f"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="%#10.5f"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%#10.5f"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000inf" format="%010.5f"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000inf" format="%010.5f"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +inf" format="%+10.5f"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%+10.5f"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="% 10.5f"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="% 10.5f"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       NAN" format="%10.5F"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%#10.5F"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000NAN" format="%010.5F"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%+10.5F"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="% 10.5F"> <arg type="float">NaN</arg> </test>
+    <test expected="       INF" format="%10.5F"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%10.5F"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="%#10.5F"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%#10.5F"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000INF" format="%010.5F"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000INF" format="%010.5F"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +INF" format="%+10.5F"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%+10.5F"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="% 10.5F"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="% 10.5F"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       nan" format="%10.5e"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%#10.5e"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000nan" format="%010.5e"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%+10.5e"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="% 10.5e"> <arg type="float">NaN</arg> </test>
+    <test expected="       inf" format="%10.5e"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%10.5e"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="%#10.5e"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%#10.5e"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000inf" format="%010.5e"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000inf" format="%010.5e"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +inf" format="%+10.5e"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%+10.5e"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="% 10.5e"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="% 10.5e"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       NAN" format="%10.5E"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%#10.5E"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000NAN" format="%010.5E"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%+10.5E"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="% 10.5E"> <arg type="float">NaN</arg> </test>
+    <test expected="       INF" format="%10.5E"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%10.5E"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="%#10.5E"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%#10.5E"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000INF" format="%010.5E"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000INF" format="%010.5E"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +INF" format="%+10.5E"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%+10.5E"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="% 10.5E"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="% 10.5E"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       nan" format="%10.5g"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%#10.5g"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000nan" format="%010.5g"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%+10.5g"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="% 10.5g"> <arg type="float">NaN</arg> </test>
+    <test expected="       inf" format="%10.5g"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%10.5g"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="%#10.5g"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%#10.5g"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000inf" format="%010.5g"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000inf" format="%010.5g"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +inf" format="%+10.5g"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%+10.5g"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="% 10.5g"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="% 10.5g"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       NAN" format="%10.5G"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%#10.5G"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000NAN" format="%010.5G"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%+10.5G"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="% 10.5G"> <arg type="float">NaN</arg> </test>
+    <test expected="       INF" format="%10.5G"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%10.5G"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="%#10.5G"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%#10.5G"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000INF" format="%010.5G"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000INF" format="%010.5G"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +INF" format="%+10.5G"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%+10.5G"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="% 10.5G"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="% 10.5G"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       nan" format="%10.5a"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%#10.5a"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000nan" format="%010.5a"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="%+10.5a"> <arg type="float">NaN</arg> </test>
+    <test expected="       nan" format="% 10.5a"> <arg type="float">NaN</arg> </test>
+    <test expected="       inf" format="%10.5a"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%10.5a"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="%#10.5a"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%#10.5a"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000inf" format="%010.5a"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000inf" format="%010.5a"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +inf" format="%+10.5a"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="%+10.5a"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       inf" format="% 10.5a"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -inf" format="% 10.5a"> <arg type="float">-Infinity</arg> </test>
+
+    <test expected="       NAN" format="%10.5A"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%#10.5A"> <arg type="float">NaN</arg> </test>
+    <test expected="0000000NAN" format="%010.5A"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="%+10.5A"> <arg type="float">NaN</arg> </test>
+    <test expected="       NAN" format="% 10.5A"> <arg type="float">NaN</arg> </test>
+    <test expected="       INF" format="%10.5A"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%10.5A"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="%#10.5A"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%#10.5A"> <arg type="float">-Infinity</arg> </test>
+    <test expected="0000000INF" format="%010.5A"> <arg type="float">+Infinity</arg> </test>
+    <test expected="-000000INF" format="%010.5A"> <arg type="float">-Infinity</arg> </test>
+    <test expected="      +INF" format="%+10.5A"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="%+10.5A"> <arg type="float">-Infinity</arg> </test>
+    <test expected="       INF" format="% 10.5A"> <arg type="float">+Infinity</arg> </test>
+    <test expected="      -INF" format="% 10.5A"> <arg type="float">-Infinity</arg> </test>
+
+    <!-- decimal precision -->
+    <test expected="001" format="%.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%2.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%3.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%4.3d"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%5.3d"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected=" 001" format="% .3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 2.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 3.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 4.3d"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="% 5.3d"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="% 10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%0.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%02.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%03.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%04.3d"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%05.3d"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%010.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="+001" format="%+.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%+2.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%+3.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%+4.3d"> <arg type="int">1</arg> </test>
+    <test expected=" +001" format="%+5.3d"> <arg type="int">1</arg> </test>
+    <test expected="      +001" format="%+10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%#.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#2.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#3.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%#4.3d"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%#5.3d"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%#10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected=" 001" format="%- .3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%- 2.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%- 3.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%- 4.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001 " format="%- 5.3d"> <arg type="int">1</arg> </test>
+    <test expected=" 001      " format="%- 10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-0.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-02.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-03.3d"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-04.3d"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-05.3d"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-010.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="+001" format="%-+.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%-+2.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%-+3.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001" format="%-+4.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001 " format="%-+5.3d"> <arg type="int">1</arg> </test>
+    <test expected="+001      " format="%-+10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-#.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#2.3d"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#3.3d"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-#4.3d"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-#5.3d"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-#10.3d"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%3.3u"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%4.3u"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%5.3u"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="% .3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 3.3u"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 4.3u"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="% 5.3u"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="% 10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%0.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%02.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%03.3u"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%04.3u"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%05.3u"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%010.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%+.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+3.3u"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%+4.3u"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%+5.3u"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%+10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%#.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#3.3u"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%#4.3u"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%#5.3u"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%#10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%- .3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 3.3u"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%- 4.3u"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%- 5.3u"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%- 10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-0.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-02.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-03.3u"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-04.3u"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-05.3u"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-010.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-+.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+3.3u"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-+4.3u"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-+5.3u"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-+10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-#.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#2.3u"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#3.3u"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-#4.3u"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-#5.3u"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-#10.3u"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%3.3x"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%4.3x"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%5.3x"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="% .3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 3.3x"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 4.3x"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="% 5.3x"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="% 10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%0.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%02.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%03.3x"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%04.3x"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%05.3x"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%010.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%+.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+3.3x"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%+4.3x"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%+5.3x"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%+10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="0x001" format="%#.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%#2.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%#3.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%#4.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%#5.3x"> <arg type="int">1</arg> </test>
+    <test expected="     0x001" format="%#10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%- .3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 3.3x"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%- 4.3x"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%- 5.3x"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%- 10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-0.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-02.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-03.3x"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-04.3x"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-05.3x"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-010.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-+.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+3.3x"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-+4.3x"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-+5.3x"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-+10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="0x001" format="%-#.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%-#2.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%-#3.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%-#4.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001" format="%-#5.3x"> <arg type="int">1</arg> </test>
+    <test expected="0x001     " format="%-#10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%2.3x"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%3.3x"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%4.3x"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%5.3x"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%10.3x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="% .5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="% 4.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="% 5.5x"> <arg type="int">1</arg> </test>
+    <test expected=" 00001" format="% 6.5x"> <arg type="int">1</arg> </test>
+    <test expected="  00001" format="% 7.5x"> <arg type="int">1</arg> </test>
+    <test expected="            00001" format="% 17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="%0.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%04.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%05.5x"> <arg type="int">1</arg> </test>
+    <test expected=" 00001" format="%06.5x"> <arg type="int">1</arg> </test>
+    <test expected="  00001" format="%07.5x"> <arg type="int">1</arg> </test>
+    <test expected="            00001" format="%017.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="%+.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%+4.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%+5.5x"> <arg type="int">1</arg> </test>
+    <test expected=" 00001" format="%+6.5x"> <arg type="int">1</arg> </test>
+    <test expected="  00001" format="%+7.5x"> <arg type="int">1</arg> </test>
+    <test expected="            00001" format="%+17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="0x00001" format="%#.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%#4.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%#5.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%#6.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%#7.5x"> <arg type="int">1</arg> </test>
+    <test expected="          0x00001" format="%#17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="%- .5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%- 4.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%- 5.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001 " format="%- 6.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001  " format="%- 7.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001            " format="%- 17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="%-0.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%-04.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%-05.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001 " format="%-06.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001  " format="%-07.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001            " format="%-017.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="00001" format="%-+.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%-+4.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001" format="%-+5.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001 " format="%-+6.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001  " format="%-+7.5x"> <arg type="int">1</arg> </test>
+    <test expected="00001            " format="%-+17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="0x00001" format="%-#.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%-#4.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%-#5.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%-#6.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001" format="%-#7.5x"> <arg type="int">1</arg> </test>
+    <test expected="0x00001          " format="%-#17.5x"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%3.3o"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%4.3o"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%5.3o"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="% .3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="% 3.3o"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="% 4.3o"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="% 5.3o"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="% 10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%0.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%02.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%03.3o"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%04.3o"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%05.3o"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%010.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%+.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%+3.3o"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%+4.3o"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%+5.3o"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%+10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%#.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%#3.3o"> <arg type="int">1</arg> </test>
+    <test expected=" 001" format="%#4.3o"> <arg type="int">1</arg> </test>
+    <test expected="  001" format="%#5.3o"> <arg type="int">1</arg> </test>
+    <test expected="       001" format="%#10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%- .3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%- 3.3o"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%- 4.3o"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%- 5.3o"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%- 10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-0.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-02.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-03.3o"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-04.3o"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-05.3o"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-010.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-+.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-+3.3o"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-+4.3o"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-+5.3o"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-+10.3o"> <arg type="int">1</arg> </test>
+
+    <test expected="001" format="%-#.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#2.3o"> <arg type="int">1</arg> </test>
+    <test expected="001" format="%-#3.3o"> <arg type="int">1</arg> </test>
+    <test expected="001 " format="%-#4.3o"> <arg type="int">1</arg> </test>
+    <test expected="001  " format="%-#5.3o"> <arg type="int">1</arg> </test>
+    <test expected="001       " format="%-#10.3o"> <arg type="int">1</arg> </test>
+
+    <!-- %u/%U -->
+    <test expected="1" format="%u"> <arg type="byte">1</arg> </test>
+    <test expected="1" format="%u"> <arg type="short">1</arg> </test>
+    <test expected="1" format="%u"> <arg type="int">1</arg> </test>
+    <test expected="4294967295" format="%u"> <arg type="byte">-1</arg> </test>
+    <test expected="4294967295" format="%u"> <arg type="short">-1</arg> </test>
+    <test expected="4294967295" format="%u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="%#u"> <arg type="int">-1</arg> </test>
+    <test expected="     4294967295" format="%#15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%#.15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%#15.15u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="% u"> <arg type="int">-1</arg> </test>
+    <test expected="     4294967295" format="% 15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="% .15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="% 15.15u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="%+u"> <arg type="int">-1</arg> </test>
+    <test expected="     4294967295" format="%+15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%+.15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%+15.15u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="%0u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%015u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%0.15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%015.15u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="%-u"> <arg type="int">-1</arg> </test>
+    <test expected="4294967295     " format="%-15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%-.15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%-15.15u"> <arg type="int">-1</arg> </test>
+
+    <test expected="4294967295" format="%-+u"> <arg type="int">-1</arg> </test>
+    <test expected="4294967295     " format="%-+15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%-+.15u"> <arg type="int">-1</arg> </test>
+    <test expected="000004294967295" format="%-+15.15u"> <arg type="int">-1</arg> </test>
+
+    <!-- %hh modifier -->
+    <test expected="1" format="%hhd"> <arg type="byte">1</arg> </test>
+    <test expected="-56" format="%hhd"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hhd"> <arg type="short">1</arg> </test>
+    <test expected="-56" format="%hhd"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hhd"> <arg type="int">1</arg> </test>
+    <test expected="-56" format="%hhd"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hhd"> <arg type="long">1</arg> </test>
+    <test expected="-56" format="%hhd"> <arg type="long">200</arg> </test>
+    <test expected="1" format="%hhi"> <arg type="byte">1</arg> </test>
+    <test expected="-56" format="%hhi"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hhi"> <arg type="short">1</arg> </test>
+    <test expected="-56" format="%hhi"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hhi"> <arg type="int">1</arg> </test>
+    <test expected="-56" format="%hhi"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hhi"> <arg type="long">1</arg> </test>
+    <test expected="-56" format="%hhi"> <arg type="long">200</arg> </test>
+    <test expected="1" format="%hho"> <arg type="byte">1</arg> </test>
+    <test expected="310" format="%hho"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hho"> <arg type="short">1</arg> </test>
+    <test expected="310" format="%hho"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hho"> <arg type="int">1</arg> </test>
+    <test expected="310" format="%hho"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hho"> <arg type="long">1</arg> </test>
+    <test expected="310" format="%hho"> <arg type="long">200</arg> </test>
+    <test expected="1" format="%hhu"> <arg type="byte">1</arg> </test>
+    <test expected="200" format="%hhu"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hhu"> <arg type="short">1</arg> </test>
+    <test expected="200" format="%hhu"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hhu"> <arg type="int">1</arg> </test>
+    <test expected="200" format="%hhu"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hhu"> <arg type="long">1</arg> </test>
+    <test expected="200" format="%hhu"> <arg type="long">200</arg> </test>
+    <test expected="1" format="%hhx"> <arg type="byte">1</arg> </test>
+    <test expected="c8" format="%hhx"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hhx"> <arg type="short">1</arg> </test>
+    <test expected="c8" format="%hhx"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hhx"> <arg type="int">1</arg> </test>
+    <test expected="c8" format="%hhx"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hhx"> <arg type="long">1</arg> </test>
+    <test expected="c8" format="%hhx"> <arg type="long">200</arg> </test>
+    <test expected="1" format="%hhX"> <arg type="byte">1</arg> </test>
+    <test expected="C8" format="%hhX"> <arg type="byte">200</arg> </test>
+    <test expected="1" format="%hhX"> <arg type="short">1</arg> </test>
+    <test expected="C8" format="%hhX"> <arg type="short">200</arg> </test>
+    <test expected="1" format="%hhX"> <arg type="int">1</arg> </test>
+    <test expected="C8" format="%hhX"> <arg type="int">200</arg> </test>
+    <test expected="1" format="%hhX"> <arg type="long">1</arg> </test>
+    <test expected="C8" format="%hhX"> <arg type="long">200</arg> </test>
+
+    <!-- %h modifier -->
+    <test expected="1" format="%hd"> <arg type="byte">1</arg> </test>
+    <test expected="96" format="%hd"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%hd"> <arg type="short">1</arg> </test>
+    <test expected="-5536" format="%hd"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%hd"> <arg type="int">1</arg> </test>
+    <test expected="-5536" format="%hd"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%hd"> <arg type="long">1</arg> </test>
+    <test expected="-5536" format="%hd"> <arg type="long">60000</arg> </test>
+    <test expected="1" format="%hi"> <arg type="byte">1</arg> </test>
+    <test expected="96" format="%hi"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%hi"> <arg type="short">1</arg> </test>
+    <test expected="-5536" format="%hi"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%hi"> <arg type="int">1</arg> </test>
+    <test expected="-5536" format="%hi"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%hi"> <arg type="long">1</arg> </test>
+    <test expected="-5536" format="%hi"> <arg type="long">60000</arg> </test>
+    <test expected="1" format="%ho"> <arg type="byte">1</arg> </test>
+    <test expected="140" format="%ho"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%ho"> <arg type="short">1</arg> </test>
+    <test expected="165140" format="%ho"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%ho"> <arg type="int">1</arg> </test>
+    <test expected="165140" format="%ho"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%ho"> <arg type="long">1</arg> </test>
+    <test expected="165140" format="%ho"> <arg type="long">60000</arg> </test>
+    <test expected="1" format="%hu"> <arg type="byte">1</arg> </test>
+    <test expected="96" format="%hu"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%hu"> <arg type="short">1</arg> </test>
+    <test expected="60000" format="%hu"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%hu"> <arg type="int">1</arg> </test>
+    <test expected="60000" format="%hu"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%hu"> <arg type="long">1</arg> </test>
+    <test expected="60000" format="%hu"> <arg type="long">60000</arg> </test>
+    <test expected="1" format="%hx"> <arg type="byte">1</arg> </test>
+    <test expected="60" format="%hx"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%hx"> <arg type="short">1</arg> </test>
+    <test expected="ea60" format="%hx"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%hx"> <arg type="int">1</arg> </test>
+    <test expected="ea60" format="%hx"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%hx"> <arg type="long">1</arg> </test>
+    <test expected="ea60" format="%hx"> <arg type="long">60000</arg> </test>
+    <test expected="1" format="%hX"> <arg type="byte">1</arg> </test>
+    <test expected="60" format="%hX"> <arg type="byte">60000</arg> </test>
+    <test expected="1" format="%hX"> <arg type="short">1</arg> </test>
+    <test expected="EA60" format="%hX"> <arg type="short">60000</arg> </test>
+    <test expected="1" format="%hX"> <arg type="int">1</arg> </test>
+    <test expected="EA60" format="%hX"> <arg type="int">60000</arg> </test>
+    <test expected="1" format="%hX"> <arg type="long">1</arg> </test>
+    <test expected="EA60" format="%hX"> <arg type="long">60000</arg> </test>
+
+    <!-- %l modifier -->
+    <test expected="1" format="%ld"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%ld"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%ld"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%li"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%li"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lo"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="short">1</arg> </test>
+    <test expected="24000" format="%lo"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="int">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="long">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lu"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%lu"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="int">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="long">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lx"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lx"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="int">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="long">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lX"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lX"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="int">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="long">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="long">4000000000</arg> </test>
+
+    <!-- %ll modifier -->
+    <!--
+       - Testing the ll modifier against non-long types is pointless, because
+       - the high word on the stack will be random
+       -->
+    <test expected="1" format="%lld"> <arg type="long">1</arg> </test>
+    <test expected="-8446744073709551616" format="%lld"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%lli"> <arg type="long">1</arg> </test>
+    <test expected="-8446744073709551616" format="%lli"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%llo"> <arg type="long">1</arg> </test>
+    <test expected="1053071060221172000000" format="%llo"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%llu"> <arg type="long">1</arg> </test>
+    <test expected="10000000000000000000" format="%llu"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%llx"> <arg type="long">1</arg> </test>
+    <test expected="8ac7230489e80000" format="%llx"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%llX"> <arg type="long">1</arg> </test>
+    <test expected="8AC7230489E80000" format="%llX"> <arg type="long">10000000000000000000</arg> </test>
+
+    <!-- %j modifier -->
+    <test expected="1" format="%ld"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%ld"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%ld"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%li"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%li"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lo"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="short">1</arg> </test>
+    <test expected="24000" format="%lo"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="int">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="long">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lu"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%lu"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="int">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="long">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lx"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lx"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="int">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="long">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lX"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lX"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="int">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="long">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="long">4000000000</arg> </test>
+
+    <!-- %t modifier -->
+    <test expected="1" format="%ld"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%ld"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%ld"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%li"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%li"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lo"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="short">1</arg> </test>
+    <test expected="24000" format="%lo"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="int">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="long">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lu"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%lu"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="int">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="long">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lx"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lx"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="int">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="long">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lX"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lX"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="int">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="long">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="long">4000000000</arg> </test>
+
+    <!-- %t modifier -->
+    <test expected="1" format="%ld"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%ld"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%ld"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%ld"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%ld"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%li"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%li"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="int">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%li"> <arg type="long">1</arg> </test>
+    <test expected="-294967296" format="%li"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lo"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="short">1</arg> </test>
+    <test expected="24000" format="%lo"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="int">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lo"> <arg type="long">1</arg> </test>
+    <test expected="35632624000" format="%lo"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lu"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="short">1</arg> </test>
+    <test expected="10240" format="%lu"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="int">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lu"> <arg type="long">1</arg> </test>
+    <test expected="4000000000" format="%lu"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lx"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lx"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="int">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lx"> <arg type="long">1</arg> </test>
+    <test expected="ee6b2800" format="%lx"> <arg type="long">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="byte">1</arg> </test>
+    <test expected="0" format="%lX"> <arg type="byte">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="short">1</arg> </test>
+    <test expected="2800" format="%lX"> <arg type="short">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="int">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="int">4000000000</arg> </test>
+    <test expected="1" format="%lX"> <arg type="long">1</arg> </test>
+    <test expected="EE6B2800" format="%lX"> <arg type="long">4000000000</arg> </test>
+
+    <!-- %q modifier -->
+    <!--
+       - Testing the q modifier against non-long types is pointless, because
+       - the high word on the stack will be random (like the l modifier)
+       -->
+    <test expected="1" format="%qd"> <arg type="long">1</arg> </test>
+    <test expected="-8446744073709551616" format="%qd"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%qi"> <arg type="long">1</arg> </test>
+    <test expected="-8446744073709551616" format="%qi"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%qo"> <arg type="long">1</arg> </test>
+    <test expected="1053071060221172000000" format="%qo"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%qu"> <arg type="long">1</arg> </test>
+    <test expected="10000000000000000000" format="%qu"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%qx"> <arg type="long">1</arg> </test>
+    <test expected="8ac7230489e80000" format="%qx"> <arg type="long">10000000000000000000</arg> </test>
+    <test expected="1" format="%qX"> <arg type="long">1</arg> </test>
+    <test expected="8AC7230489E80000" format="%qX"> <arg type="long">10000000000000000000</arg> </test>
+
+    <!-- "*" for width/precision -->
+    <test expected="   hi" format="%*s"> <arg type="int">5</arg> <arg type="String">hi</arg> </test>
+    <test expected="h" format="%.*s"> <arg type="int">1</arg> <arg type="String">hi</arg> </test>
+    <test expected="    h" format="%*.*s"> <arg type="int">5</arg> <arg type="int">1</arg> <arg type="String">hi</arg> </test>
+
+    <!-- C-style conversions -->
+    <!-- These are the only ones due to differences in sizes and what's pushed on the stack -->
+    <test expected="fffffff0" format="%x"> <arg type="byte">0xf0</arg> </test>
+    <test expected="fffff0f0" format="%x"> <arg type="short">0xf0f0</arg> </test>
+    <test expected="f0f0" format="%x"> <arg type="char">0xf0f0</arg> </test>
+    <test expected="f0f0f0f0" format="%x"> <arg type="int">0xf0f0f0f0</arg> </test>
+    <test expected="f0f0f0f0f0f0f0f0" format="%llx"> <arg type="long">0xf0f0f0f0f0f0f0f0</arg> </test>
+    <test expected="405edd2f1a9fbe77" format="%llx"> <arg type="double">123.456</arg> </test>
+
+    <!-- Positional parameters -->
+    <test expected="three two one" format="%3$s %2$s %1$s">
+	<arg type="String">one</arg>
+	<arg type="String">two</arg>
+	<arg type="String">three</arg>
+    </test>
+    <test expected="    h there" format="%3$*2$.*1$s %4$s">
+	<arg type="int">1</arg>
+	<arg type="int">5</arg>
+	<arg type="String">hi</arg>
+	<arg type="String">there</arg>
+    </test>
+
+    <!-- Mixed positional and non-positional -->
+    <test expected="4 5" format="%4$d %d">
+	<arg type="int">1</arg>
+	<arg type="int">2</arg>
+	<arg type="int">3</arg>
+	<arg type="int">4</arg>
+	<arg type="int">5</arg>
+	<arg type="int">6</arg>
+    </test>
+
+    <test expected="1 4 5" format="%d %4$d %d">
+	<arg type="int">1</arg>
+	<arg type="int">2</arg>
+	<arg type="int">3</arg>
+	<arg type="int">4</arg>
+	<arg type="int">5</arg>
+	<arg type="int">6</arg>
+    </test>
+
+    <resetPerecentP/>
+    <test expected="0x1000" format="%p" gen="no"> <arg type="String">some string</arg> </test>
+    <test expected="0x1001" format="%p" gen="no"> <arg type="String">other string</arg> </test>
+    <test expected="              0x1000" format="%20p" gen="no"> <arg type="String">some string</arg> </test>
+    <test expected="0x1000              " format="%-20p" gen="no"> <arg type="String">some string</arg> </test>
+
+    <!-- More complicated non-positional cases -->
+    <test expected="d: -13, i: -13, o: 37777777763, u: 4294967283, x: fffffff3, X: fffffff3, D: -13, O: 37777777763, U: 4294967283, e: 1.234568e+00, E: 1.234568E+00, f: 1.234568, F: 1.234568, g: 1.23457, G:1.23457, a: 0x1.3c0ca4283de1bp+0, A:0X1.3C0CA4283DE1BP+0, c: q, s: hi, %: %" format="d: %d, i: %i, o: %o, u: %u, x: %x, X: %x, D: %D, O: %O, U: %U, e: %e, E: %E, f: %f, F: %F, g: %g, G:%G, a: %a, A:%A, c: %c, s: %s, %%: %%">
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="char">q</arg>
+	<arg type="String">hi</arg>
+    </test>
+    <test expected="d: -13, i: -13, o: 37777777763, u: 4294967283, x: fffffff3, X: fffffff3, D:     -13, O: 37777777763, U: 4294967283, e: 1.234568e+00, E: 1.234568E+00, f:     1.234568, F:      1.234568, g:        1.23457, G:        1.23457, a: 0x1.3c0ca4283de1bp+0, A:0X1.3C0CA4283DE1BP+0, c:                  q, s:                  hi, %:                    %*" format="d: %*d, i: %*i, o: %*o, u: %*u, x: %*x, X: %*x, D: %*D, O: %*O, U: %*U, e: %*e, E: %*E, f: %*f, F: %*F, g: %*g, G:%*G, a: %*a, A:%*A, c: %*c, s: %*s, %%: %*%*">
+	<arg type="int">1</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">2</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">3</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">4</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">5</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">6</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">7</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">8</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">9</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">10</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">11</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">12</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">13</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">14</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">15</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">16</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">17</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">18</arg>
+	<arg type="char">q</arg>
+	<arg type="int">19</arg>
+	<arg type="String">hi</arg>
+	<arg type="int">20</arg>
+    </test>
+    <test expected="d: -13&#10;i: -13&#10;o: 37777777763&#10;u: 4294967283&#10;x: fffffff3&#10;X: fffffff3&#10;D: -13&#10;O: 37777777763&#10;U: 4294967283&#10;e: 1.234568e+00&#10;E: 1.234568E+00&#10;f: 1.234568&#10;F: 1.234568&#10;g: 1.23457&#10;G:1.23457&#10;a: 0x1.3c0ca4283de1bp+0&#10;A:0X1.3C0CA4283DE1BP+0&#10;c: q&#10;s: hi&#10;%: %" format="d: %d&#10;i: %i&#10;o: %o&#10;u: %u&#10;x: %x&#10;X: %x&#10;D: %D&#10;O: %O&#10;U: %U&#10;e: %e&#10;E: %E&#10;f: %f&#10;F: %F&#10;g: %g&#10;G:%G&#10;a: %a&#10;A:%A&#10;c: %c&#10;s: %s&#10;%%: %%">
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">-13</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="char">q</arg>
+	<arg type="String">hi</arg>
+    </test>
+    <test expected="d: -13&#10;i: -13&#10;o: 37777777763&#10;u: 4294967283&#10;x: fffffff3&#10;X: fffffff3&#10;D:     -13&#10;O: 37777777763&#10;U: 4294967283&#10;e: 1.234568e+00&#10;E: 1.234568E+00&#10;f:     1.234568&#10;F:      1.234568&#10;g:        1.23457&#10;G:        1.23457&#10;a: 0x1.3c0ca4283de1bp+0&#10;A:0X1.3C0CA4283DE1BP+0&#10;c:                  q&#10;s:                  hi&#10;%:                    %*" format="d: %*d&#10;i: %*i&#10;o: %*o&#10;u: %*u&#10;x: %*x&#10;X: %*x&#10;D: %*D&#10;O: %*O&#10;U: %*U&#10;e: %*e&#10;E: %*E&#10;f: %*f&#10;F: %*F&#10;g: %*g&#10;G:%*G&#10;a: %*a&#10;A:%*A&#10;c: %*c&#10;s: %*s&#10;%%: %*%*">
+	<arg type="int">1</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">2</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">3</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">4</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">5</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">6</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">7</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">8</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">9</arg>
+	<arg type="int">-13</arg>
+	<arg type="int">10</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">11</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">12</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">13</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">14</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">15</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">16</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">17</arg>
+	<arg type="double">1.23456789</arg>
+	<arg type="int">18</arg>
+	<arg type="char">q</arg>
+	<arg type="int">19</arg>
+	<arg type="String">hi</arg>
+	<arg type="int">20</arg>
+    </test>
+
+</printfTests>
