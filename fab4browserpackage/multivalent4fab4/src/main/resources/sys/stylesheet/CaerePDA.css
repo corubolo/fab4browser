@@ -1,0 +1,5 @@
+pda {
+	color: black; background-color: white;
+	/*font-size: 12pts;  -- no default point size */
+	padding: 0px;	/* no margins -- be as faithful as possible */
+}

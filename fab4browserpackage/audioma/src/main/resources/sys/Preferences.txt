@@ -1,0 +1,12 @@
+mediaadaptor	mp3	MP3AudioMA
+mediaadaptor	audio/mpeg	MP3AudioMA
+mediaadaptor	audio/x-mpeg	MP3AudioMA
+mediaadaptor	audio/mp3	MP3AudioMA
+mediaadaptor	audio/x-mp3	MP3AudioMA
+mediaadaptor	audio/mpeg3	MP3AudioMA
+mediaadaptor	audio/x-mpeg3	MP3AudioMA
+mediaadaptor	audio/mpg	MP3AudioMA
+mediaadaptor	audio/x-mpg	MP3AudioMA
+mediaadaptor	audio/x-mpegaudio	MP3AudioMA
+
+remap	MP3AudioMA		uk.ac.liverpool.fab4.MP3AudioMA

@@ -1,0 +1,54 @@
+<?xml version='1.0'?>
+
+<Anno behavior='Layer' title='Annotation behaviors'>
+
+<!--Note Behavior='multivalent.std.RestoreReport' /-->
+
+<!-- ANNO -->
+<!--Ink Behavior=phelps.InkUI /-->
+
+<!--NoteMan Behavior=multivalent.std.lens.NoteMan /-->
+<MenuItem Behavior=NotemarkUI title='Annotations as Notemarks' parent='View' category='ViewNB' variable='pref.AnnoNB' seed='on' spannames='highlight,hyperlink
+,redact' />
+<!-- 'HighlightSpan,HyperlinkSpan' -->
+
+<MenuItem Behavior=SpanUI logical='highlight' spanname='HighlightSpan' value='(default)' title='Highlight' parent='Anno' category='AnnoInk' nb='ANNONB' />
+<MenuItem Behavior=SpanUI logical='hyperlink' spanname='HyperlinkSpan' title="<font color='blue'><u>Hyperlink</u></font>" parent='Anno' category='AnnoInk' edit nb='ANNONB' />
+<MenuItem Behavior=SpanUI logical='anchor' spanname='AnchorSpan' title='Anchor' parent='Anno' category='AnnoInk' edit nb='ANNONB' />
+<MenuItem Behavior=SpanUI logical='redact' spanname='edu.berkeley.span.FBISpan' title='FBI Redaction' edit parent='Anno' category='AnnoInk' nb='ANNONB' />
+<MenuItem Behavior=WindowUI menu='Anno' category='Note' logical='note' winclass='Note' title='New Note' doc layer='personal' attrs='width=300;height=100' />
+<!-- <table width=100 cellspacing=0 cellpadding=0 frame><tr><td bgcolor='gray' height=5><tr><td bgcolor='yellow'><font size='-2'>New Note</font></table> -->
+
+<!-- COPYED -->
+
+<MenuItem Behavior=NotemarkUI title='CopyEd as Notemarks' parent='View' category='ViewNB' variable='pref.CopyEdNB' seed='on' spannames='copyed' />
+<!-- spannames='multivalent.std.span.AwkSpan,multivalent.std.span.InsertSpan,multivalent.std.span.ReplaceWithSpan,multivalent.std.span.MoveTextSpan,multivalent.std.span.DeleteSpan,multivalent.std.span.CapSpan,multivalent.std.span.BIUSpan' -->
+
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.AwkSpan' title='Short Comment' parent='CopyEd' category='CopyEd' edit nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI point logical='copyed' spanname='multivalent.std.span.InsertSpan' title='Insert Text' parent='CopyEd' category='CopyEd' edit nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.ReplaceWithSpan' title='Replace With' parent='CopyEd' category='CopyEd' edit nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.MoveTextSpan' title='Move Text' parent='CopyEd' category='CopyEd' edit nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.DeleteSpan' title='Delete' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.CapSpan' title='Initial Cap' attrs='captype=ICAP' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.CapSpan' title='ALL CAPS' attrs='captype=CAP' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.CapSpan' title='lowercase' attrs='captype=LC' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.BIUSpan' title='Bold' attrs='type=B' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.BIUSpan' title='Italic' attrs='type=I' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.BIUSpan' title='Underline' attrs='type=U' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.AwkSpan' title='awk' attrs='comment=awk' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.AwkSpan' title='cf' attrs='comment=cf' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+<MenuItem Behavior=SpanUI logical='copyed' spanname='multivalent.std.span.AwkSpan' title='choppy' attrs='comment=choppy' parent='CopyEd' category='CopyEd' nb='COPYEDNB' />
+
+<Button Behavior=multivalent.std.ui.SaveAnnoAs />
+<!--
+<Button Behavior=multivalent.std.ui.PublishAnno TITLE='UCB DL server' URI='http://dlp.cs.berkeley.edu:8080/cgi-bin/save.pl' />
+-->
+
+
+<!-- wipe annos goes last -->
+<General Behavior=multivalent.std.ui.Annos />
+
+</Anno>

@@ -1,0 +1,5 @@
+<MSEXCEL name='MSEXCELGenre' title='MSExcel genre default behaviors'>
+
+<PassAsk behavior='uk.ac.liverpool.ODMA.PasswordBehaviour' />
+
+</MSEXCEL>

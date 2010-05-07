@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>svgma</artifactId>
+	<name>SVG media adaptor</name>
+
+	<description> based on SVG Salamander</description>
+<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.kitfox.svg</groupId>
+			<artifactId>svg-salamander</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>google.code.fab4project</id>
+			<name>google.code.fab4project</name>
+			<url>http://fab4browser.googlecode.com/svn/trunk/repository/</url>
+		</repository>
+
+	</repositories>
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+
+	</licenses>
+</project>

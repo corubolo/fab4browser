@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>freettsma</artifactId>
+	<name>FreeTTS media Adaptor</name>
+	<description>FreeTTS based lenst to read out loud the page contents. Based on freeTTS.</description>
+
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>cmu_us_kal</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>cmudict04</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>cmulex</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>cmutimelex</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>freetts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.freetts</groupId>
+			<version>1.2.2</version>
+			<artifactId>en_us</artifactId>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>google.code.fab4project</id>
+			<name>google.code.fab4project</name>
+			<url>http://fab4browser.googlecode.com/svn/trunk/repository/</url>
+		</repository>
+
+	</repositories>
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+
+	</licenses>
+</project>

@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<pdf behavior='Layer' title='PDF genre behaviors'>
+
+<?import href='Fixed' ?>
+<?import href='Paginated' ?>
+
+<annolink Behavior='multivalent.std.adaptor.pdf.AnnoLink' />
+
+<action Behavior='multivalent.std.adaptor.pdf.Action' />
+
+<!--fuse Behavior='multivalent.std.adaptor.pdf.FuseAnnos' /-->
+
+<co Behavior='multivalent.std.adaptor.pdf.ContractualObligation' />
+
+
+<!-- interim PDF-specific zoom -->
+<!--zoom Behavior='multivalent.std.ui.Zoom' /-->
+
+<cog Behavior='edu.berkeley.COG' />
+
+</pdf>

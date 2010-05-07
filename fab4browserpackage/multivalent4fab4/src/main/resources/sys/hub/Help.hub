@@ -1,0 +1,10 @@
+<?xml version='1.0' ?>
+<Help title='Help default behaviors'>
+
+<MenuItem Behavior='SemanticUI' SCRIPT='event openDocument http://multivalent.sourceforge.net/' title='<b>Multivalent Home Page</b>' parent='Help' TYPE='Button' />
+<MenuItem Behavior='SemanticUI' SCRIPT='event openDocument about:multivalent' title='About Multivalent' parent='Help' TYPE='Button' />
+<!-- java doc too=>just add to (default?) bookmarks? -->
+
+<ReportBug Behavior='multivalent.std.ReportBug' />
+
+</Help>

@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<RW behavior='Layer' title='behaviors for RW'>
+
+<!--MenuItem Behavior='SemanticUI' SCRIPT='event dumpRobustSignature' title='Dump Robust Signature' parent='View' TYPE='Button' /-->
+<RobustUI behavior='edu.berkeley.RobustUI' />
+
+</RW>

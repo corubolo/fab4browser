@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='Jar default behaviors' NAME='SYSTEM'>
+
+<!-- same as Zip? -->
+<?import href='Zip' ?>
+
+</Layer>

@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<Xdoc title='XDOC genre behaviors'>
+
+<?import href='Fixed' ?>
+<?import href='Paginated' ?>
+<?import href='Ocr' ?>
+
+<SelMarkup Behavior='multivalent.std.ClipMarkup' active='off' />
+
+</Xdoc>

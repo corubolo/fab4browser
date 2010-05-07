@@ -1,0 +1,45 @@
+<?xml version='1.0'?>
+<Developer behavior='Layer' title='Developer behaviors'>
+
+<DebugMode behavior='multivalent.devel.DebugMode' />
+
+<!--Lens TITLE='Stats' Behavior='multivalent.std.lens.SignalLens' Signal='STATS' VALUE='FULL' active='off' x='50' y='200' width='300' height='300' /-->
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.SignalLens' title='Stats' attrs='title=Stats; signal=stats; value=full' />
+
+
+<!--API Behavior=SemanticUI SCRIPT='event openDocument file:/d:/prj/Multivalent/api/index.html' title='Multivalent API' parent='Help' type='Button' /-->
+
+<!--ManPages Behavior='SemanticUI' SCRIPT='event openDocument manpagevol:ALL' title='UNIX Manual Pages' parent='Help' category='manpage' type='Button' /-->
+<!--ManPages Behavior='SemanticUI' SCRIPT='event rebuildManPageDatabase; event reloadDocument' title='Refresh Man Page Database' parent='Help' category='manpage' type='Button' /-->
+<MenuItem Behavior='multivalent.std.adaptor.ManualPageVolume' />
+<!-- something for ManualPageUI-screen.html? -->
+
+<!--<MenuItem Behavior='SemanticUI' SCRIPT='event showHelp' ARG='../javadoc/packages.html' title='Multivalent API' category='Help' TYPE='MenuItem' />-->
+
+
+<Lens Behavior='WindowUI' winclass='multivalent.devel.lens.Ruler' title='Ruler' attrs='width=500' />
+<Lens Behavior='WindowUI' winclass='multivalent.devel.lens.Bounds' title='Bounds' attrs='width=500;height=500' />
+
+<Lens Behavior='WindowUI' winclass='multivalent.devel.lens.CharNum' title='CharNum' attrs='width=300;height=200' />
+
+
+<Dump Behavior='multivalent.devel.ShowDocTree' />
+
+<Test Behavior='SemanticUI' SCRIPT='event openIDocument http://www.cs.berkeley.edu/' title='IDOC' parent='Debug' type='Button' />
+
+<!--MenuItem Behavior='SemanticUI' SCRIPT='event showStats' title='Stats' parent='Toolbar' TYPE='Button' /-->
+<MenuItem Behavior='SemanticUI' SCRIPT='event showStats' title='Stats' parent='Debug' TYPE='Button' />
+<Stats Behavior='multivalent.devel.Stats' />
+<Stats Behavior='multivalent.devel.Debug' />
+<!-- Debugging -- should be in per-user hub
+<Perf Behavior='multivalent.devel.Performance' />
+
+<!--Lens Behavior='edu.berkeley.lens.Shadow' /-->
+
+<!--
+<View Behavior='edu.berkeley.lens.Darken' />
+<View Behavior='edu.berkeley.lens.Lighten' />
+-->
+
+
+</Developer>

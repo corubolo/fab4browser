@@ -1,0 +1,79 @@
+<?xml version='1.0'?>
+<Style behavior='Layer' title='Style'>
+
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BlinkSpan' title='<blink>Blink</blink>' parent='Style' category='Style' />
+
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.UnderlineSpan' title='<u>Underline</u>' parent='Style' category='Style' />
+<!-- Underline2Span(start,end, layer); break; -->
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.OverstrikeSpan' title='<strike>Overstrike</strike>' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.InvisibleSpan' title='Invisible' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ElideSpan' title='Elide' value='true' parent='Style' category='Style' />
+
+
+<Entry Behavior='SemanticUI' title='Foreground' parent='Style'
+	 type='menubutton' generate='StyleForeground' />
+
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ForegroundSpan' title="<font color='red'>Red</font>" attrs='color=Red' parent='StyleForeground'  />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ForegroundSpan' title="<font color='blue'>Blue</font>" attrs='color=Blue' parent='StyleForeground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ForegroundSpan' title="<font color='green'>Green</font>" attrs='color=Green' parent='StyleForeground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ForegroundSpan' title="<font color='yellow'>Yellow</font>" attrs='color=Yellow' parent='StyleForeground' />
+
+
+<Entry Behavior='SemanticUI' title='Background' parent='Style'
+	 type='menubutton' generate='StyleBackground' />
+
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title="<font color='red'>Red</font>" attrs='color=Red' parent='StyleBackground'  />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title="<font color='blue'>Blue</font>" attrs='color=Blue' parent='StyleBackground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title="<font color='green'>Green</font>" attrs='color=Green' parent='StyleBackground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title="<font color='yellow'>Yellow</font>" attrs='color=Yellow' parent='StyleBackground' />
+
+<!--
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title='Red Background' attrs='color=Red' parent='StyleBackground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title='Blue Background' attrs='color=Blue' parent='StyleBackground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title='Green Background' attrs='color=Green' parent='StyleBackground' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BackgroundSpan' title='Yellow Background' attrs='color=Yellow' parent='StyleBackground' />
+-->
+
+
+<!--
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.FamilySpan' value='Serif' title='Serif' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.MonospacedSpan' title='<tt>Monospaced</tt>' parent='Style' category='Style' />
+-->
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PlainSpan' title='Plain' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.ItalicSpan' title='<i>Italic</i>' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.BoldSpan' title='<b>Bold</b>' parent='Style' category='Style' />
+
+
+<MenuItem Behavior='SemanticUI' title='Font Family' parent='Style'
+	 type='menubutton' generate='FontFace' />
+<fontface Behavior='multivalent.std.ui.FontFaceMenu' />
+
+<!--
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.SpacingSpan' title='15 pixels Above' value='15,0' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.SpacingSpan' title='10 pixels Above and Below' value='10,10' parent='Style' category='Style' />
+-->
+
+<Entry Behavior='SemanticUI' title='Font Size' parent='Style'
+	 type='menubutton' generate='Points' />
+<!-- no stylesheet for object-specific spans to hook into!
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 10pt;'>10 point</span>" attrs='points=10' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 12pt;'>12 point</span>" attrs='points=12' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 14pt;'>14 point</span>" attrs='points=14' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 18pt;'>18 point</span>" attrs='points=18' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 24pt;'>24 point</span>" attrs='points=24' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 48pt;'>48 point</span>" attrs='points=48' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<span style='font-size: 72pt;'>72 point</span>" attrs='points=72' parent='Points' />
+-->
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='1'>9 point</font>" attrs='points=9' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='2'>10 point</font>" attrs='points=10' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='3'>12 point</font>" attrs='points=12' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname="multivalent.std.span.PointSpan" title="<font size='4'>14 point</font>" attrs='points=14' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='5'>18 point</font>" attrs='points=18' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='6'>24 point</font>" attrs='points=24' parent='Points' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.PointSpan' title="<font size='7'>36 point</font>" attrs='points=36' parent='Points' />
+
+<!--
+ElideSpan(false, start,end, layer); break;
+-->
+
+</Style>

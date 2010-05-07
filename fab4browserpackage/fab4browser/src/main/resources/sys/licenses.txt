@@ -1,0 +1,33 @@
+The Fab4 Browser License
+
+Fab4 Browser is written by Fabio Corubolo - 
+Copyright (C) 2008 Fabio Corubolo - The University of Liverpool
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Some classes in the Fab4 browser (the ones in the multivalent package) are modifications of the Multivalent software, 
+also released under GPL license, and are released under GPL license.
+
+---
+
+Multivalent20060102_binary.jar
+The Multivalent binary package is used by the Fab4 browser and is subject to its licenses: see MVLicense.txt
+
+---
+
+Icon file library is Copyright (C) 2000 by Lee Benfield - lee@recoil.org see LClicense.txt
+
+---
+
+Icons from GNOME-Fx and www.famfamfam.com.
+Uses the looks look and feel Copyright (c) 2001-2006 JGoodies Karsten Lentzsch. See looks-license.txt
+Uses the Swing-layout library - LGPL license. (see lglp.txt) 
+This product includes software developed by The Apache Software Foundation (http://www.apache.org/). Used under the Apache license. See apache-license.txt
+
+---
+
+metadata-extractor-2.3.1.jar 
+You're free to use this code as you see fit. Please send me a short email to let me know if you find it useful. If you make interesting changes, mail me a copy and I'll include the details on this site. The continual contact with users and contributors of the library encourages and motivates me to keep making improvements. The code is protected by copyright, though only to avoid people selling it unmodified or copyrighting it themselves. You are free to sell work based upon this library, though please consider making a donation. 
+http://www.drewnoakes.com/code/exif/
+

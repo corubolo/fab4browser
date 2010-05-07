@@ -1,0 +1,5 @@
+mediaadaptor	ODT	ODT
+
+mediaadaptor	application/vnd.oasis.opendocument.text	ODT
+
+remap	ODT			uk.ac.liverpool.ODMA.ODT.ODT

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>fab4webstart</artifactId>
+	<packaging>war</packaging>
+	<name>Fab4 Webstart - Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<build>
+		<finalName>fab4webstart</finalName>
+		<plugins>
+			<!--
+
+				by default, a new key for signing the JAR files is generated each
+				time; it s possilbe to disable the keytool plugin here, and specify
+				your own keystore in the jarsigner plugin down here.
+			-->
+			
+			<!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>genkey</goal>
+						</goals>
+						<phase>process-resources</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>${project.build.directory}/keystore</keystore>
+					<dname>cn=www.example.com, ou=None, L=Liverpool, ST=England,
+						o=ExampleOrg, c=UK</dname>
+					<storepass>123456</storepass> For extra safety ;-)
+					<alias>myself</alias>
+					<validity>365</validity>
+					<workingDirectory>${project.build.directory}/</workingDirectory>
+				</configuration>
+			</plugin>
+			--><plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jarsigner-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>sign</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+						<configuration>
+							<keystore>keystore</keystore>
+							<!--
+								/Users/fabio/fab4K
+							-->
+							<alias>myself</alias>
+							<storepass>123456</storepass>
+							<archiveDirectory>${project.build.directory}/fab4webstart/jars
+							</archiveDirectory>
+							<verbose>false</verbose>
+						</configuration>
+
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/fab4webstart/jars
+							</outputDirectory>
+							<!--<excludeArtifactIds>fab4assembly</excludeArtifactIds>
+						--></configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+
+			<!--<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					
+						<packagingIncludes>WEB-INF/lib/jdom-1.1.jar,WEB-INF/lib/jaxen-1.1.1.jar</packagingIncludes>
+					
+					<warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+					
+						<warSourceExcludes>jdom-1.1.jar,jaxen-1.1.1.jar</warSourceExcludes>
+					
+				</configuration>
+			</plugin>
+		--></plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>dom4j</groupId>
+					<artifactId>dom4j</artifactId>
+
+				</exclusion>
+				<exclusion>
+					<groupId>jdom</groupId>
+					<artifactId>jdom</artifactId>
+
+				</exclusion>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+
+				</exclusion>
+				<exclusion>
+					<groupId>xerces</groupId>
+					<artifactId>xercesImpl</artifactId>
+
+				</exclusion>
+				<exclusion>
+					<groupId>xom</groupId>
+					<artifactId>xom</artifactId>
+
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4assembly</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+
+	</licenses>
+</project>

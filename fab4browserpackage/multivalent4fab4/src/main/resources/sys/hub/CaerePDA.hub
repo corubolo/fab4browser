@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='PDA genre behaviors'>
+
+<?import href='Fixed' ?>
+
+
+<!-- just have one page; if make more, update to multipage
+<?import href='Paginated' ?>
+-->
+
+<?import href='Ocr' ?>
+
+<Demo TITLE='Darken' Behavior=WindowUI Winclass=edu.berkeley.lens.Darken attrs='title=Darken; x=100; width=300; height=300' />
+<Demo TITLE='Lighten' Behavior=WindowUI Winclass=edu.berkeley.lens.Lighten attrs='title=Lighten; x=150; y=150; width=300; height=300' />
+<Demo TITLE='Test' Behavior=WindowUI Winclass=edu.berkeley.lens.Test attrs="title='Test Lens'" />
+
+</Layer>

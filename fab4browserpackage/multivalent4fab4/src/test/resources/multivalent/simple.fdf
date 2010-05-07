@@ -1,0 +1,8 @@
+%FDF-1.2%âãÏÓ
+1 0 obj<< /FDF << /Fields 
+[ 
+<< /V /Off /T (CheckBox1)>>
+<< /V /Yes /T (CheckBox2)>>
+<< /V /choice2 /T (RadioButtons)>> << /V (Doug Brown)/T (textField1)>> 
+] /F (test FDF entry.pdf)>> >> 
+endobjtrailer<</Root 1 0 R >>%%EOF

@@ -1,0 +1,17 @@
+BODY { BACKGROUND COLOR: #ffffff; FONT FAMILY: times new roman, serif; }
+A:link, A:visited, A:active { TEXT-DECORATION: none; FONT-WEIGHT: bold;
+COLOR: #0000FF}
+
+H1, H2 { TEXT-ALIGN: center; FONT-WEIGHT: bold; }
+H3, H4, H5 { TEXT-ALIGN: left; FONT-WEIGHT: bold; }
+H6 { TEXT-ALIGN: center; FONT-WEIGHT: bold; FONT-SIZE: small; }
+
+P { TEXT-INDENT: 1em; }
+P.CODE { TEXT-INDENT: 0; COLOR: #FF0000; }
+B { FONT-WEIGHT: bold; }
+UL { list-style: disc }
+OL { list-style: decimal }
+UL, OL, DT, DL { MARGIN-LEFT: 2em; FONT-SIZE: small; }
+DD { MARGIN-TOP: 5em; margin-left: 5em }
+BLOCKQUOTE { MARGIN-LEFT: 1em; MARGIN-RIGHT: 1em }
+IMG { VERTICAL-ALIGN: top; ALIGN: center; }

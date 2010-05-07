@@ -1,0 +1,8 @@
+mediaadaptor	ogg OGGTheoraMA
+mediaadaptor	oga OGGTheoraMA
+mediaadaptor	ogv OGGTheoraMA
+mediaadaptor	application/ogg	OGGTheoraMA
+mediaadaptor	audio/ogg	OGGTheoraMA
+mediaadaptor	video/ogg	OGGTheoraMA
+
+remap	OGGTheoraMA		uk.ac.liverpool.fab4.OGGTheoraMA

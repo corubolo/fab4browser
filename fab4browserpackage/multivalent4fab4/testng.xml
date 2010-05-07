@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Custom suite" parallel="none">
+  <test verbose="1" name="fab4" annotations="JDK">
+    <classes>
+      <class name="multivalent.TestIdentify"/>
+    </classes>
+  </test>
+</suite>

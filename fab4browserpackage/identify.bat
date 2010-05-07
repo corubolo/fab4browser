@@ -1,0 +1,2 @@
+#!/bin/sh
+@java -classpath multivalent4fab4/target/classes;metadata-extractor-2.4.0-beta-1.jar;fab4browserutility/target/classes;file/target/classes;simplx/target/classes;jars/juniversalchardet-1.0.3.jar;jars/xstream-1.3.1.jar;jars/commons-io-1.4.jar;jars/commons-lang-2.4.jar;jars/junit-4.5.jar;jars/multivalent-20060102bin.jar;jars/commons-io-1.3.2.jar;jars/nestedvmlib-20090809.jar;jars/jdom-1.1.jar;jars/testng-5.10-jdk15.jar;jars/xpp3_min-1.1.4c.jar multivalent.Identify %*

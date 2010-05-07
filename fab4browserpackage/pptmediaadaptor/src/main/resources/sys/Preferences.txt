@@ -1,0 +1,13 @@
+mediaadaptor	MSWORD	MSWORD
+mediaadaptor	MSEXCEL	MSEXCEL
+mediaadaptor	MSPOWERPOINT MSPOWERPOINT
+
+mediaadaptor	application/msword	MSWORD
+mediaadaptor	application/vnd.ms-excel MSEXCEL
+mediaadaptor	application/vnd.ms-powerpoint MSPOWERPOINT
+
+remap	MSWORD			uk.ac.liverpool.MSOffice.MSWord
+remap	MSPOWERPOINT	uk.ac.liverpool.MSOffice.MSPowerpoint
+remap	MSEXCEL			com.industriousmedia.adaptors.msoffice.ExcelAdaptor
+  
+ 
