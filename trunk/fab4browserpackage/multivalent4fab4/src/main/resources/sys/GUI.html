@@ -1,0 +1,147 @@
+<!-- replaces this:
+  void buildUI(Root root) {
+	long timein = System.currentTimeMillis();
+
+	// buildBefore pass iterates highest priority to lowest: lower build on base
+	// need this newroot contortion or else get update() call in middle of parse(), sometimes
+	// how to flush repaint queue?	Toolkit.getDefaultToolkit().sync() doesn't do it.
+
+	// X root doc is going to come from HTML doc, so while building, use substitute root
+	Map anchors = (Map)root.getVar(Document.VAR_ANCHORS);  // id's when ASCII
+
+	CLGeneral cx;
+
+	StyleSheet ss = root.getStyleSheet();
+	Color bg = Color.LIGHT_GRAY;//.brighter();
+	//bg = Color.GREEN;
+
+	cx = new CLGeneral();
+	cx.setForeground(Color.BLACK);	// later get these from some preferences file
+	//cx.setBackground(Color.WHITE);	// background of entire page
+	cx.setBackground(bg);	// background of entire page
+	//cx.setMarginTop(5); cx.setMarginBottom(5); cx.setMarginLeft(5); cx.setMarginRight(5); -- docs
+	ss.put("root", cx);
+
+/*
+	cx = new CLGeneral();
+	cx.setMargins(2);
+	//cx.setMarginLeft(5); cx.setMarginRight(0); cx.setMarginTop(2); cx.setMarginBottom(2);
+	cx.setBackground(Color.WHITE);
+	ss.put("iroot", cx);	// no more IROOTs anymore
+*/
+
+	//Document uidoc_ = new Document(null,null, root); // need visual layer and style sheet
+	//uidoc_.setScrollbarShowPolicy(VScrollbar.SHOW_NEVER);
+	// styles for GUI widgets -- should read this from file
+	// => move into a behavior + text configuration file
+	cx = new CLGeneral();
+	//cx.setMargins(3);
+	cx.marginleft = cx.marginright = 3;
+	cx.setPadding(5);
+	//cx.setBackground(bg); cx.setForeground(Color.BLACK);
+	ss.put("button", cx);
+	ss.put("menubutton", cx);
+	ss.put("checkbox", cx);
+
+	cx = new CLGeneral();
+	cx.setPadding(3);
+	//cx.paddingtop = cx.paddingbottom = 3;
+	//cx.paddingleft = 11+5; cx.paddingright=5;
+	cx.setBorder(1);
+	ss.put("menu", cx);
+
+	cx = new CLGeneral();
+//	cx.setMargins(3);
+	cx.paddingleft = cx.paddingright = 3;
+	//cx.setPadding(3);
+	//cx.setBackground(bg); cx.setForeground(Color.BLACK);
+	ss.put("entry", cx);
+
+	cx = new CLGeneral();
+	cx.paddingleft = 11+5; cx.paddingright = 5 +5/*cascade arrow*/;
+	//cx.setBackground(bg); cx.setForeground(Color.BLACK);
+	ss.put("menuitem", cx);
+
+	// must move to HTML soon
+	cx = new CLGeneral();
+	cx.style_ = Font.BOLD;
+	ss.put("b", cx);
+	cx = new CLGeneral();
+	cx.style_ = Font.ITALIC;
+	ss.put("i", cx);
+	cx = new CLGeneral();
+	cx.underline_ = CLGeneral.COLORINHERIT;
+	ss.put("u", cx);
+	cx = new CLGeneral();
+	cx.overstrike_ = CLGeneral.COLORINHERIT;
+	ss.put("strike", cx);
+
+	INode uidoc = new IVBox("_uiroot",null, root);
+
+	INode menubar = new IParaBox("_menubar",null, uidoc); anchors.put("menubar", menubar);
+
+// MOVE TO A BEHAVIOR!
+	toolbar = new IParaBox("_toolbar",null, uidoc); anchors.put("toolbar", toolbar);
+	toolbar2 = new IParaBox("_toolbar2",null, uidoc); anchors.put("toolbar2", toolbar);
+	//callSemanticEvent(new SemanticEvent(this, "createWidget/TOOLBAR", null, null,toolbar));
+	//eventq(new SemanticEvent(this, "createWidget/TOOLBAR", null, null,toolbar));
+
+	//INode +toolbar = new IParaBox("_NAVBAR",null, uidoc);
+	//Root uidoc = new Root(null/*attr_*/, this);
+	// Should _DOCROOT be Document?  No, media adaptors have to provide own Documents anyhow since they may be nested.
+	docroot_ = new IVBox("_docroot",null, uidoc);   // later findBFS for "_docroot"
+
+	//root_ = newroot;
+	//new INode("CONTENT",null, root_);
+if (DEBUG) System.out.println("== BUILD ==");
+
+	//new LeafAscii("THIS SPACE INTENTIONALLY LEFT BLANK",null, uidoc);
+	//} else { -- still keep System behaviors so can load other documents
+
+	//root_ = root;
+
+//	uidoc.markDirtySubtree(true); //=>doesn't seem to help  // can get premature paints, which leave some things erroneously marked valid
+//	format();
+	if (PROF) { profs[BUILDCNT]++; profs[BUILDTIME] += System.currentTimeMillis()-timein; }
+  }
+
+-->
+
+<!-- parsed like HTML, but just take body, which is renamed "root" -->
+<html>
+<head>
+<style>
+	body { color: black; background-color: green; font-family: arial; }
+	span.subtitle { font-size: 18pt; font-style: italic; }
+	button, menubutton, checkbox { margin-left: 3px; margin-right: 3px; padding: 5px; }
+	menu { margin: 3px; border: 1px; }
+	entry { margin: 3; }
+	menu, menubutton { background-color: blue; }
+	menuitem { padding-left: 16; padding-right: 10; }
+	// b, i, u, strike, ... in base HTML
+</style>
+</head>
+
+<body bgcolor='white' text='black'>
+<table width=100% border cellspacing=0>
+
+<tr><td id='menubar' width=100%>menubar
+
+<tr><td id='toolbar' width=100%>toolbar
+
+<tr><td id='toolbar2' width=100%>toolbar2
+
+<!--
+<tr><td id='content' height=500 width=100%>content
+-->
+<tr height=100%><td width=100% id='content'>content
+<!--<iframe height=300 width=300 id='content'>content</iframe>-->
+
+<tr>
+<table width=100% border cellpadding=0 cellspacing=0>
+<tr><td>&nbsp;<!--keep height even when no message--><td bgcolor='orange' id='status' width=100%>messagebar
+</table>
+
+</table>
+</body>
+</html>

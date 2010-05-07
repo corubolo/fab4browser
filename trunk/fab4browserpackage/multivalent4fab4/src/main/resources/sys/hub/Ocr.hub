@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' name='ocr' title='Behaviors common to all OCR document types'>
+
+<OcrView behavior = 'multivalent.std.OcrView' />
+
+<!-- experiment
+<MenuBar behavior='multivalent.std.ui.Menubar' 
+  titles='Lens|View|Help'
+/>
+-->
+
+<!-- lenses -->
+<ShowOCR TITLE='Show OCR' Behavior='WindowUI' Winclass='multivalent.std.lens.SignalLens' attrs='signal=viewOcrAs; value=ocr; title='Show OCR'; width=300; height=300' />
+<ShowImage TITLE='Show Image' Behavior='WindowUI' Winclass='multivalent.std.lens.SignalLens' attrs="title='Show Image'; signal='viewOcrAs'; value='image'; width='300';height='300'" />
+
+<!-- these spans show parity of lenses and spans in setting signals, but probably aren't useful themselves -->
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.SignalSpan' title='Show OCR' attrs='signal=viewOcrAs; value=ocr' parent='Style' category='Style' />
+<MenuItem Behavior='SpanUI' spanname='multivalent.std.span.SignalSpan' title='Show Image' attrs="signal='viewOcrAs'; value='image'" parent='Style' category='Style' />
+
+<!--Scan Behavior='LinkMarkup' / => in Fixed.hub -->
+
+</Layer>

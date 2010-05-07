@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<ManualPageGenre behavior='Layer' title='Manual Page genre default behaviors'>
+
+<!-- outline needs to be before execsum -->
+<View Behavior='multivalent.std.Outliner' />
+<View Behavior='multivalent.std.ui.OutlineUI' />
+
+<?import href='Flowed' ?>
+
+
+<Scan Behavior='LinkMarkup' />
+
+<!--Rebus Behavior=Rebus></Rebus-->
+<!-- type-in that does man page search -- replacing URI type-in? -->
+
+</ManualPageGenre>

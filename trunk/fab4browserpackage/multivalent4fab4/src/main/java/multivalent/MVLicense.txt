@@ -1,0 +1,29 @@
+Multivalent licenses:
+
+Browser
+    The browser is dual licensed under the GNU Public License
+    <http://www.gnu.org/licenses/gpl.txt> and a commercial license from
+    Practical Thought. Some older code derived from code under BSD
+    license <License-UC.txt>. Note that the browser uses the |com.pt|
+    library, below. 
+Tools
+    The command-line document manipulation tools in |tool.*| package and
+    subpackages are free for use on the command line. Practical Thought
+    licenses versions with more features and with programmatic interfaces. 
+|com.pt| library
+    Software in the |com.pt| package and subpackages (including the font
+    engine and new I/O) has been generously licensed by Practical
+    Thought for by the Multivalent project for non-commercial uses. It
+    can also be licensed for commercial use. 
+Adobe
+    Font metrics for Adobe PDF core fonts derived from Adobe Font
+    Metrics files under license <License-Adobe.txt>. PDF and PostScript
+    operators and data structures copyright Adobe Systems Inc. CMap
+    files copyright Adobe Systems Incorporated. 
+BZip2
+    BZip2 used under Apache Software License <License-Apache.txt>. 
+icons
+    Some icons from AIcons <http://www.sct.gu.edu.au/~anthony/icons/>
+    and the Java Look and Feel Repository
+    <http://developer.java.sun.com/developer/techDocs/hi/repository/>. 
+

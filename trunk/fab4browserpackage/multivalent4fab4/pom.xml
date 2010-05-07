@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>multivalent4fab4</artifactId>
+	<name>Multivalent with Fab4 additions (GPL)</name>
+	<description>The Multivalent library, open source part, is included in this project. It has been modified to support the Fab4 browser and to introduce enhancements.</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.drewnoakes</groupId>
+			<artifactId>metadata-extractor</artifactId>
+			<version>2.4.0-beta-1</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browserutility</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.multivalent</groupId>
+			<artifactId>multivalent</artifactId>
+			<version>20060102bin</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ibex.nestedvm</groupId>
+			<artifactId>nestedvmlib</artifactId>
+			<version>20090809</version>
+		</dependency>
+		<dependency>
+			<groupId>org.simplx</groupId>
+			<artifactId>simplx</artifactId>
+			<version>0.8.4</version>
+		</dependency>
+		<dependency>
+			<groupId>file</groupId>
+			<artifactId>file</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+	</dependencies>
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+		<license>
+			<name>Apache</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+		<license>
+			<name>BSD</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.html</include>
+					<include>**/*.txt</include>
+					
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>**/*.html</exclude>
+					<exclude>**/*.txt</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
+
+	</build>
+
+
+</project>

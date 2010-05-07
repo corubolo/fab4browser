@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<Edit title='Edit menu'>
+
+<Menu Behavior='multivalent.std.ui.StandardEdit'></MenU>
+
+
+<!--Bed Behavior='multivalent.Bed' />-->
+<!--Menu Behavior='multivalent.std.ui.LayerMan' />-->
+
+
+<!-- former CLIPBOARD menu -->
+<Clipboard Behavior='multivalent.std.ClipProvenance' />
+
+
+
+<!--Autosearch Behavior='phelps.Autosearch' /-->
+
+<Search Behavior='multivalent.std.Search' />
+
+</Edit>

@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>oggmediaadaptor</artifactId>
+	<name>OGG Vorbis and Theora Media Adaptor</name>
+	<description>A Cortado-based media engine to parse Theora video, Vorbis audio, OGG contaner files</description>
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.theora.cortado</groupId>
+			<artifactId>cortado-modified</artifactId>
+			<version>0.82</version>
+		</dependency>
+	</dependencies>
+	
+</project>

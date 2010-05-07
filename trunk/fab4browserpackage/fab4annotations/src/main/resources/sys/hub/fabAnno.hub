@@ -1,0 +1,6 @@
+<?xml version='1.0'?>
+<fabAnno behavior='Layer' title="Core behaviors">
+
+<Personal behavior='uk.ac.liv.c3connector.DistributedPersonalAnnos' />
+
+</fabAnno>

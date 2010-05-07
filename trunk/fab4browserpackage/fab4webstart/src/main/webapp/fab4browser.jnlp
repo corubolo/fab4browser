@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0+" codebase="changeme"
+	href="changeme">
+
+	<information>
+		<title>Fab4 Document Browser</title>
+		<vendor>The University of Liverpool</vendor>
+		<description>Fab4 version 0.92</description>
+		<homepage href="http://bodoni.lib.liv.ac.uk/fab4/" />
+	</information>
+
+	<resources>
+		<j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="256m"/>
+	</resources>
+	<application-desc main-class="uk.ac.liverpool.fab4.Fab4">
+	<!--argument>-single</argument-->
+	<!--argument>-aserver=http://shaman.cheshire3.org/sword/annotations/</argument-->
+	<!--argument>-asearchserver=http://shaman.cheshire3.org/services/annotations/</argument-->
+	</application-desc>
+
+	<security>
+		<all-permissions />
+	</security>
+</jnlp>

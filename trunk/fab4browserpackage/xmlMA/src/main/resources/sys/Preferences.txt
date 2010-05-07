@@ -1,0 +1,5 @@
+mediaadaptor	XML XMLma
+mediaadaptor	text/xml	XMLma
+
+
+remap	XMLma		uk.ac.liverpool.xmlma.XMLma

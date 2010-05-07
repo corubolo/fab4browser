@@ -1,0 +1,7 @@
+<?xml version='1.0'?>
+<Core behavior='Layer' title="Core behaviors">
+
+<IRODSLoading Behavior='uk.ac.liverpool.irods.IRODSBehaviour' />
+
+
+</Core>

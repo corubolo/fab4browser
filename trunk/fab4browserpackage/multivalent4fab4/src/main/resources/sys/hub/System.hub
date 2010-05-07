@@ -1,0 +1,69 @@
+<?xml version='1.0' ?>
+<System title='System default behaviors'>
+<!-- This is the main hub in the entire system. -->
+
+<?import href='Core' ?>
+<?import href='Net' ?>
+
+<StyleSheetSetter behavior='multivalent.std.adaptor.StyleSheetSetter' />
+
+<!-- toolbar or no UI -->
+<!--Meta Behavior='DeleteBehavior' /-->
+
+<Personal behavior=multivalent.std.adaptor.PersonalAnnos />
+<!-- maybe put in Annos group -->
+<Menubar behavior='multivalent.std.ui.Menubar' 
+  titles='File|Edit|Go|Bookmark|Lens|Style|Anno|CopyEd|View|Help'
+/>
+<Toolbar behavior='multivalent.std.ui.Toolbar' />
+
+
+
+<?import href='Help' ?>
+
+<?import href='File' ?>
+
+<?import href='Edit' ?>
+
+<?import href='Go' ?>
+
+
+<?import href='Lens' ?>
+
+
+<?import href='Style' ?>
+
+
+<?import href='Tool' ?>
+
+<?import href='Anno' ?>
+
+
+<?import href='View' ?>
+
+
+
+<!-- PER-USER HUB -- but as applet, users have no identity, so no per-user -->
+<!-- actually, most things should go in per-user -->
+<BindingsEmacs Behavior='multivalent.std.ui.BindingsEmacs' />
+<BindingsWindoze Behavior='multivalent.std.ui.BindingsWindoze' />
+<BindingsWindoze Behavior='multivalent.std.ui.BindingsMacintosh' />
+<BindingsTk Behavior='multivalent.std.ui.BindingsTk' />
+<ShowHeaders Behavior='multivalent.std.ShowHeaders' />
+
+
+
+
+<?import href='RW' ?>
+
+
+
+<!-- DebugMode needs to be before Debug layer so when DebugMode changes activation of Debug layer, it happens after Debug layer has processed event -->
+
+<?import href='Developer' ?>
+
+<!--Menu Behavior='multivalent.std.ui.StandardFile' /-->
+<MenuItem Behavior='SemanticUI' SCRIPT='event closeBrowserInstance' title='Close' parent='File' category='Close' TYPE='Button' />
+<MenuItem Behavior='SemanticUI' SCRIPT='event EXIT' title='Exit' parent='File' category='Quit' TYPE='Button' />
+
+</System>

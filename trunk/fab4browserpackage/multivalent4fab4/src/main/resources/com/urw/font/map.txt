@@ -1,0 +1,42 @@
+# URW facsimiles of Adobe core 35 fonts
+# <standard-name> <standard-family>	<URW-name> <URW-family> <URW-filename>
+AvantGarde-Book	Avant Garde	URWGothicL-Book	URW Gothic L	a010013l.pfb
+AvantGarde-Demi	Avant Garde	URWGothicL-Demi	URW Gothic L	a010015l.pfb
+AvantGarde-Oblique	Avant Garde	URWGothicL-BookObli	URW Gothic L	a010033l.pfb
+AvantGarde-DemiOblique	Avant Garde	URWGothicL-DemiObli	URW Gothic L	a010035l.pfb
+Bookman-Light	Bookman	URWBookmanL-Ligh	URW Bookman L	b018012l.pfb
+Bookman-Demi	Bookman	URWBookmanL-DemiBold	URW Bookman L	b018015l.pfb
+Bookman-LithtItalic	Bookman	URWBookmanL-LighItal	URW Bookman L	b018032l.pfb
+Bookman-DemiItalic	Bookman	URWBookmanL-DemiBoldItal	URW Bookman L	b018035l.pfb
+Courier	Courier	NimbusMonL-Regu	Nimbus Mono L	n022003l.pfb
+Courier-Oblique	Courier	NimbusMonL-ReguObli	Nimbus Mono L	n022023l.pfb
+Courier-Bold	Courier	NimbusMonL-Bold	Nimbus Mono L	n022004l.pfb
+Courier-BoldOblique	Courier	NimbusMonL-BoldObli	Nimbus Mono L	n022024l.pfb
+# gratuitous renaming for Helvetica and Helvetica-Bold
+Helvetica	Helvetica	NimbusSanL-Regu	Nimbus Sans L	n019003l.pfb
+Helvetica	Helvetica	NimbusSansL-Regu	Nimbus Sans L	n019003l.pfb
+Helvetica-Oblique	Helvetica	NimbusSanL-ReguItal	Nimbus Sans L	n019023l.pfb
+Helvetica-Bold	Helvetica	NimbusSanL-Bold	Nimbus Sans L	n019004l.pfb
+Helvetica-Bold	Helvetica	NimbusSansL-Bold	Nimbus Sans L	n019004l.pfb
+Helvetica-BoldOblique	Helvetica	NimbusSanL-BoldItal	Nimbus Sans L	n019024l.pfb
+Helvetica-Condensed	Helvetica Narrow	NimbusSanL-ReguCond	Nimbus Sans L	n019043l.pfb
+Helvetica-CondensedBold	Helvetica Narrow	NimbusSanL-BoldCond	Nimbus Sans L	n019044l.pfb
+Helvetica-CondensedItalic	Helvetica Narrow	NimbusSanL-ReguCondItal	Nimbus Sans L	n019063l.pfb
+Helvetica-CondensedBoldItalic	Helvetica Narrow	NimbusSanL-BoldCondItal	Nimbus Sans L	n019064l.pfb
+NewCenturySchlbk	New Century Schlbk	CenturySchL-Roma	Century Schoolbook L	c059013l.pfb
+NewCenturySchlbk-Bold	New Century Schlbk	CenturySchL-Bold	Century Schoolbook L	c059016l.pfb
+NewCenturySchlbk-Italic	New Century Schlbk	CenturySchL-Ital	Century Schoolbook L	c059033l.pfb
+NewCenturySchlbk-BoldItalic	New Century Schoolbook	CenturySchL-BoldItal	Century Schoolbook L	c059036l.pfb
+Palatino	Palatino	URWPalladioL-Roma	URW Palladio L	p052003l.pfb
+Palatino-Bold	Palatino	URWPalladioL-Bold	URW Palladio L	p052004l.pfb
+Palatino-Italic	Palatino	URWPalladioL-Ital	URW Palladio L	p052023l.pfb
+Palatino-BoldItalic	Palatino	URWPalladioL-BoldItal	URW Palladio L	p052024l.pfb
+Times-Roman	Times	NimbusRomNo9L-Regu	Nimbus Roman No9 L	n021003l.pfb
+# gratuitous renaming for Times-Roman
+Times-Roman	Times	NimbusRomanNo9L-Regu	Nimbus Roman No9 L	n021003l.pfb
+Times-Italic	Times	NimbusRomNo9L-ReguItal	Nimbus Roman No9 L	n021023l.pfb
+Times-Bold	Times	NimbusRomNo9L-Medi	Nimbus Roman No9 L	n021004l.pfb
+Times-BoldItalic	Times	NimbusRomNo9L-MediItal	Nimbus Roman No9 L	n021024l.pfb
+Symbol	Symbol	StandardSymL	Standard Symbols L	s050000l.pfb
+ZapfChancery-Italic	Zapf Chancery	URWChanceryL-MediItal	URW Chancery L	z003034l.pfb
+ZapfDingbats	Zapf Dingbats	Dingbats	Dingbats	d050000l.pfb

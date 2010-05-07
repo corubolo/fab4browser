@@ -1,0 +1,38 @@
+<?xml version='1.0'?>
+<Go behavior='Layer' title='Go behaviors'>
+
+<MenuItem Behavior='multivalent.std.ui.ForwardBack' />
+<!-- want to enable/disable buttons accordingly, and jump over intermediate pages => which can be done with behavior interception... oh yeah
+MenuItem Behavior='SemanticUI' SCRIPT='event backwardDocument' title='Back' category='GoInter' TYPE='MenuItem' />
+<MenuItem Behavior='SemanticUI' SCRIPT='event forwardDocument' title='Forward' category='GoInter' TYPE='MenuItem' />
+-->
+<Button Behavior='SemanticUI' SCRIPT='event openDocument $pref.homedir' title='Home Directory' parent='Go' category='GoInter' TYPE='Button' />
+
+
+<MenuItem Behavior='SemanticUI' SCRIPT='event reloadDocument' title='Reload' parent='Go' category='GoInter' TYPE='Button' />
+
+<Button Behavior='SemanticUI' SCRIPT='event reloadDocument' title="<img src='systemresource:/sys/images/Refresh16.gif' width='16' height='16'>" parent='Toolbar' TYPE='Button' />
+
+<Button Behavior='SemanticUI' SCRIPT='event goHome' title='Home Page' parent='Go' category='GoInter' TYPE='Button' />
+<Button Behavior='SemanticUI' SCRIPT='event goHome' title="<img src='systemresource:/sys/images/Home16.gif' width='16' height='16'>" parent='Toolbar' TYPE='Button' />
+
+<Label Behavior='SemanticUI' title='URI' parent='Toolbar' TYPE='Label' />
+<Entry Behavior='SemanticUI' SCRIPT='event openDocument $TEXT' title='$doc.uri' parent='Toolbar' TYPE='Entry' WIDTH='35' />
+<Button Behavior='SemanticUI' title='...' parent='Toolbar' TYPE='Button' script='event openFile' />
+
+<Button Behavior='multivalent.std.ui.Stop' />
+
+
+<SlideShowLinks Behavior='multivalent.std.SlideShowLinks' />
+
+<Bookmark Behavior='Bookmark' />
+
+
+<MenuItem Behavior='SemanticUI' SCRIPT='event openDocument history:xx' title='History' parent='Go' category='GoInter' TYPE='Button' />
+<MenuItem Behavior='multivalent.std.ui.History' />
+
+<Bookmark Behavior='multivalent.std.BrowseScrollViz' />
+
+<dnd Behavior='multivalent.std.ui.DnD' />
+
+</Go>
