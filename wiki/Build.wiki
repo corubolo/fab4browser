@@ -1,13 +1,14 @@
 #summary contains the build instructions.
+#labels Featured
 
 = Build instructions =
 
 It should be simple to build the fab4browserpackage using Maven2. 
 
   * Download and install Maven from http://maven.apache.org/
-  * Open a shell, and increase the Maven memory for compiling, as the default is not sufficient: export MAVEN_OPTS=-Xmx1024m
-  * change directory to the fab4browserpackage folder, 'cd folder' 
-  * run mvn install
+  [* Optional: open a shell, and increase the Maven memory for compiling: export MAVEN_OPTS=-Xmx512m]
+  * change directory to the fab4browserpackage folder, 'cd fab4browserpackage' 
+  * run 'mvn install'
 
 The final output for the project consists in two files:
 
@@ -18,12 +19,3 @@ java -jar fab4-start.jar
 2) ./fab4webstart/target/fab4webstart.war
 Java web archive, containing all the above and a dynamic servlet for opening documents directly into Fab4 (using Webstart). 
 This can be deployed to a standard servlet container.
-
-===PPT media adaptor===
-
-This build is based on a set of different components, that need to be compiled and installed (mvn install) in the right order:
-  * First of all, the LGPL Pict image decoder;
-  * Secondly, the ApachePOIAdditions
-  * The modified version of Apache POI (based on Version 3.6 currently) 
-  * Last, the pptmediaadaptor (integration into Multivalent framework) has to be compiled.
-Once all the components are installed, it is possible to add the PPTMediaAdaptor dependency to the main project Fab4assembly, to have it included into the fab4 zip ad webstart targets. 
