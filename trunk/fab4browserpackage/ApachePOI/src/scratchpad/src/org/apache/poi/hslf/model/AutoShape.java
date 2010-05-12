@@ -109,6 +109,7 @@ public class AutoShape extends TextShape {
     public java.awt.Shape getOutline(){
         ShapeOutline outline = AutoShapes.getShapeOutline(getShapeType());
         Rectangle2D anchor = getLogicalAnchor2D();
+        System.out.println("getShapeType "+ getShapeType());
         if(outline == null){
             logger.log(POILogger.WARN, "Outline not found for " + ShapeTypes.typeName(getShapeType()));
             return anchor;
