@@ -40,6 +40,34 @@ public final class AutoShapes {
      * @return the shape outline
      */
     public static ShapeOutline getShapeOutline(int type){
+
+        shapes[ShapeTypes.HomePlate] = new ShapeOutline(){
+            public java.awt.Shape getOutline(Shape shape){
+                int adjval = shape.getEscherProperty(EscherProperties.GEOMETRY__ADJUSTVALUE, 16200);
+                int z = adjval /2;
+                System.out.println(z);
+                GeneralPath path = new GeneralPath();
+/*
+ *     val #0 prod #0 1 2
+    m@0,l,,,21600@0,21600,21600,10800xe
+    16200
+    
+    m8100,0 
+    l0,0
+    l0,21600
+    l8100,21600
+    l21600,10800
+    clo
+ */
+                path.moveTo(z, 0);
+                path.lineTo(0,0);
+                path.lineTo(0,21600);
+                path.lineTo(z,21600);
+                path.lineTo(21600,10800);
+                path.closePath();
+                return path;
+            }
+        };
         ShapeOutline outline = shapes[type];
         return outline;
     }
@@ -369,6 +397,7 @@ public final class AutoShapes {
                 return path;
             }
         };
+
 
         shapes[ShapeTypes.StraightConnector1] = new ShapeOutline(){
             public java.awt.Shape getOutline(Shape shape){
