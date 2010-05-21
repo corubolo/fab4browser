@@ -1,0 +1,11 @@
+Callout1
+CloudCallout
+WedgeEllipseCallout
+EllipseRibbon
+EllipseRibbon2
+CurvedDownArrow
+CurvedUpArrow
+CurvedLeftArrow
+CurvedRightArrow
+BentArrow
+Arc
