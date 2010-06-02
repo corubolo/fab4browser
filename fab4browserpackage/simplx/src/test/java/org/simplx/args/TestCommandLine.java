@@ -53,21 +53,21 @@ public class TestCommandLine {
 
     private static final String[] TEST_MULTI_ARGS =
             {"--boolT", "--boolF", "--charV", "\\u0041", "--strV",
-                    "ÁHola Jose!", "--byteV", "-3", "--shortV", "+3592",
+                    "Â¡Hola Jose!", "--byteV", "-3", "--shortV", "+3592",
                     "--intV", "-431666", "--longV", "+99", "--floatV", "1.9e15",
                     "--doubleV", "+Infinity", "--thingV", "Ho", "--fileV", ".",
                     "--readV", "-", "--writeV", "-1", "--inV", "-", "--outV",
                     "-2", "--valsV", "3,2", "--valsV", "1"};
 
     private static final String[] TEST_SINGLE_ARGS =
-            {"-bB", "-c", "\\u0041", "-S", "ÁHola Jose!", "-y", "-3", "-s",
+            {"-bB", "-c", "\\u0041", "-S", "Â¡Hola Jose!", "-y", "-3", "-s",
                     "+3592", "-i", "-431666", "-l", "+99", "-f", "1.9e15", "-d",
                     "+Infinity", "-t", "Ho", "-F", ".", "-r", "-", "-w", "-1",
                     "-I", "-", "-O", "-2", "-v", "3,2", "-v", "1"};
 
     private static final String[] TEST_MULTI_ONLY_ARGS =
             {"--boolT", "--boolF", "--charV", "\\u0041", "--strV",
-                    "ÁHola Jose!", "--byteV", "-3", "--shortV", "+3592",
+                    "Â¡Hola Jose!", "--byteV", "-3", "--shortV", "+3592",
                     "--intV", "-431666", "--longV", "+99", "--floatV", "1.9e15",
                     "--doubleV", "+Infinity", "--thingV", "Ho", "--fileV", ".",
                     "--readV", "-", "--writeV", "-1", "--inV", "-", "--outV",
@@ -479,7 +479,7 @@ public class TestCommandLine {
         assertEquals(test.charD, 'K');
         assertEquals(test.charN, 'q');
 
-        assertEquals(test.strV, "ÁHola Jose!");
+        assertEquals(test.strV, "Â¡Hola Jose!");
         assertEquals(test.strD, "");
         assertEquals(test.strN, null);
 
@@ -572,7 +572,7 @@ public class TestCommandLine {
         assertEquals(test.charD, 'K');
         assertEquals(test.charN, 'q');
 
-        assertEquals(test.strV, "ÁHola Jose!");
+        assertEquals(test.strV, "Â¡Hola Jose!");
         assertEquals(test.strD, "");
         assertEquals(test.strN, null);
 
