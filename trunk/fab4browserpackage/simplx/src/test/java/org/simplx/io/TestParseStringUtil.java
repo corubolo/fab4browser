@@ -17,7 +17,7 @@ public class TestParseStringUtil {
         goodCharTest(ch, ",;!" + str, pos + 3, next + 3, "prefixed");
         goodCharTest(ch, ",;!" + str + "!;,", pos + 3, next + 3, "surrounded");
     }
-
+ 
     private void goodCharTest(char ch, String str, int pos, int next,
             String mark) {
 
@@ -44,7 +44,7 @@ public class TestParseStringUtil {
         return new Object[][]{        // character tests
                 {'a', "a", 0, 1},           // simplest case
                 {'b', "ab", 1, 2},          // pick out end
-                {'–', "a–c", 1, 2},         // pick out middle
+                {'ï¿½', "aï¿½c", 1, 2},         // pick out middle
                 {'\0', "\\0", 0, 2},        // single octal char
                 {'\0', "\\00", 0, 3},       // longer octal
                 {'\0', "\\000", 0, 4},      // longest octal
