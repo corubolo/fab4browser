@@ -6,8 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.FlatteningPathIterator;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.IllegalPathStateException;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +43,7 @@ public class AutoShapeParser {
     public static void main(String[] args) throws IOException {
         cleanup.main(new String[] { "shapeDescriptions.txt" });
         if (false) {
+
             String[] p = defaultShapes.get(ShapeTypes.Donut);
             final java.awt.Shape s = parseShapeData(p[0], p[1], p[2])
                     .getOutline(null);
