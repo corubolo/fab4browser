@@ -62,7 +62,7 @@ import java.nio.charset.Charset;
  *     return p;
  * }
  * </pre>
- * The na•ve translation into Java using the {@code Pointer} class is:
+ * The naive translation into Java using the {@code Pointer} class is:
  * <pre>
  * Pointer p = ...;
  * &nbsp;
