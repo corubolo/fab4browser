@@ -20,7 +20,8 @@
 					<fork>true</fork>
 					<meminitial>128m</meminitial>
 					<maxmem>512m</maxmem>
-
+					
+					<encoding>UTF-8</encoding>
 					<source>1.5</source>
 					<target>1.5</target>
 				</configuration>
@@ -58,7 +59,7 @@
 		<name>University of Liverpool</name>
 	</organization>
 	<properties>
-    	<project.build.sourceEncoding>MACROMAN</project.build.sourceEncoding>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   	</properties>
 	
 	<modules>

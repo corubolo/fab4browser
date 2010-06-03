@@ -141,14 +141,14 @@ public class ConvertToStruct {
         System.out.printf("%n");
         System.out.printf("     %s %s() {%n", typeStr, name);
         if (type == Pointer.class) {
-            System.out.printf("%sreturn new Pointer(´pointer, %s);%n", indent,
+            System.out.printf("%sreturn new Pointer(Â¥pointer, %s);%n", indent,
                     offsetName);
         } else if (isUserType) {
             System.out.printf("%sreturn %s;%n", indent, name);
         } else if (type.isArray()) {
             System.out.printf("%sreturn %s.array();%n", indent, bufName);
         } else {
-            System.out.printf("%sreturn ´buf.get%s(%s);%n", indent, bufAccess,
+            System.out.printf("%sreturn Â¥buf.get%s(%s);%n", indent, bufAccess,
                     offsetName);
         }
         System.out.printf("    }%n");
@@ -156,14 +156,14 @@ public class ConvertToStruct {
         System.out.printf("%n");
         System.out.printf("     void %s(%s val) {%n", name, typeStr);
         if (type == Pointer.class) {
-            System.out.printf("%snew Pointer(´pointer, %s).strcpy(val);%n",
+            System.out.printf("%snew Pointer(Â¥pointer, %s).strcpy(val);%n",
                     indent, offsetName);
         } else if (isUserType) {
             System.out.printf("%s%s = val;%n", indent, name);
         } else if (type.isArray()) {
             System.out.printf("%s%s.put(val);%n", indent, bufName);
         } else {
-            System.out.printf("%s´buf.put%s(%s, val);%n", indent, bufAccess,
+            System.out.printf("%sÂ¥buf.put%s(%s, val);%n", indent, bufAccess,
                     offsetName);
         }
         System.out.printf("    }%n");
@@ -171,16 +171,16 @@ public class ConvertToStruct {
         if (!isUserType) {
             System.out.printf("%n");
             System.out.printf("     int pack_%s(Pointer p) {%n", name);
-            System.out.printf("%s´buf.position(%s);%n", indent, offsetName);
-            System.out.printf("%s´buf.get(p.bytes, p.pos, %s);%n", indent,
+            System.out.printf("%sÂ¥buf.position(%s);%n", indent, offsetName);
+            System.out.printf("%sÂ¥buf.get(p.bytes, p.pos, %s);%n", indent,
                     sizeName);
             System.out.printf("%sp.incr(%s);%n", indent, sizeName);
             System.out.printf("%sreturn %s;%n", indent, sizeName);
             System.out.printf("    }%n");
             System.out.printf("%n");
             System.out.printf("     int unpack_%s(Pointer p) {%n", name);
-            System.out.printf("%s´buf.position(%s);%n", indent, offsetName);
-            System.out.printf("%s´buf.put(p.bytes, p.pos, %s);%n", indent,
+            System.out.printf("%sÂ¥buf.position(%s);%n", indent, offsetName);
+            System.out.printf("%sÂ¥buf.put(p.bytes, p.pos, %s);%n", indent,
                     sizeName);
             System.out.printf("%sp.incr(%s);%n", indent, sizeName);
             System.out.printf("%sreturn %s;%n", indent, sizeName);
@@ -188,14 +188,14 @@ public class ConvertToStruct {
         }
 
         if (bufName != null) {
-            bufInitCode.format("        ´buf.position(%s);%n", offsetName);
+            bufInitCode.format("        Â¥buf.position(%s);%n", offsetName);
             int count;
             if (bufAccess.length() == 0) {
                 count = size;
-                bufInitCode.format("        %s = ´buf.slice();%n", bufName);
+                bufInitCode.format("        %s = Â¥buf.slice();%n", bufName);
             } else {
                 count = Array.getLength(field.get(instance));
-                bufInitCode.format("        bb = ´buf.slice();%n");
+                bufInitCode.format("        bb = Â¥buf.slice();%n");
                 bufInitCode.format("        %s = bb.as%sBuffer();%n", bufName,
                         bufAccess);
             }

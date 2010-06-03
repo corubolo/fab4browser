@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
  * These functions operate on the magic database file which is described in
  * magic(4).  It is modele on libmagic(3).
  *
- * @author Måns Rullgård: Initial libmagic implementation, and configuration.
+ * @author M√•ns Rullg√•rd: Initial libmagic implementation, and configuration.
  * @author Christos Zoulas: API cleanup, error code and allocation handling.
  * @author Ken Arnold: Original Java translation.
  */

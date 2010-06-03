@@ -10,7 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class CStruct implements Serializable {
-    // Using ´ because it isn't legal in C identifiers
+    // Using Â¥ because it isn't legal in C identifiers
     protected transient ByteBuffer _buf;
     protected Pointer _pointer;
 
