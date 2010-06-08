@@ -113,14 +113,7 @@ public class AutoShape extends TextShape {
         if(outline == null){
             logger.log(POILogger.WARN, "Outline not found for " + ShapeTypes.typeName(getShapeType()));
             System.out.println("getShapeType "+ getShapeType());
-            System.out.println(getAdjustmentValue(0));
-            System.out.println(getAdjustmentValue(1));
-            System.out.println(getAdjustmentValue(2));
-            System.out.println(getAdjustmentValue(3));
-            System.out.println(getAdjustmentValue(4));
-            System.out.println(getAdjustmentValue(5));
-            System.out.println(getAdjustmentValue(6));
-            System.out.println(getAdjustmentValue(7));
+
             return anchor;
         }
         java.awt.Shape shape = outline.getOutline(this);

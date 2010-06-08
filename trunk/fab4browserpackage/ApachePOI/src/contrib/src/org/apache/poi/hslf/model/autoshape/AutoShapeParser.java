@@ -1,5 +1,6 @@
 package org.apache.poi.hslf.model.autoshape;
 
+import java.awt.Font;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.IllegalPathStateException;

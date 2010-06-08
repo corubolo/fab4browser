@@ -38,6 +38,8 @@ public final class ShapePainter {
 
 	public static void paint(SimpleShape shape, Graphics2D graphics){
 		Rectangle2D anchor = shape.getLogicalAnchor2D();
+
+		
 		java.awt.Shape outline = shape.getOutline();
 		//System.out.println(shape.getShapeName());
 
@@ -143,7 +145,13 @@ public final class ShapePainter {
 						
 				}
 				graphics.draw(outline);
-				
+			            if (shape instanceof AutoShape){
+			                AutoShape as = (AutoShape)  shape;
+			                
+			                    graphics.drawString(as.getShapeName(),(float) anchor.getCenterX(), (float)anchor.getCenterY());
+			                    
+			            
+			            }
 				//System.out.println("Drawshape " + outline);
 				graphics.setStroke(old);
 
