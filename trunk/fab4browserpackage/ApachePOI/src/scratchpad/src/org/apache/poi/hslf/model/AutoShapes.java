@@ -18,8 +18,14 @@
 package org.apache.poi.hslf.model;
 
 import org.apache.poi.ddf.EscherProperties;
+import org.apache.poi.hslf.model.autoshape.AutoShapeDefinition;
+import org.apache.poi.hslf.model.autoshape.AutoShapeParser;
 
 import java.awt.geom.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Stores definition of auto-shapes.
@@ -31,7 +37,7 @@ import java.awt.geom.*;
  */
 public final class AutoShapes {
     protected static ShapeOutline[] shapes;
-
+    protected static List<AutoShapeDefinition> as ;
 
     /**
      * Return shape outline by shape type
@@ -41,33 +47,7 @@ public final class AutoShapes {
      */
     public static ShapeOutline getShapeOutline(int type){
 
-        shapes[ShapeTypes.HomePlate] = new ShapeOutline(){
-            public java.awt.Shape getOutline(Shape shape){
-                int adjval = shape.getEscherProperty(EscherProperties.GEOMETRY__ADJUSTVALUE, 16200);
-                int z = adjval /2;
-                System.out.println(z);
-                GeneralPath path = new GeneralPath();
-/*
- *     val #0 prod #0 1 2
-    m@0,l,,,21600@0,21600,21600,10800xe
-    16200
-    
-    m8100,0 
-    l0,0
-    l0,21600
-    l8100,21600
-    l21600,10800
-    clo
- */
-                path.moveTo(z, 0);
-                path.lineTo(0,0);
-                path.lineTo(0,21600);
-                path.lineTo(z,21600);
-                path.lineTo(21600,10800);
-                path.closePath();
-                return path;
-            }
-        };
+
         ShapeOutline outline = shapes[type];
         return outline;
     }
@@ -76,7 +56,7 @@ public final class AutoShapes {
      * Auto-shapes are defined in the [0,21600] coordinate system.
      * We need to transform it into normal slide coordinates
      *
-    */
+     */
     public static java.awt.Shape transform(java.awt.Shape outline, Rectangle2D anchor){
         AffineTransform at = new AffineTransform();
         at.translate(anchor.getX(), anchor.getY());
@@ -121,7 +101,7 @@ public final class AutoShapes {
                 path.lineTo(0, 10800);
                 path.closePath();
                 return path;
-           }
+            }
         };
 
         //m@0,l,21600r21600
@@ -134,7 +114,7 @@ public final class AutoShapes {
                 path.lineTo(21600, 21600);
                 path.closePath();
                 return path;
-           }
+            }
         };
 
         shapes[ShapeTypes.RightTriangle] = new ShapeOutline(){
@@ -145,7 +125,7 @@ public final class AutoShapes {
                 path.lineTo(0, 21600);
                 path.closePath();
                 return path;
-           }
+            }
         };
 
         shapes[ShapeTypes.Parallelogram] = new ShapeOutline(){
@@ -404,7 +384,26 @@ public final class AutoShapes {
                 return new Line2D.Float(0, 0, 21600, 21600);
             }
         };
+        try {
+            as = AutoShapeParser.parseShapes(new InputStreamReader(AutoShapeParser.class.getResourceAsStream("/shapeDescriptions.txt")));
+            for (AutoShapeDefinition a: as) {
+                if (a.path==null){
+                    continue;
+                }
+                
+                ShapeOutline s = AutoShapeParser.parseShapeData(a.path, a.guideFormulas, a.adjustmentValues);
+                Integer n = (Integer) ShapeTypes.typesR.get(a.name);
+                if (n == null) {
+                    n = (Integer) ShapeTypes.typesR.get(a.internalName);
+                }
+                if (n!=null) {
+                    if (shapes[n]==null) {
+                        shapes[n] = s; 
+                    }
+                }
 
 
+            }
+        } catch (Exception e){}
     }
 }
