@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jnlp spec="1.0+" codebase="http://fab4browser.googlecode.com/svn/trunk/nighty/" href="fab4.jnlp">
   <information>
-    <title>Fab4 Document Browser snapshot - nighth build</title>
+     <title>Fab4 Document Browser snapshot - nighth build</title>
     <vendor>The University of Liverpool</vendor>
     <description>Fab4 version snapshot SVN</description>
     <homepage href="http://code.google.com/p/fab4browser/" />
