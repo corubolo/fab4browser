@@ -39,14 +39,18 @@ public final class ShapeTypes implements org.apache.poi.sl.usermodel.ShapeTypes 
     }
 
     public static HashMap types;
+    public static HashMap typesR;
     static {
         types = new HashMap();
+        typesR = new HashMap();
         try {
             Field[] f = org.apache.poi.sl.usermodel.ShapeTypes.class.getFields();
             for (int i = 0; i < f.length; i++){
                 Object val = f[i].get(null);
                 if (val instanceof Integer) {
                     types.put(val, f[i].getName());
+                    typesR.put(f[i].getName(),val);
+                    
                 }
             }
         } catch (IllegalAccessException e){
