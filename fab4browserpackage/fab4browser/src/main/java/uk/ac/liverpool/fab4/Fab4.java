@@ -164,6 +164,8 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     private static final long serialVersionUID = 1L;
 
+    public static final String PANEL = "innerPanel";
+
     private static int contin = 0;
 
     private static boolean singleInstance = false;
@@ -2099,6 +2101,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         totalFrameBrowsers++;
 
         Browser theBrowser = Fab4.mv.getBrowser("name" + Fab4.contin++, "Fab4", false);
+        theBrowser.putClientProperty(PANEL, innerPanel);
         br.add(theBrowser);
         theBrowser.setOpaque(true);
         innerPanel.add(theBrowser, BorderLayout.CENTER);

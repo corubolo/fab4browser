@@ -394,7 +394,25 @@ class AnnoToolBar extends JToolBar {
 
 		} catch (Exception edd) {
 		}
+		try {
+                    Class.forName("uk.ac.liv.jreality.SceneNote");
+                    create = new JButton("3d model note", FabIcons.getIcons().NOTE_ICO_CALL);
+                    create.setToolTipText("3d model note");
+                    create.addActionListener(new ActionListener() {
+                            @SuppressWarnings("unchecked")
+                            public void actionPerformed(ActionEvent e) {
+                                    HashMap hh = new HashMap<String, Object>(1);
+                                    hh.put("callout", "");
+                                    Behavior.getInstance("3dNote",
+                                                    "uk.ac.liv.jreality.SceneNote", null, hh, f
+                                                    .getCurDoc().getLayer(Layer.PERSONAL));
+                            }
+                    });
+                    create.setFont(nf);
+                    add(create);
 
+            } catch (Exception edd) {
+            }
 		JButton high = f.getSpanButton("Mark", "Highlight",
 				"multivalent.std.span.BackgroundSpan", false, null, FabIcons
 				.getIcons().ICOHIGHLIGHT);

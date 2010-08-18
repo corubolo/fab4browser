@@ -68,9 +68,10 @@
 			<groupId>uk.ac.liverpool.fab4browser</groupId>
 			<artifactId>pptmediaadaptor</artifactId>
 			<scope>compile</scope>
-
+		
 
 		</dependency>
+		
 		<dependency>
 			<groupId>uk.ac.liverpool.fab4browser</groupId>
 			<artifactId>lljvm_image_spi</artifactId>
@@ -110,6 +111,20 @@
 			<artifactId>freettsma</artifactId> <version>0.2</version>
 			<scope>compile</scope> </dependency>
 		-->
+		<dependency>
+			<groupId>uk.ac.liverpool</groupId>
+			<artifactId>JTViewer</artifactId>
+			<version>0.5</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>JT-MediaEngine</artifactId>
+			<version>0.99</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<resources>
