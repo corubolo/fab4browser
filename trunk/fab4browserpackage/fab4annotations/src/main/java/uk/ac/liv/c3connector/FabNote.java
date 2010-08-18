@@ -77,8 +77,7 @@ public class FabNote extends Behavior {
 	 */
 	public static final String MSG_SHOW = "showNote";
 
-	public static NFont FONT_TEXT = NFont.getInstance("Sans", NFont.WEIGHT_NORMAL,
-			NFont.FLAG_EXPANDED, 14);
+	public static NFont FONT_TEXT;
 	/**
 	 *
 	 */
@@ -540,6 +539,9 @@ public class FabNote extends Behavior {
 		gs.setForeground(Colors.getColor(getAttr("foreground"), deffg_));
 		gs.setBackground(Colors.getColor(getAttr("background"), defbg_));
 		// font...
+		if (FabNote.FONT_TEXT == null)
+		    FabNote.FONT_TEXT = NFont.getInstance("Sans", NFont.WEIGHT_NORMAL,
+                        NFont.FLAG_EXPANDED, 14);
 		gs.setFont(FabNote.FONT_TEXT);
 		ss.put("note", gs);
 		gs = new CLGeneral();

@@ -84,6 +84,7 @@
 		<module>lljvm_image_spi</module>
 		<module>simplx</module>
 		<module>file</module>
+		<module>JT-MediaEngine</module>
 	</modules>
 	<repositories>
 		<repository>
