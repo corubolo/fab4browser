@@ -344,11 +344,15 @@ public class MediaLoader extends Behavior /* implements Runnable */{
 		if (scheme.contains("file")) {
 			// In case it's an archive file
 			if (isVFS){
+			    
 				iu = InputUni.getInstance(uri, null, v.getCache());
+				
 				if (bootstrap)
 					finalLoad(bootstrap, di, iu);
 				else
 					finalLoadWait(bootstrap, di, iu);
+				releaseCursor();
+					return;
 			}
 
 			try { 

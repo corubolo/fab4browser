@@ -395,7 +395,7 @@ class AnnoToolBar extends JToolBar {
 		} catch (Exception edd) {
 		}
 		try {
-                    Class.forName("uk.ac.liv.jreality.SceneNote");
+                    Class.forName("uk.ac.liverpool.fab4.jreality.SceneNote");
                     create = new JButton("3d model note", FabIcons.getIcons().NOTE_ICO_CALL);
                     create.setToolTipText("3d model note");
                     create.addActionListener(new ActionListener() {
@@ -404,7 +404,7 @@ class AnnoToolBar extends JToolBar {
                                     HashMap hh = new HashMap<String, Object>(1);
                                     hh.put("callout", "");
                                     Behavior.getInstance("3dNote",
-                                                    "uk.ac.liv.jreality.SceneNote", null, hh, f
+                                                    "uk.ac.liverpool.fab4.jreality.SceneNote", null, hh, f
                                                     .getCurDoc().getLayer(Layer.PERSONAL));
                             }
                     });

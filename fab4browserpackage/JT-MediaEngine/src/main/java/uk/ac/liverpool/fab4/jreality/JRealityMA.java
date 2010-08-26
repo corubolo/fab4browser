@@ -1,19 +1,20 @@
 package uk.ac.liverpool.fab4.jreality;
 
+import static de.jreality.shader.CommonAttributes.POLYGON_SHADER;
+import static de.jreality.shader.CommonAttributes.TRANSPARENCY;
+import static de.jreality.shader.CommonAttributes.TRANSPARENCY_ENABLED;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.TreePath;
@@ -31,46 +32,24 @@ import uk.ac.liv.jt.segments.JTSceneGraphComponent;
 import uk.ac.liv.jt.segments.LSGSegment;
 import uk.ac.liv.jt.viewer.JTReader;
 import uk.ac.liverpool.fab4.Fab4;
-import de.jreality.jogl.shader.DefaultPolygonShader;
-import de.jreality.math.MatrixBuilder;
 import de.jreality.reader.Readers;
 import de.jreality.scene.Appearance;
-import de.jreality.scene.Camera;
-import de.jreality.scene.DirectionalLight;
-import de.jreality.scene.Light;
 import de.jreality.scene.SceneGraphComponent;
 import de.jreality.scene.SceneGraphPath;
 import de.jreality.scene.Viewer;
-import de.jreality.scene.data.Attribute;
-import de.jreality.scene.data.StorageModel;
 import de.jreality.scene.tool.InputSlot;
 import de.jreality.scene.tool.ToolContext;
-import de.jreality.shader.CommonAttributes;
-import de.jreality.shader.DefaultGeometryShader;
-import de.jreality.shader.RenderingHintsShader;
-import de.jreality.shader.ShaderUtility;
 import de.jreality.tools.ActionTool;
-import de.jreality.tools.ClickWheelCameraZoomTool;
-import de.jreality.tools.RotateTool;
-import de.jreality.toolsystem.ToolSystem;
 import de.jreality.ui.treeview.SceneTreeModel;
 import de.jreality.ui.viewerapp.Navigator;
 import de.jreality.ui.viewerapp.Navigator.SelectionEvent;
 import de.jreality.ui.viewerapp.Navigator.SelectionListener;
 import de.jreality.ui.viewerapp.Selection;
-import de.jreality.ui.viewerapp.SelectionManager;
-import de.jreality.ui.viewerapp.SelectionManagerImpl;
-import de.jreality.ui.viewerapp.SelectionRenderer;
-import de.jreality.util.CameraUtility;
-import de.jreality.util.Input;
-import de.jreality.util.RenderTrigger;
-import static de.jreality.shader.CommonAttributes.*;
 
 public class JRealityMA extends MediaAdaptor {
 
     SoftViewerLeaf l;
     Document doc;
-    private boolean reg = false;
     JPanel f;
     //private SelectionManager selectionManager;
     protected Appearance lastapp;
@@ -91,16 +70,7 @@ public class JRealityMA extends MediaAdaptor {
 
     @Override
     public Object parse(INode parent) throws Exception {
-        if (reg == false) {
-            Readers.registerReader("JT", JTReader.class);
-            // register the file ending .jt for files containing JT-format data
-            Readers.registerFileEndings("JT", "jt");
-            DebugJTReader.debugCodec = false;
-            DebugJTReader.debugMode = false;
-            LSGSegment.doRender = false;
-            reg = true;
 
-        }
         doc = parent.getDocument();
         if (doc.getFirstChild() != null) {
             doc.clear();
@@ -120,62 +90,12 @@ public class JRealityMA extends MediaAdaptor {
             // new LeafUnicode("File not found",attr,parent);
             throw new IOException("File not found");
         }
-
+        attr.put("uri", getURI());
         l = new SoftViewerLeaf("JReality3D", attr, parent);
-        SceneGraphComponent rootNode = new SceneGraphComponent("root");
-        SceneGraphComponent cameraNode = new SceneGraphComponent("camera");
-        SceneGraphComponent geometryNode = new SceneGraphComponent("geometry");
-        SceneGraphComponent lightNode = new SceneGraphComponent("light");
-        rootNode.addChild(geometryNode);
-        rootNode.addChild(cameraNode);
-        cameraNode.addChild(lightNode);
-
-        Light dl = new DirectionalLight();
-        lightNode.setLight(dl);
+       
         SceneGraphComponent sgc = null;
-        try {
-            sgc = Readers.read(new Input(getURI().toURL()));
-            geometryNode.addChild(sgc);
-        } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        RotateTool rotateTool = new RotateTool();
-        geometryNode.addTool(rotateTool);
-        geometryNode.addTool(new ClickWheelCameraZoomTool());
-        // geometryNode.addTool(new PickShowTool() {});
-
-        MatrixBuilder.euclidean().translate(0, 0, 3).assignTo(cameraNode);
-
-        Appearance rootApp = new Appearance();
-        rootApp.setAttribute(CommonAttributes.BACKGROUND_COLOR, new Color(.8f,
-                .8f, .8f));
-        rootApp.setAttribute(CommonAttributes.DIFFUSE_COLOR, new Color(1f, 0f,
-                0f));
-        rootApp.setAttribute(CommonAttributes.SMOOTH_SHADING, true);
-        rootNode.setAppearance(rootApp);
-
-        Camera camera = new Camera();
-        cameraNode.setCamera(camera);
-        SceneGraphPath camPath = new SceneGraphPath(rootNode, cameraNode);
-        camPath.push(camera);
-        l.setSceneRoot(rootNode);
-        l.setCameraPath(camPath);
-
-        ToolSystem toolSystem = ToolSystem.toolSystemForViewer(l);
-        toolSystem.initializeSceneTools();
-        //
-
-        RenderTrigger rt = new RenderTrigger();
-        rt.addSceneGraphComponent(rootNode);
-        rt.addViewer(l);
-        // rt.forceRender();
-        // render();
-        CameraUtility.encompass(l);
+        sgc = l.getSGC();
+        
         //selectionManager = SelectionManagerImpl.selectionManagerForViewer(l);
         //new SelectionRenderer(selectionManager, l).setVisible(true);
         f = new JPanel();

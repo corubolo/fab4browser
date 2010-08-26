@@ -164,7 +164,7 @@ public class HTML extends ML /* implements EventListener */{
 	 * <var>top-of-form</var>,
 	 */
 	public static final String MSG_FORM_RESET = "resetForm";
-
+	public static final String SET_URL = "setUrl";
 	/**
 	 * Give chance for client-side processing by another behavior before sending
 	 * to server.
@@ -784,6 +784,9 @@ public class HTML extends ML /* implements EventListener */{
 	}
 
 	private String _txt;
+    private String viewerid;
+    private String script;
+    private Leaf viewerObject;
 
 	/*
 	 * (non-Javadoc)
@@ -1817,7 +1820,7 @@ public class HTML extends ML /* implements EventListener */{
 							} else
 								spsb.append(ch);
 						}
-						String spstr = spsb.toString();
+						String  spstr = spsb.toString();
 						new Leaf(spstr, null, (INode) newn);
 
 						// now tag-specific action
@@ -1832,6 +1835,8 @@ public class HTML extends ML /* implements EventListener */{
 						} else if (TAG_SCRIPT == id) {
 							// eval script -- which can generate more text to
 							// parse, ugh!
+						        script = spstr;
+						       
 						}
 						break;
 					case TAG_NOSCRIPT:
@@ -2588,8 +2593,24 @@ public class HTML extends ML /* implements EventListener */{
 						break;
 
 					case TAG_APPLET: // deprecated => convert to OBJECT
-						// translate attributes into OBJECT's
+					    // translate attributes into OBJECT's
 					case TAG_OBJECT:
+					    // FABIO: handle JT viewer object 
+					    if (((String)attrs.get("classid")).equals("clsid:AD0DEF5C-DEC1-4950-AC57-1533F90C6BAD")) {
+					        viewerid = ((String)attrs.get("id"));
+					        clo = getClass().getClassLoader();
+					        try {
+					            Class cl = Class.forName("uk.ac.liverpool.fab4.jreality.SoftViewerLeaf", true, clo);
+					            Class<Leaf> lc = cl.asSubclass(Leaf.class);
+					            Constructor<Leaf> c = lc.getConstructor(String.class , Map.class, INode.class);
+					            Leaf vid = c.newInstance("3d", attrs, p);
+					            
+					            newn = vid;
+					            viewerObject = vid;
+					        } catch (Exception x){
+					            x.printStackTrace();
+					        }
+					    } else { 
 						newn = new LeafUnicode("object", attrs, p);
 						if ((ival = Integers
 								.parseInt(newn.getAttr("border"), 0)) > 0)
@@ -2602,6 +2623,7 @@ public class HTML extends ML /* implements EventListener */{
 								.parseInt(newn.getAttr("vspace"), 3)) > 0) {
 							sgs.margintop = sgs.marginbottom = ival;
 						}
+					    }
 						break;
 
 					case TAG_MAP:
@@ -2926,6 +2948,20 @@ public class HTML extends ML /* implements EventListener */{
 					// ...
 					if (attr.startsWith("mailto")
 							|| attr.startsWith("javascript")) {
+					    if (viewerid!=null   ) {
+					        if ((script!= null && script.indexOf(viewerid)!=-1) || attr.indexOf(viewerid)!=-1){
+					           String toOpen = attr.substring(attr.indexOf('\'')+1, attr.lastIndexOf('\''));
+					           URI href = baseURI.resolve(URIs.fix(toOpen));
+					           HyperlinkSpan hspan = (HyperlinkSpan) new HTMLACTION(viewerObject, href);
+                                                   hspan.restore(null, attrs, scratchlayer_);
+                                                   hspan.setTarget(href);
+                                                   
+                                                   hspan.setSeen(getGlobal().getCache().isSeen(href)); // have
+                                                
+                                                   span = hspan; 
+					        }
+					    }
+					    
 					} // not implemented yet -- retain for now
 					else
 						try {
@@ -6273,6 +6309,41 @@ class HTMLFONT extends Span {
 		return "multivalent.std.adaptor.HTMLFONT, " + attr_ + " "
 				+ super.toString();
 	}
+}
+
+/**
+ * Same as HyperlinkSpan except knows about HTML ALINK/VLINK/LINK attributes
+ * Handles FRAME TARGETs, except not added to forward/backward history, so like
+ * Netscape's initial implementation of FRAME, for now.
+ */
+class HTMLACTION extends HyperlinkSpan {
+
+
+        private Leaf viewerObject;
+        URI href;
+        public HTMLACTION(Leaf viewerObject, URI href) {
+                setName("a");
+                this.viewerObject = viewerObject;
+                this.href = href;
+        }
+
+        /**
+         * Everything done by styles, so empty body here to supress HyperlinkSpan's
+         * default colors.
+         */
+        public boolean appearance(Context cx, boolean all) {
+                return false;
+        }
+
+        /**
+         * When click with TARGET set, search for named frame or create new window;
+         * else br.open() replaced frames inherit menubar of toplevel document.
+         */
+        public void go() {
+                System.out.println("* " + href);
+                //getBrowser().eventq(HTML.SET_URL, this.target_);
+                viewerObject.eventBeforeAfter(new SemanticEvent(this, HTML.SET_URL, href), null) ;
+        }
 }
 
 /**
