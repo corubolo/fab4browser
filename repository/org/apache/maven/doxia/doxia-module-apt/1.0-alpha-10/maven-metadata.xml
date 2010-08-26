@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<metadata>
-  <groupId>org.apache.maven.doxia</groupId>
-  <artifactId>doxia-module-apt</artifactId>
-  <version>1.0-alpha-10</version>
-</metadata>
