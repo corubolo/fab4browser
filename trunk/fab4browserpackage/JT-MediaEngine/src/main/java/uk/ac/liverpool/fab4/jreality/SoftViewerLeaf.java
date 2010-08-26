@@ -12,19 +12,42 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Level;
 
+import phelps.lang.Integers;
+import uk.ac.liv.jt.debug.DebugJTReader;
+import uk.ac.liv.jt.segments.LSGSegment;
+import uk.ac.liv.jt.viewer.JTReader;
+
+import multivalent.Behavior;
 import multivalent.Context;
 import multivalent.INode;
 import multivalent.Leaf;
+import multivalent.SemanticEvent;
+import multivalent.std.adaptor.HTML;
+import de.jreality.math.MatrixBuilder;
+import de.jreality.reader.Readers;
+import de.jreality.scene.Appearance;
+import de.jreality.scene.Camera;
+import de.jreality.scene.DirectionalLight;
+import de.jreality.scene.Light;
 import de.jreality.scene.SceneGraphComponent;
 import de.jreality.scene.SceneGraphPath;
 import de.jreality.scene.Viewer;
+import de.jreality.shader.CommonAttributes;
 import de.jreality.softviewer.Renderer;
+import de.jreality.tools.ClickWheelCameraZoomTool;
+import de.jreality.tools.RotateTool;
+import de.jreality.toolsystem.ToolSystem;
+import de.jreality.util.CameraUtility;
+import de.jreality.util.Input;
 import de.jreality.util.LoggingSystem;
+import de.jreality.util.RenderTrigger;
 
 /**
  * The software renderer component.
@@ -74,13 +97,34 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
 
     private Component dummy;
 
+    private SceneGraphComponent sgc;
+
+    private SceneGraphComponent geometryNode;
+
+    private int fixedw;
+
+    private int fixedh;
+    private boolean reg = false;
+    
     public SoftViewerLeaf(String name, Map<String, Object> attr, INode parent)
             throws URISyntaxException {
 
         super(name, attr, parent);
+        if (reg == false) {
+            Readers.registerReader("JT", JTReader.class);
+            // register the file ending .jt for files containing JT-format data
+            Readers.registerFileEndings("JT", "jt");
+            DebugJTReader.debugCodec = false;
+            DebugJTReader.debugMode = false;
+            LSGSegment.doRender = false;
+            reg = true;
 
+        }
         if (attr == null)
             return;
+        fixedw = Integers.parseInt((String)attr.get("width"), 400);
+        fixedh = Integers.parseInt((String)attr.get("height"), 400);
+        bbox.setSize(fixedw, fixedh);
         dummy = new Canvas() {
             public int getWidth() {return bbox.width;};
             public int getHeight() {return bbox.height;};
@@ -94,9 +138,21 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
             uri = ((URI) attr.get("uri"));
         else if (attr.get("uri") == null) {
             System.out.println("NULL URI???");
-            uri = new URI((String) attr.get("src"));
+           // uri = new URI((String) attr.get("src"));
         }
+        if (uri!=null ) {
+            try {
+                sgc = Readers.read(new Input(uri.toURL()));
 
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
         Boolean s = (Boolean) attr.get("embedded");
         if (s != null) {
             embedded = s;
@@ -110,7 +166,51 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         }
 
         setBackground(Color.white);
+        SceneGraphComponent rootNode = new SceneGraphComponent("root");
+        SceneGraphComponent cameraNode = new SceneGraphComponent("camera");
+        geometryNode = new SceneGraphComponent("geometry");
+        SceneGraphComponent lightNode = new SceneGraphComponent("light");
+        rootNode.addChild(geometryNode);
+        rootNode.addChild(cameraNode);
+        cameraNode.addChild(lightNode);
 
+        Light dl = new DirectionalLight();
+        lightNode.setLight(dl);
+        if (sgc!=null)
+            geometryNode.addChild(sgc);
+        RotateTool rotateTool = new RotateTool();
+        geometryNode.addTool(rotateTool);
+        geometryNode.addTool(new ClickWheelCameraZoomTool());
+        // geometryNode.addTool(new PickShowTool() {});
+
+        MatrixBuilder.euclidean().translate(0, 0, 3).assignTo(cameraNode);
+
+        Appearance rootApp = new Appearance();
+        rootApp.setAttribute(CommonAttributes.BACKGROUND_COLOR, new Color(.8f,
+                .8f, .8f));
+        rootApp.setAttribute(CommonAttributes.DIFFUSE_COLOR, new Color(1f, 0f,
+                0f));
+        rootApp.setAttribute(CommonAttributes.SMOOTH_SHADING, true);
+        rootNode.setAppearance(rootApp);
+
+        Camera camera = new Camera();
+        cameraNode.setCamera(camera);
+        SceneGraphPath camPath = new SceneGraphPath(rootNode, cameraNode);
+        camPath.push(camera);
+        setSceneRoot(rootNode);
+        setCameraPath(camPath);
+
+        ToolSystem toolSystem = ToolSystem.toolSystemForViewer(this);
+        toolSystem.initializeSceneTools();
+        //
+
+        RenderTrigger rt = new RenderTrigger();
+        rt.addSceneGraphComponent(rootNode);
+        rt.addViewer(this);
+        // rt.forceRender();
+        // render();
+        CameraUtility.encompass(this);
+    
     }
 
     
@@ -146,6 +246,8 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         return root;
     }
 
+    
+    
     public void render() {
        // System.out.println("render sync");
 
@@ -170,12 +272,15 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     }
 
     public boolean formatNode(int width, int height, Context cx) {
+        if (fixedw == 0 && fixedh==0){
         int w1 = width - 5;
         int h1 = height - 5;
         bbox.setSize(w1, h1);
         System.out.println("format" + bbox);
         imageValid = false;
         return true;// super.formatNode(w1, h1, cx);
+        } else 
+            return false;
     }
 
     public boolean paintNodeContent(Context cx, int start, int end) {
@@ -226,7 +331,21 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     }
     
     
+    private void loadNew() {
+        if (uri!=null ) {
+            try {
+                this.setSgc(Readers.read(new Input(uri.toURL())));
+                
+                CameraUtility.encompass(this);
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
+        }    }
     private boolean isRendering = false;
 
     private Color background = Color.white;
@@ -278,6 +397,14 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
 
     
     public boolean eventBeforeAfter(AWTEvent e, Point rel) {
+        if (e instanceof SemanticEvent) {
+            SemanticEvent se = (SemanticEvent) e;
+            if (se.getMessage() == HTML.SET_URL) {
+                uri = ((URI)se.getArg());
+                loadNew();
+                return true;
+            }
+        }
         e.setSource(dummy);
         dummy.dispatchEvent(e);
         return super.eventBeforeAfter(e, rel);
@@ -417,6 +544,18 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         root = null;
         bgImage = null;
         renderer = null;
+    }
+
+
+public void setSgc(SceneGraphComponent sgc) {
+    if (this.sgc!=null)
+        geometryNode.removeChild(this.sgc);
+    geometryNode.addChild(sgc);
+    this.sgc = sgc;
+}
+    public SceneGraphComponent getSGC() {
+        // TODO Auto-generated method stub
+        return sgc;
     }
 
   
