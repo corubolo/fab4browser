@@ -1,0 +1,5 @@
+mediaadaptor	svg SVGImage
+mediaadaptor	image/svg+xml	SVGImage
+mediaadaptor	image/svg-xml	SVGImage
+
+remap	SVGImage		uk.ac.liverpool.fab4.SVGImage

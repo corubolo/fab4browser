@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>pptmediaadaptor</artifactId>
+	<name>Apache POI based PPT media adaptor</name>
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>ApachePOI</artifactId>
+
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+		</dependency>
+	</dependencies>
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+	</licenses>
+
+</project>

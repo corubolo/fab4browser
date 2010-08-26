@@ -1,0 +1,33 @@
+<?xml version='1.0' ?>
+<Basic title='basic behaviors'> <!-- "Basic" renamed to "System" at runtime -->
+<!--
+	to make your own version of this hub,
+	choose whatever behaviors you want,
+	then save the file in a JAR in the same directory as Multivalent.jar
+	   under the pathname sys/hub/xxx.hub
+-->
+
+<!-- open document, set style sheet, scroll to anchor -->
+<System Behavior='multivalent.SystemEvents' />
+<StyleSheetSetter behavior='multivalent.std.adaptor.StyleSheetSetter' />
+<SimpleScrollTo Behavior='multivalent.std.SimpleAnchorScrollTo' />
+
+<MenuItem Behavior='multivalent.std.ui.ForwardBack' />
+<BindingsEmacs Behavior='multivalent.std.ui.BindingsEmacs' />
+<BindingsWindoze Behavior='multivalent.std.ui.BindingsWindoze' />
+<BindingsTk Behavior='multivalent.std.ui.BindingsTk' />
+
+
+<!-- select and paste -->
+<BindingsDefault Behavior='multivalent.std.ui.BindingsDefault' />
+<StandardEdit Behavior='multivalent.std.ui.StandardEdit' />
+
+
+<!-- if will be loading documents over network -->
+<HttpHeaders Behavior='multivalent.net.HttpHeaders' 
+	user-agent = 'Multivalent/1.0'
+/>
+<Cookies Behavior='multivalent.net.Cookies' />
+<ReturnCode Behavior='multivalent.net.ReturnCode' />
+
+</Basic>

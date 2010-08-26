@@ -1,0 +1,62 @@
+<?xml version='1.0'?>
+<Tool behavior='Layer' title='Tool behaviors'>
+
+<!-- TOOL -->
+<Define Behavior=SelectionUI TITLE='Merriam-Webster' WINDOW='Define' URI='http://www.britannica.com/bcom/dictionary/' SELURI='http://www.britannica.com/cgi-bin/dict?va=' docpopup />
+<Define Behavior=SelectionUI TITLE='Encyclopedia Britannica' CATEGORY='Language' WINDOW='Define' URI='http://www.britannica.com/' SELURI='http://search.britannica.com/search?query=' docpopup />
+<Acronym Behavior=SelectionUI TITLE='Acronym/Abbreviation' CATEGORY='Language' WINDOW='Define' URI='http://www.ucc.ie/cgi-bin/acronym?' SELURI='http://www.ucc.ie/cgi-bin/acronym?' docpopup />
+
+<Hotbot Behavior=SelectionUI TITLE='Hotbot' CATEGORY='Internet' WINDOW='SEARCH' URI='http://www.hotbot.com/' SELURI='http://www.hotbot.com/?DC=10&clickSrc=search&MT=' />
+<Hotbot Behavior=SelectionUI TITLE='Hotbot backlinks' CATEGORY='Internet' WINDOW='SEARCH' URI='http://www.hotbot.com/' FULLPAGEURI='http://www.hotbot.com/?SM=url&DC=10&clickSrc=search&MT=' />
+<Google Behavior=SelectionUI TITLE='Google' CATEGORY='Internet' WINDOW='SEARCH' URI='http://www.google.com/' SELURI='http://www.google.com/search?num=30&q=' docpopup />
+<Google Behavior=SelectionUI TITLE='USENET' CATEGORY='Internet' WINDOW='SEARCH' SELURI='http://groups.google.com/groups?hl=en&lr=&safe=off&scoring=date&q=' docpopup />
+
+
+<!--
+<IMDB Behavior=SelectionUI TITLE='IMDB Person' CATEGORY='Media' URI='http://www.imdb.com/' SELURI='http://www.imdb.com/Name?' />
+<IMDB Behavior=SelectionUI TITLE='IMDB Title' CATEGORY='Media' URI='http://www.imdb.com/' SELURI='http://www.imdb.com/Title?' />
+-->
+
+<!-- need session ID nowadays
+<Babelfish Behavior=SelectionUI TITLE='to French' CATEGORY='Translate' URI='http://babelfish.altavista.com/' SELURI='http://babelfish.altavista.com/cgi-bin/translate?lp=en_fr&doit=done&urltext=' FULLPAGEURI='http://babelfish.altavista.com//cgi-bin/translate?lp=en_fr&doit=done&urltext=' />
+<Babelfish Behavior=SelectionUI TITLE='from French' CATEGORY='Translate' URI='http://babelfish.altavista.com/' SELURI='http://babelfish.altavista.com/cgi-bin/translate?lp=fr_en&doit=done&urltext=' FULLPAGEURI='http://babelfish.altavista.com//cgi-bin/translate?lp=fr_en&doit=done&urltext=' docpopup />
+<Babelfish Behavior=SelectionUI TITLE='from German' CATEGORY='Translate' URI='http://babelfish.altavista.com/' SELURI='http://babelfish.altavista.com/cgi-bin/translate?lp=de_en&doit=done&urltext=' FULLPAGEURI='http://babelfish.altavista.com//cgi-bin/translate?lp=de_en&doit=done&urltext=' docpopup />
+<Babelfish Behavior=SelectionUI TITLE='from Spanish' CATEGORY='Translate' URI='http://babelfish.altavista.com/' SELURI='http://babelfish.altavista.com/cgi-bin/translate?lp=es_en&doit=done&urltext=' FULLPAGEURI='http://babelfish.altavista.com/cgi-bin/translate?lp=es_en&doit=done&urltext=' docpopup />
+-->
+
+<!--
+<Buy Behavior=SelectionUI TITLE='ebay' CATEGORY='Buy' URI='http://www.ebay.com/' SELURI='http://search.ebay.com/cgi-bin/texis/ebay/results.html?query=' />
+<Buy Behavior=SelectionUI TITLE='Amazon.com' CATEGORY='Buy' URI='http://www.amazon.com/' SELURI='=' />-->
+
+<!--
+afaik  as far as I know
+awhfy  are we having fun yet?
+b4  before
+bg  big grin
+cm  call me
+dur?  do you remember?
+fwiw  for what it's worth
+gal  get a life
+gmta  great minds think alike   ianal  I'm not a lawyer, but. . .
+icwum  I see what you mean
+imo  in my opinion
+mtfbwu  may the force be with you
+obtw  oh, by the way
+rotf  rolling on the floor
+rtfm  read the f---ing manual
+smtoe  sets my teeth on edge
+t+  think positive
+tttt  to tell the truth
+tx  thanks
+wb  welcome back
+X!  typical woman
+Y!  typical man
+2bctnd  to be continued
+2g4u  too good for you
+4yeo  for your eyes only
+-->
+
+<Scan Behavior='LinkMe' />
+<Scan Behavior='PhoneMe' />
+
+</Tool>

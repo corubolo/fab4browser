@@ -1,0 +1,14 @@
+diff --git a/src/com/fluendo/jst/ElementFactory.java b/src/com/fluendo/jst/ElementFactory.java
+index 5bb0a1b..e756d1c 100644
+--- a/src/com/fluendo/jst/ElementFactory.java
++++ b/src/com/fluendo/jst/ElementFactory.java
+@@ -37,7 +37,8 @@ public class ElementFactory {
+         "com.fluendo.plugin.TheoraDec",
+         "com.fluendo.plugin.VorbisDec",
+         "com.fluendo.plugin.KateDec",
+-        "com.fluendo.plugin.KateOverlay"
++        "com.fluendo.plugin.KateOverlay",
++        "uk.ac.liverpool.fab4.LeafVideoSink"
+     };
+     private static Vector elements = new Vector();
+ 

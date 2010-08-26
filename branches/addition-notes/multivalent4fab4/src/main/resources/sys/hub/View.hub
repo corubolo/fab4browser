@@ -1,0 +1,11 @@
+<?xml version='1.0'?>
+<View behavior='Layer' title='View behaviors'>
+
+<MenuItem Behavior='ViewSource' />
+<!--MenuItem Behavior='RobustReport' /-->
+
+<zoom Behavior='multivalent.std.ui.Zoom' />
+
+<font Behavior='multivalent.std.ui.FontRender' />
+
+</View>

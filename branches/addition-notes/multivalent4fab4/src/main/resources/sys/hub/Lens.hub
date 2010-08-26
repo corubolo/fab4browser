@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<Lens behavior='Layer' title='general lenses'>
+
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.PlainView' title='Plain View' attrs='width=500; height=500' />
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Cypher' title='Cypher' attrs='width=500;height=500' />
+
+
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Magnify' title='Magnify' attrs='width=300;height=200' />
+<!-- can't do this with VolatileImage -->
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.BitMagnify' title='Bit Magnify' attrs='width=300;height=200' />
+<!--MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Rotate' title='Rotate' attrs='thetaX=PI/2' /-->
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Mirror' title='Mirror' attrs='width=300;height=200' />
+
+
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Sharpen' title='Sharpen' attrs='width=300;height=300' />
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Blur' title='Blur' attrs='width=300;height=300' />
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.EdgeDetect' title='Edge Detect' attrs='width=300;height=300' />
+<!-- crashes VM
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Rescale' title='Rescale' attrs='width=300;height=300' />
+-->
+<!--
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Ex' title='Ex' attrs='width=300;height=300' />
+-->
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Brighten' title='Brighten' attrs='width=300;height=300' />
+<MenuItem Behavior='WindowUI' winclass='multivalent.std.lens.Darken' title='Darken' attrs='width=300;height=300' />
+
+
+<!-- not a lens... -->
+<SpeedRead Behavior='WindowUI' winclass='multivalent.std.SpeedRead' title='Speed Read' />
+
+<!--Portal Behavior='WindowUI' winclass='phelps.lens.Portal' title='Portal' /-->
+
+</Lens>

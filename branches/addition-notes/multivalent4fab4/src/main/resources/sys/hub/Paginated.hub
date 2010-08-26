@@ -1,0 +1,8 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' name='paginated'>
+
+<Multipage Behavior='Multipage' />
+
+<SlideShow Behavior='multivalent.std.SlideShow' />
+
+</Layer>

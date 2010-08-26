@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>fi.faidon</groupId>
+	<artifactId>PICTDecoder</artifactId>
+	<name>PICT image format decoder </name>
+	<description>A decoder library for the PICT format, used on the MAC and in Mac Office files. Based on the Faidon LGPL license</description>
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>lgpl</name>
+			<url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+		</license>
+	</licenses>
+</project>

@@ -1,0 +1,207 @@
+# default preferences
+# system always reads these in
+# user can modify, write out own preferences,
+# but ones that are the same as default are commented out (old TkMan trick)
+# Not sure if should have these different types in same configuration file.
+
+# map suffix => genre
+mediaadaptor	mvd	Multivalent
+mediaadaptor	xdc	ScansoftXdoc
+mediaadaptor	pda	CaerePDA
+mediaadaptor	text/html	HTML
+mediaadaptor	application/xhtml+xml	HTML
+mediaadaptor	wpd	WordPerfect
+mediaadaptor	text/plain	ASCII
+mediaadaptor	text/*	ASCII
+mediaadaptor	application/octet-stream	Binary
+#mediaadaptor	tex	LaTeX
+mediaadaptor	tex	ASCII
+mediaadaptor	text/css	ASCII
+
+
+# for now, show programming languages as ASCII
+mediaadaptor	hub	ASCII
+mediaadaptor	java	ASCII
+mediaadaptor	c	ASCII
+mediaadaptor	cpp	ASCII
+mediaadaptor	cc	ASCII
+mediaadaptor	h	ASCII
+mediaadaptor	sh	ASCII
+mediaadaptor	pl	ASCII
+mediaadaptor	tcl	ASCII
+mediaadaptor	bat	ASCII
+mediaadaptor	com	ASCII
+#mediaadaptor	^ftp:.*/$	DirectoryFTP
+mediaadaptor	font/type1	FontSampler
+mediaadaptor	font/truetype	FontSampler
+mediaadaptor	font/opentype	FontSampler
+mediaadaptor	dfont	FontSampler
+
+mediadaptor	application/x-texinfo	GNUTexinfo
+#mediaadaptor	info	"use Texinfo source!"
+#mediaadaptor	application/zip	Zip
+#mediaadaptor	jar	JavaArchive
+#mediaadaptor	sit	StuffIt
+#mediaadaptor	image/svg	SVG
+# some otherwise unsupported map to ASCII
+#mediaadaptor	X	ASCII
+# but not reasonable to show these unsupported types as ASCII, so don't put in table and let system say "unsupported type"
+mediaadaptor	application/pdf		AdobePDF
+set AdobePDF-zoom	1.25
+mediaadaptor	application/postscript		AdobePostScript
+mediaadaptor	application/x-troff-man		ManualPage
+#mediaadaptor	ppt	PowerPoint
+#mediaadaptor	ppt	Unsupported
+#mediaadaptor	pdb	PalmDatabase
+mediaadaptor	text/rtf	RichTextFormat
+mediaadaptor	pod	PerlPOD
+mediaadaptor	rpm	RedHatPackage
+#mediaadaptor	tar	UNIXTapeArchive
+mediaadaptor	class	JavaClass
+mediaadaptor	awp	AppleWorksWordProcessor
+
+# unsupported: do not load
+mediaadaptor	mov	Unsupported
+mediaadaptor	mpg	Unsupported
+mediaadaptor	avi	Unsupported
+
+
+# add MIME types for ppt, if any
+# ... otherwise interpreted as ASCII
+mediaadaptor	application/zip	Zip
+mediaadaptor	zip	Zip
+mediaadaptor	jar	JavaArchive
+mediaadaptor	tar	UNIXTapeArchive
+mediaadaptor	tgz	CompressedUNIXTapeArchive
+mediaadaptor	tbz2	CompressedUNIXTapeArchive
+mediaadaptor	tar.gz	CompressedUNIXTapeArchive
+mediaadaptor	tar.bz2	CompressedUNIXTapeArchive
+mediaadaptor	bz2	CompressedFile
+mediaadaptor	gz	CompressedFile
+mediaadaptor 	application/x-tar UNIXTapeArchive
+mediaadaptor 	iso ISOArchive
+
+
+remap	JavaArchive	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+remap	ISOArchive	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+remap	Zip	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+remap	UNIXTapeArchive	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+remap	CompressedUNIXTapeArchive	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+remap	CompressedFile	uk.ac.liv.shaman.vfsme.CommonVFSMediaAdaptor
+
+
+
+
+# core
+remap	Layer			multivalent.Layer
+
+# media adaptors
+# should have MIME=>class, but no MIME types for some of these
+remap	XML			multivalent.std.adaptor.XML
+remap	ScansoftXdoc		edu.berkeley.adaptor.Xdoc
+remap	CaerePDA		edu.berkeley.adaptor.PDA
+remap	Multivalent		multivalent.std.adaptor.MultivalentAdaptor
+remap	RawImage		multivalent.std.adaptor.RawImage
+remap	HTML			multivalent.std.adaptor.HTML
+remap	AdobePDF		multivalent.std.adaptor.pdf.PDF
+remap	AdobePostScript		multivalent.std.adaptor.pdf.PostScript
+remap	SVG			multivalent.std.adaptor.SVG
+remap	ASCII			multivalent.std.adaptor.ASCII
+remap	Binary			multivalent.std.adaptor.HexDump
+remap	DirectoryLocal		multivalent.std.adaptor.DirectoryLocal
+remap	Unsupported		multivalent.std.adaptor.Unsupported
+remap	Generate		multivalent.std.adaptor.Generate
+#remap	JavaArchive		multivalent.std.adaptor.#
+#remap	Zip			multivalent.std.adaptor.Zip
+#remap	UNIXTapeArchive		multivalent.std.adaptor.Tar
+remap	RedHatPackage		multivalent.std.adaptor.RPM
+remap	ManualPage		multivalent.std.adaptor.ManualPage
+remap	WordPerfect		com.tap.adaptor.WordPerfect
+remap	JavaClass		multivalent.std.adaptor.JavaClass
+remap	RichTextFormat		multivalent.std.adaptor.RTF
+remap	PerlPOD			multivalent.std.adaptor.PerlPOD
+remap	DirectoryFTP		multivalent.std.adaptor.DirectoryFTP
+remap	FontSampler		multivalent.std.adaptor.FontSampler
+remap	AppleWorksWordProcessor	multivalent.std.adaptor.AppleWorksWP
+
+# experimental
+remap	GNUTexinfo		tap.adaptor.Texinfo
+#remap	PalmDatabase		tap.adaptor.PalmPDB
+#remap	LaTeX			tap.adaptor.LaTeX
+
+
+# popular behaviors, therefore likely to be improved by third parties
+remap	Span			multivalent.Span
+remap	SelectionSpan		multivalent.std.span.SelectionSpan
+remap	CursorMark		multivalent.CursorMark
+remap	HyperlinkSpan		multivalent.std.span.HyperlinkSpan
+remap	Hyperlink		multivalent.std.span.HyperlinkSpan
+remap	OutlineSpan		multivalent.std.span.OutlineSpan
+remap	AnchorSpan		multivalent.std.span.AnchorSpan
+remap	HighlightSpan		multivalent.std.span.BackgroundSpan
+remap	Highlight		multivalent.std.span.BackgroundSpan
+remap	Note			multivalent.std.Note
+remap	ViewSource		multivalent.std.ui.ViewSource
+remap	RobustReport		multivalent.std.ui.RobustReport
+remap	Location		multivalent.Location
+remap	DisableTree		multivalent.std.DisableTree
+remap	DeleteBehavior		multivalent.std.DeleteBehavior
+
+remap	ItalicSpan		multivalent.std.span.ItalicSpan
+remap	BoldSpan		multivalent.std.span.BoldSpan
+remap	RelPointSpan		multivalent.std.span.RelPointSpan
+remap	LabelSpan		multivalent.std.span.LabelSpan
+remap	OverstrikeSpan		multivalent.std.span.OverstrikeSpan
+remap	BlinkSpan		multivalent.std.span.BlinkSpan
+remap	UnderlineSpan		multivalent.std.span.UnderlineSpan
+remap	SubSupSpan		multivalent.std.span.SubSupSpan
+remap	MonospacedSpan		multivalent.std.span.MonospacedSpan
+remap	PointSpan		multivalent.std.span.PointSpan
+remap	BackgroundSpan		multivalent.std.span.BackgroundSpan
+remap	ElideSpan		multivalent.std.span.ElideSpan
+remap	ScriptSpan		multivalent.std.span.ScriptSpan
+
+
+# make request at higher level, map to concrete behavior (would be redundant for media adaptors, given mediaadaptor command above)
+remap	LinkMarkup		multivalent.std.LinkMarkup
+remap	LinkMe			multivalent.std.ui.LinkMe
+remap	PhoneMe			multivalent.std.ui.PhoneMe
+remap	SeeMono			multivalent.std.ui.SeeMono
+remap	Bookmark		multivalent.std.ui.Bookmark
+remap	SemanticUI		multivalent.std.ui.SemanticUI
+remap	AttrUI			multivalent.std.ui.AttrUI
+remap	NotemarkUI		multivalent.std.ui.NotemarkUI
+remap	SpanUI			multivalent.std.ui.SpanUI
+remap	WindowUI		multivalent.std.ui.WindowUI
+remap	SelectionUI		multivalent.std.ui.SelectionUI
+remap	Multipage		multivalent.std.ui.Multipage
+
+
+
+# Preferences as name-value pairs
+#set	USERDIR		-- created by command-line argument at startup
+#set	CACHEDIR	created 
+#set	PERSISTENTDIR
+#set	ARCHIVEDIR
+#set	HUBDIR
+
+set	STARTUP-geom	640x700@200,0
+set	DEFINE-geom	600x300@400,100
+set	<HELP>-geom	500x400@400,375
+#set	homedir		file:/
+set	homepage	systemresource:/sys/About.html
+#set	cachedir	///
+set	developer	true
+# cachecheck = never | once | always
+set	cachecheck	once
+# colors to show up in top choices by BackgroundSpan, Note, ...
+set	colors		"Yellow Orange Green Blue Red Black White Gray"
+set	vanishingtitle	true
+
+#set	KillAds		true
+set	HighlightColors	"Yellow | Orange | Green | Blue"
+#set	MANPATH		systemresource:/demo/man -- no good default, and besides man page behavior should set default
+#set	CurrentHighForeground	Orange
+#set	CurrentHighBackground	Yellow
+
+set	AutoSearch:for	"Multivalent Robust"

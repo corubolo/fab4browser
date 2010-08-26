@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<Flowed behavior='Layer' title='Behaviors common to all flowed document types'>
+
+<View Behavior='multivalent.std.Executive' />
+
+<TableSort Behavior='multivalent.std.TableSort' />
+
+<!--MenuItem Behavior='SemanticUI' title='Notemarks' parent='View' TYPE='Label' category='ViewNB' /-->
+<MenuItem Behavior='NotemarkUI' title='Search Hits as Notemarks' parent='View' category='ViewNB' variable='pref.SearchNB' seed='on' spannames='searchhit' />
+
+<!-- works but not useful on page-at-a-time formats as you can see almost all the hits anyhow -->
+<SearchViz Behavior='multivalent.std.ScrollbarViz' />
+
+</Flowed>

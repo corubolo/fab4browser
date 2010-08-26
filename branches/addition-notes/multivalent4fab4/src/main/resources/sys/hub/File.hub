@@ -1,0 +1,14 @@
+<?xml version='1.0' ?>
+<File title='File default behaviors'>
+
+<MenuItem Behavior='SemanticUI' SCRIPT='event newBrowserInstance' title='New Browser' parent='File' category='File' TYPE='Button' />
+<MenuItem Behavior='SemanticUI' SCRIPT='event openFile' title='Open Local File...' parent='File' category='File' TYPE='Button' />
+<OpenFile Behavior='multivalent.std.ui.OpenFile' />
+<MenuItem Behavior='multivalent.std.ui.CacheControl' />
+
+<!--MenuItem Behavior='SemanticUI' SCRIPT='event savePageAs' title='Save Page As...' parent='File' category='save' TYPE='Button' /-->
+<Button Behavior='multivalent.std.ui.SaveAs' />
+
+<!--MenuItem Behavior='AttrUI' title='Browse Offline' signal='OFFLINE' onvalue='ON' category='File' REFORMAT /-->
+
+</File>

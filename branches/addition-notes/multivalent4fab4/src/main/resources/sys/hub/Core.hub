@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<Core behavior='Layer' title="Core behaviors">
+
+<System Behavior='multivalent.SystemEvents' />
+<BindingsDefault Behavior='multivalent.std.ui.BindingsDefault' />
+
+<DocumentPopup Behavior='multivalent.std.ui.DocumentPopup' />
+
+<!--
+set multivalent to http://www.cs.berkeley.edu/~phelps/Multivalent/  ?
+		phelps http://www.cs.berkeley.edu/~phelps/'
+-->
+<MenuItem Behavior='multivalent.net.About' 
+	map = 'multivalent systemresource:/sys/About.html'
+/>
+
+</Core>

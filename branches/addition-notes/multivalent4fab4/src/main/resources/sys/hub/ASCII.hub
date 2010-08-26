@@ -1,0 +1,12 @@
+<?xml version='1.0'?>
+<ascii behavior='Layer' title='ASCII genre default behaviors'>
+
+<!--View Behavior=multivalent.std.Executive /-->
+
+<?import href='Flowed' ?>
+
+<View Behavior='SeeMono' />
+
+<Scan Behavior='LinkMarkup' />
+
+</ascii>

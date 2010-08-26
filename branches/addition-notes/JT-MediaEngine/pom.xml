@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>fab4browserpackage</artifactId>
+    <groupId>uk.ac.liverpool.fab4browser</groupId>
+    <version>0.99</version>
+  </parent>
+  <groupId>uk.ac.liverpool.fab4browser</groupId>
+  <artifactId>JT-MediaEngine</artifactId>
+  <version>0.99</version>
+  <dependencies>
+    <dependency>
+      <groupId>uk.ac.liverpool</groupId>
+      <artifactId>JTViewer</artifactId>
+      <version>0.5</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+    	<groupId>uk.ac.liverpool.fab4browser</groupId>
+    	<artifactId>fab4browser</artifactId>
+    	<version>0.99</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

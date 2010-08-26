@@ -1,0 +1,24 @@
+wordperfect {
+	font-size: 12pts;
+	background-color: white;
+	color: black;
+	margin: 0px;
+	padding: 10px;
+}
+
+extra-large { font-size: 36pts; }
+very-large { font-size: 24pts; }
+large { font-size: 18pts; }
+small { font-size: 9pts; }
+fine { font-size: 7pts; }
+
+/* outline  */
+italics { font-style: italic; }
+double-underline { text-decoration: underline; }
+bold { font-weight: bold; }
+strikeout { text-decoration: overstrike; }
+underline { text-decoration: underline; }
+smallcaps { text-decoration: underline; }
+
+/* font: outline, shadow, smallcaps */
+/* specialized: blink, reverse */
