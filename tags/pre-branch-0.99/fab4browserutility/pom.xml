@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>fab4browserutility</artifactId>
+	<name>Fab4 utility classes</name>
+	<description>Utility classes used across the project</description>
+
+	<licenses>
+		<license>
+			<name>GPL-v3</name>
+			<distribution>repo</distribution>
+			<url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+		</license>
+		<license>
+			<name>Apache</name>
+			<distribution>repo</distribution>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+		<license>
+			<name>IBM-ICU</name>
+			<distribution>repo</distribution>
+			<url>http://source.icu-project.org/repos/icu/icu/trunk/license.html</url>
+		</license>
+		<license>
+			<name>BSD-ctrber</name>
+			<distribution>repo</distribution>
+			<url>file://com.creber.aclib.license.txt</url>
+		</license>
+	</licenses>
+</project> 

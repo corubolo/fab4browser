@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="FileTests">
+    <test name="BuildTests">
+        <groups>
+            <run>
+                <exclude name="functional"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.im.file"/>
+            <package name="com.im.util"/>
+        </packages>
+    </test>
+</suite>

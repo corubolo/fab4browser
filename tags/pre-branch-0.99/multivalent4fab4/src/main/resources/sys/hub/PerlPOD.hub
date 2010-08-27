@@ -1,0 +1,8 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='Manual Page genre default behaviors'>
+
+<?import href='Flowed' ?>
+
+<!--View Behavior='multivalent.std.Outliner' /-->
+
+</Layer>

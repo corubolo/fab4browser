@@ -1,0 +1,6 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='Red Hat Package (RPM)' NAME='SYSTEM'>
+
+<?import href='Flowed' ?>
+
+</Layer>

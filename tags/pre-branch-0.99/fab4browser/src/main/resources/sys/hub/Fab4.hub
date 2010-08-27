@@ -1,0 +1,49 @@
+<?xml version='1.0' ?>
+<System title='fab4 behaviors'>
+<!--
+	Fab 4 HUB -- adds just the features needed by Fab4 
+-->
+<?import href='Core' ?>
+<?import href='fabAnno' ?>
+
+<!-- open document, set style sheet, scroll to anchor -->
+<StyleSheetSetter behavior='multivalent.std.adaptor.StyleSheetSetter' />
+<SimpleScrollTo Behavior='multivalent.std.SimpleAnchorScrollTo' />
+
+
+<BindingsWindoze Behavior='multivalent.std.ui.BindingsWindoze' />
+<BindingsTk Behavior='multivalent.std.ui.BindingsMacintosh' />
+<!-- 
+<BindingsTk Behavior='multivalent.std.ui.BindingsTk' />
+<BindingsEmacs Behavior='multivalent.std.ui.BindingsEmacs' />
+-->
+
+<!-- select and paste -->
+<StandardEdit Behavior='multivalent.std.ui.StandardEdit' />
+
+
+<!-- if will be loading documents over network -->
+<HttpHeaders Behavior='multivalent.net.HttpHeaders' 
+	user-agent = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.3) Gecko/20040913'
+/>
+<Cookies Behavior='multivalent.net.Cookies' />
+<ReturnCode Behavior='multivalent.net.ReturnCode' />
+
+<!-- ADDED!!!!!!!!! -->
+<dnd Behavior='multivalent.std.ui.DnD' />
+<zoom Behavior='multivalent.std.ui.Zoom' />
+<Button Behavior='multivalent.std.ui.SaveAs' />
+<fwbk Behavior='uk.ac.liverpool.fab4.behaviors.ForwardBack4' />
+<UiBehaviour Behavior='uk.ac.liverpool.fab4.UiBehavior' />
+<Bookmarks Behavior='uk.ac.liverpool.fab4.behaviors.Bookmark' />
+<General Behavior='multivalent.std.ui.Annos' />
+<Print Behavior='uk.ac.liverpool.fab4.behaviors.Print' />
+<FullScreen Behavior='uk.ac.liverpool.fab4.behaviors.FullScreen' />
+<Search Behavior='multivalent.std.Search' />
+<SaveAnnoAs Behavior='multivalent.std.ui.SaveAnnoAs' />
+<PassAsk Behavior='uk.ac.liverpool.fab4.PasswordBehaviour'/>
+
+
+<TimedMC behavior='uk.ac.liverpool.fab4.behaviors.TimedMediaControl' />
+
+</System>

@@ -1,0 +1,10 @@
+<?xml version='1.0'?>
+<TexinfoGenre behavior='Layer' title='Texinfo genre default behaviors'>
+
+<View Behavior='multivalent.std.ui.OutlineUI' />
+
+<?import href='Flowed' ?>
+
+<Scan Behavior='LinkMarkup' />
+
+</Layer>

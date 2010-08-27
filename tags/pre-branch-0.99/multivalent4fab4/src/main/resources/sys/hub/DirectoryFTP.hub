@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='DirectoryFTP default behaviors' name='SYSTEM'>
+
+<?import href='Flowed' ?>
+
+<!-- README automatically shown
+<autosearch behavior='multivalent.std.Autosearch'
+	regex = '(?i)README'
+	color = 'yellow'
+	type = 'background'
+/>
+-->
+
+</Layer>

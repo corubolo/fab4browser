@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>fab4browserpackage</artifactId>
+		<groupId>uk.ac.liverpool.fab4browser</groupId>
+		<version>0.99</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.ac.liverpool.fab4browser</groupId>
+	<artifactId>audioma</artifactId>
+	<name>Audio Media adaptor (mp3) </name>
+	<description>a media adaptor using JavaZoom pure Java MP3 decoder implementation</description>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.javazoom.jlayer</groupId>
+			<artifactId>jlayer</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.javazoom.jlayer</groupId>
+			<artifactId>mp3spi</artifactId>
+			<version>1.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.tritonus</groupId>
+			<artifactId>tritonus_share</artifactId>
+			<version>0.3.6</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>google.code.fab4project</id>
+			<name>google.code.fab4project</name>
+			<url>http://fab4browser.googlecode.com/svn/trunk/repository/</url>
+		</repository>
+
+	</repositories>
+</project>

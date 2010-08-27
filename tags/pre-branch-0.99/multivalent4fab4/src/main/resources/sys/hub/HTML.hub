@@ -1,0 +1,13 @@
+<?xml version='1.0'?>
+<html behavior='Layer' title='HTML genre default behaviors'>
+
+<?import href='Flowed' ?>
+
+<!--Filter Behavior=phelps.HTMLFilter></Filter-->
+
+<!--TableSort Behavior=multivalent.std.TableSort /-->
+
+<ClipMarkup Behavior='multivalent.std.ClipMarkup' />
+
+
+</html>

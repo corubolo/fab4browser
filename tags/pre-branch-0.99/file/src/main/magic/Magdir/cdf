@@ -1,0 +1,13 @@
+#------------------------------------------------------------------------------
+# CDF: file(1) magic for Common Data Format files
+# by Ken Arnold <arnold@industriousmedia.com>>
+0	belong		0xCDF30001	Common Data Format
+>4	belong		0x0000FFFF	(uncompressed)
+>4	belong		0xCCCC0001	(compressed)
+
+# CDFXML via DTD or schema
+0	string		\<?xml\ version="
+!:strength +1
+>20	search/400/cb	\<!DOCTYPE\ CDF			Common Data Format XML
+>20	search/400	xmlns=
+>>&0	regex		['"]http://cdf.gsfc.nasa.gov	Common Data Format XML

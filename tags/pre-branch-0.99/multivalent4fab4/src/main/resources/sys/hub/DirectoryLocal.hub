@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<Layer behavior='Layer' title='DirectoryLocal default behaviors' name='SYSTEM'>
+
+<?import href='Flowed' ?>
+
+<Referer Behavior='tap.ShowImages' />
+
+<autosearch behavior='multivalent.std.Autosearch'
+	regex = '(?i)README|index.htm(l?)'
+	color = 'yellow'
+	type = 'background'
+/>
+
+</Layer>

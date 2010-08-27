@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+<Fixed behavior='Layer' title='Behaviors common to all fixed-format document types'>
+
+<!--Doublespace Behavior='edu.berkeley.Doublespace' active='off' /-->
+
+<!-- for now, all fixed are paginated, so small enough to do some quick searches -->
+<Markup behavior='multivalent.std.LinkMarkup' />
+
+</Fixed>

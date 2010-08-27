@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<Net behavior='Layer' title='Network behaviors'>
+
+<HttpHeaders Behavior='multivalent.net.HttpHeaders' 
+	user-agent = 'Multivalent/1.0'
+/>
+<Cookies Behavior='multivalent.net.Cookies' />
+<Robust Behavior='multivalent.net.Robust' />
+<!--ReturnCode Behavior='multivalent.net.ReturnCode' /-->
+<!--Cache Behavior='multivalent.Cache' /-->
+
+<!-- to be replaced with XPointer -->
+<SimpleScrollTo Behavior='multivalent.std.SimpleAnchorScrollTo' />
+
+<ReverseLink Behavior='multivalent.std.ReverseLink' / >
+
+
+<RemoteControl Behavior='multivalent.net.RemoteControl' />
+
+</Net>

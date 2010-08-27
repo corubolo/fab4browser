@@ -1,0 +1,233 @@
+/* rendered CSS1-addressable elements and all applicable non-inherited
+properties set to initial values and default display types */
+
+A, ABBR, ADDRESS, BDO, BLOCKQUOTE, BODY, BUTTON, CITE, CODE, DD, DEL, DFN,
+DIV, DL, DT, EM, FIELDSET, FORM, H1, H2, H3, H4, H5, H6, IFRAME, IMG, INS, KBD,
+LABEL, LI, OBJECT, OL, P, Q, SAMP, SMALL, SPAN, STRONG, SUB, SUP, UL, VAR, 
+APPLET, B, BIG, CENTER, DIR, FONT, HR, I, MENU, PRE, S, STRIKE, TT, U	{
+	background: transparent;
+	width: auto;
+	height: auto;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	float: none;
+	clear: none;
+	vertical-align: baseline;
+	list-style-image: none;
+	list-style-type: disc;
+	list-style-position: outside;
+	}	 
+
+ADDRESS, BLOCKQUOTE, BODY, DD, DIV, DL, DT, FIELDSET, FORM, H1, H2, H3, H4, H5,
+H6, IFRAME, OBJECT, OL, P, UL, APPLET, CENTER, DIR, HR, MENU, PRE	{
+	display: block;
+	}
+
+A, ABBR, BDO, BUTTON, CITE, CODE, DEL, DFN, EM, IMG, INS, KBD, LABEL, Q,
+SAMP, SMALL, SPAN, STRONG, SUB, SUP, VAR, B, BIG, FONT, I, S, STRIKE, TT, U	{ 
+	display: inline;
+	}
+
+LI	{
+	display: list-item;
+	}
+
+
+/* Begin tree of inherited properties and cascades. */
+
+BODY	{
+	font-size: 1em;
+	line-height: 1.33em;
+	margin: 8px;
+	background-position: -8px -8px; /* flush with canvas edge */
+	word-spacing: normal;
+	letter-spacing: normal;
+	text-transform: none;
+	alignment: left;
+	text-indent: 0;
+	white-space: normal;
+	}
+
+H1	{
+	font-size: 2em;
+	margin: .67em 0; 
+	}
+
+H2	{ 
+	font-size: 1.5em;
+	margin: .83em 0; 
+	}
+
+H3	{ 
+	font-size: 1.17em;
+	line-height: 1.17em;
+	margin: 1em 0; 
+	}
+
+H4, P, BLOCKQUOTE, UL, OL, DL, DIR, MENU	{ 
+	margin: 1.33em 0; 
+	}
+
+H5	{
+	font-size: .83em;
+	line-height: 1.17em;
+	margin: 1.67em 0; 
+	}
+
+H6	{
+	font-size: .67em;
+	margin: 2.33em 0; 
+	}
+
+H1, H2, H3, H4, H5, H6, B, STRONG	{ 
+	font-weight: bolder;
+	}
+	
+BLOCKQUOTE	{ 
+	margin-left: 40px;
+	margin-right: 40px;
+	}
+
+I, CITE, EM, VAR, ADDRESS	{ 
+	font-style: italic;
+	}
+
+PRE, TT, CODE, KBD, SAMP	{ 
+	font-family: monospace;
+	}
+
+PRE	{
+	white-space: pre;
+	}
+
+BIG	{ 
+	font-size: 1.17em;
+	}
+	
+SMALL, SUB, SUP	{
+	font-size: .83em;
+	}
+
+SUB	{
+	vertical-align: sub;
+	}
+
+SUP	{
+	vertical-align: super;
+	}
+
+S, STRIKE, DEL	{
+	text-decoration: line-through;
+	}
+
+HR	{
+	border: 1px inset;
+	}
+
+OL, UL, DIR, MENU, DD	{
+	margin-left: 40px; 
+	}
+	
+OL LI	{
+	list-style-type: decimal;
+	}
+	
+OL UL	{
+	margin-top: 0;
+	margin-bottom: 0;
+	}
+
+UL OL	{
+	margin-top: 0;
+	margin-bottom: 0;
+	}
+
+UL UL	{
+	margin-top: 0;
+	margin-bottom: 0;
+	}
+
+OL OL	{
+	margin-top: 0;	
+	margin-bottom: 0; /* how far to carry such contextual declarations? Exhaustive list
+		could be very long. */
+	}
+
+U, INS	{
+	text-decoration: underline;
+	}
+
+CENTER	{
+	alignment: center;
+	}
+
+
+
+/* Table element rendering behavior cannot be described completely in CSS1, 
+yet the following declarations appear to apply. This section is likely to become
+obsolete upon the deployment of a more comprehensive stylesheet specification
+for tables. */
+
+CAPTION, COL, COLGROUP, LEGEND, TABLE, TBODY, TD, TFOOT, TH, THEAD, TR	{
+	background: transparent;
+	text-decoration: none;
+	margin: 1px;
+	padding: 1px;
+	border: none;
+	float: none;
+	clear: none;
+	}
+
+TABLE, TBODY, TFOOT, THEAD, TR	{
+	display: block;
+	background-position: top left;
+	width: auto;
+	height: auto;
+	}
+
+CAPTION, LEGEND, TD, TH	{ 
+	display: inline;
+	vertical-align: baseline;
+	font-size: 1em;
+	line-height: 1.33em;
+	color: black;
+	word-spacing: normal;
+	letter-spacing: normal;
+	text-transform: none;
+	alignment: left;
+	text-indent: 0;
+	white-space: normal;
+	}
+
+TH	{
+	font-weight: bolder;
+	alignment: center;
+	}
+
+CAPTION	{
+	alignment: center;
+	}
+
+
+/* proposed default for HTML 4.0's new ABBR element */
+
+ABBR	{
+	font-variant: small-caps;
+	letter-spacing: 0.1em; /* This is almost facetious. Should ABBR not have 
+		any default rendering? Uppercase transform? Not all languages distinguish 
+		between simple abbreviations and acronyms, and not all abbrev. should be 
+		capped. */
+	}
+
+/* not part of the legacy browser default sheet, but an obvious enhancement */
+
+OL OL LI	{
+	list-style-type: lower-alpha;
+	}
+	
+OL OL OL LI	{
+	list-style-type: lower-roman
+	}
+

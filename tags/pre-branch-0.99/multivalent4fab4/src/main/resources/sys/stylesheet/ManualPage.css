@@ -1,0 +1,42 @@
+manualpage {
+	font-size: 14pts;
+	color: black; background-color: white;
+	padding: 5px;
+}
+
+secthead {
+	font-weight: bold; font-size: 18pts;
+	/*margin-top: 15px;*/
+	margin-bottom: 0px; /*nothing in addition to PARA*/
+	elide: false; /* maybe have separate behavior loaded with set of structural tag names tweak bit in style sheet's generic structures */
+}
+
+para { /* change to TP/LP/PP, with different indentations? */
+	margin: 5px 15px 5px 25px;	/* top right bottom left */
+}
+
+line {
+	font-family: monospace; font-size: 10pt;
+	margin-left: 40px;
+}
+
+tp {
+	margin: 0px 15px -15px 15px;
+}
+
+/* no subsecthead */
+
+indent {
+	margin-left: 50px;
+}
+
+concat {
+	font-size: 10pt; font-style: plain; font-weight: normal;
+}
+
+/* taken out of stylesheet when Exec Sum not active */
+excerpt {
+	font-size: 10pt;
+	color: #505050/*gray*/;
+	elide: false;	/* whole point */
+}

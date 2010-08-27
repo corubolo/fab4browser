@@ -1,0 +1,115 @@
+/*
+cx = new GenericStructure();
+cx.setTopMargin(0);
+ss.put("p", "h1", cx);
+ss.put("p", "h2", cx);
+ss.put("p", "h3", cx);
+ss.put("p", "h4", cx);
+ss.put("p", "h5", cx);
+ss.put("p", "h6", cx);
+
+cx = new GenericStructure();
+cx.setJustify(Node.LEFT);
+ss.put("table", cx);
+
+cx = new GenericStructure();
+cx.setLeftMargin(25); cx.setTopMargin(0);
+ss.put("ol", "ol", cx);
+ss.put("ul", "ol", cx);
+ss.put("ol", "ul", cx);
+ss.put("ul", "ul", cx);
+ss.put("ol", "dl", cx);
+ss.put("ul", "dl", cx);
+//ss.put("menu", "ol", cx); => rewritten as UL
+
+//cx = new GenericStructure();
+//cx.setTopMargin(5); cx.setBottomMargin(5);
+//ss.put("br", cx);
+
+//ss.put("pre", new MonospacedSpan(null,0,null,0, null));
+//ss.put("pre", (Span)br.getBehaviorInstance("MonospacedSpan","MonospacedSpan",null,null));
+ss.put("pre", html.makeSpanType("MonospacedSpan", HTML.PRE, null,-1,-1, null,null));
+
+
+//ss.put("address", new ItalicSpan(null,0,null,0, null));
+//ss.put("address", (Span)br.getBehaviorInstance("ItalicSpan","ItalicSpan",null,null));
+ss.put("address", html.makeSpanType("ItalicSpan", HTML.ADDRESS, null,-1,-1, null,null));
+*/
+
+body, p, 
+ol, ul, li, dl, dt, dd,
+h1, h2, h3, h4, h5, h6
+	{ display: block }
+
+span, a, ins, del, 
+b, strong, i, em, cite, var, 
+tt, code, kbd, samp,
+strike, s, u
+	{ display: inline }
+
+
+body {
+	color: black; background-color: white;
+	font-size: 14pts;	/* Mozilla: 16 for proportional, 13 for fixed */
+	padding: 5px;
+/* "Lucida Bright" has good set of Unicode glyphs and built into Java -- bad metrics between g and o?  triggers bug?
+padding 5 pixels */
+}
+
+a:link { color: blue; }
+a:visited { color: magenta; }
+a:hover { color: red; }
+a:active { color: red; }
+
+a:link, a:visited, 
+a:active, a:hover {
+	text-decoration: underline;
+}
+
+p {
+	margin-top: 10px;
+}
+
+ul, ol { margin-left: 25px; }
+/*menu rewritten as UL*/
+
+dl { margin-top: 15px; }
+dd { margin-left: 15px; }
+
+blockquote { margin: 3px 20px }
+
+h1 { font-size: 24pt; font-weight: bold; margin: 10px 0px; }
+h2 { font-size: 18pt; font-weight: bold; margin: 9px 0px; }
+h3 { font-size: 14pt; font-weight: bold; margin: 7px 0px; }
+h4 { font-size: 12pt; font-weight: bold; margin: 6px 0px; }
+h5 { font-size: 10pt; font-weight: bold; margin: 5px 0px; }
+h6 { font-size:  9pt; font-weight: bold; margin: 5px 0px; }
+
+input {
+/*	margin-left: 3px; margin-right: 3px;*/
+}
+
+
+button, select, input { padding: 3px; }
+text { padding: 3px; }
+
+pre { font-family: monospace; }
+
+ins { text-decoration: underline; }
+del, strike, s { text-decoration: overstrike; }
+b, strong { font-weight: bold; }
+i, em, cite, var, address { font-style: italic; }
+tt, code, kbd, samp, pre {
+	font-family: monospace;
+	font-size: 12pts;
+}
+u { text-decoration: underline; }
+/* no display: generic: q, abbr, acronym, dfn, bdo, legend, label, span */
+
+
+select { border-width: 1px; }
+
+h1, h2, h3, h4, h5, h6 {
+	elide: false;
+}
+nobr { margin-left: 5px; margin-right: 5px; }

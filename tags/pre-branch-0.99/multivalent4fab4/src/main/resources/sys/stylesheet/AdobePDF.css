@@ -1,0 +1,29 @@
+pdf {
+	background-color: white;	/* for full-page FAX and OCR */
+	color: black;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* Acrobat has no default appearance -- which makes it hard to determine where the links are sometimes. */
+link {
+	color: #33f;
+	text-decoration: underline;
+	text-decoration: none;
+}
+
+/* white on gray easier on the eyes
+link {
+	color: #88f;
+	text-decoration: none;
+	font-weight: bold;
+	font-style: italic;
+}
+
+mediabox {
+	color: white; background-color: #555;
+	font-family: times; font-size: 12pt;
+	margin: 0px;
+	padding: 0px;
+}
+*/
