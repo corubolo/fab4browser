@@ -2602,7 +2602,10 @@ public class HTML extends ML /* implements EventListener */{
 					        try {
 					            Class cl = Class.forName("uk.ac.liverpool.fab4.jreality.SoftViewerLeaf", true, clo);
 					            Class<Leaf> lc = cl.asSubclass(Leaf.class);
-					            Constructor<Leaf> c = lc.getConstructor(String.class , Map.class, INode.class);
+					            Constructor<Leaf> c = lc.getConstructor(String.class , Map.class, INode.class);        
+					            attrs.put("width",""+Integers.parseInt((String)attrs.get("width"), 400));
+					            attrs.put("height",""+Integers.parseInt((String)attrs.get("height"), 400));
+					            
 					            Leaf vid = c.newInstance("3d", attrs, p);
 					            
 					            newn = vid;
