@@ -1,5 +1,6 @@
 package uk.ac.liverpool.fab4.jreality;
 
+import static de.jreality.shader.CommonAttributes.DIFFUSE_COLOR;
 import static de.jreality.shader.CommonAttributes.POLYGON_SHADER;
 import static de.jreality.shader.CommonAttributes.TRANSPARENCY;
 import static de.jreality.shader.CommonAttributes.TRANSPARENCY_ENABLED;
@@ -27,12 +28,8 @@ import multivalent.Layer;
 import multivalent.MediaAdaptor;
 import multivalent.StyleSheet;
 import phelps.awt.Colors;
-import uk.ac.liv.jt.debug.DebugJTReader;
 import uk.ac.liv.jt.segments.JTSceneGraphComponent;
-import uk.ac.liv.jt.segments.LSGSegment;
-import uk.ac.liv.jt.viewer.JTReader;
 import uk.ac.liverpool.fab4.Fab4;
-import de.jreality.reader.Readers;
 import de.jreality.scene.Appearance;
 import de.jreality.scene.SceneGraphComponent;
 import de.jreality.scene.SceneGraphPath;
@@ -40,6 +37,7 @@ import de.jreality.scene.Viewer;
 import de.jreality.scene.tool.InputSlot;
 import de.jreality.scene.tool.ToolContext;
 import de.jreality.tools.ActionTool;
+import de.jreality.tools.AnimatorTool;
 import de.jreality.ui.treeview.SceneTreeModel;
 import de.jreality.ui.viewerapp.Navigator;
 import de.jreality.ui.viewerapp.Navigator.SelectionEvent;
@@ -52,12 +50,12 @@ public class JRealityMA extends MediaAdaptor {
     Document doc;
     JPanel f;
     //private SelectionManager selectionManager;
-    protected Appearance lastapp;
-    protected SceneGraphComponent lastcomp;
+
+
 
     @Override
     public void close() throws IOException {
-
+        super.close();
         if (l != null) {
             l.close();
             JPanel p = (JPanel)getBrowser().getClientProperty(Fab4.PANEL);
@@ -65,7 +63,7 @@ public class JRealityMA extends MediaAdaptor {
         }
         l = null;
         // doc.removeAttr(TimedMedia.TIMEDMEDIA);
-        super.close();
+
     }
 
     @Override
@@ -74,6 +72,11 @@ public class JRealityMA extends MediaAdaptor {
         doc = parent.getDocument();
         if (doc.getFirstChild() != null) {
             doc.clear();
+        }
+        Layer ll = doc.getLayer(Layer.PERSONAL);
+        if (ll != null) {
+            ll.destroy();
+            // doc.putAttr(TimedMedia.TIMEDMEDIA, l);
         }
         final StyleSheet ss = doc.getStyleSheet();
         CLGeneral gs = new CLGeneral();
@@ -92,10 +95,10 @@ public class JRealityMA extends MediaAdaptor {
         }
         attr.put("uri", getURI());
         l = new SoftViewerLeaf("JReality3D", attr, parent);
-       
+
         SceneGraphComponent sgc = null;
         sgc = l.getSGC();
-        
+
         //selectionManager = SelectionManagerImpl.selectionManagerForViewer(l);
         //new SelectionRenderer(selectionManager, l).setVisible(true);
         f = new JPanel();
@@ -133,7 +136,7 @@ public class JRealityMA extends MediaAdaptor {
                                 if (currentSelection != null)
                                     if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
                                         JTSceneGraphComponent s = (JTSceneGraphComponent) currentSelection
-                                                .getLastComponent();
+                                        .getLastComponent();
                                         if (s != null)
                                             if (s.properties != null)
                                                 if (columnIndex < 2
@@ -148,7 +151,7 @@ public class JRealityMA extends MediaAdaptor {
                                 if (currentSelection != null)
                                     if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
                                         JTSceneGraphComponent s = (JTSceneGraphComponent) currentSelection
-                                                .getLastComponent();
+                                        .getLastComponent();
                                         if (s != null)
                                             if (s.properties != null)
                                                 return s.properties.length;
@@ -168,7 +171,7 @@ public class JRealityMA extends MediaAdaptor {
                                 return 0;
                             }
                         });
-                       // selectionManager.setSelection(currentSelection);
+                        // selectionManager.setSelection(currentSelection);
                     } else
                         list.setModel(null);
                 }
@@ -205,17 +208,12 @@ public class JRealityMA extends MediaAdaptor {
         f.validate();
         f.doLayout();
 
-        Layer ll = doc.getLayer(Layer.PERSONAL);
-        if (ll != null) {
-            ll.destroy();
-            // doc.putAttr(TimedMedia.TIMEDMEDIA, l);
-        }
 
         return parent;
     }
 
     private void addGeometryActions(SceneGraphComponent geometryNode,
-            final Navigator n, final Viewer v) {
+            final Navigator n, final SoftViewerLeaf v) {
 
         List<SceneGraphComponent> l = geometryNode.getChildComponents();
         for (SceneGraphComponent s : l) {
@@ -227,29 +225,38 @@ public class JRealityMA extends MediaAdaptor {
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource() instanceof ToolContext) {
                             ToolContext tc = (ToolContext) e.getSource();
-                            final SceneGraphPath sgp = tc
-                                    .getRootToToolComponent();
+                            v.sgp = tc
+                            .getRootToToolComponent();
                             // System.out.println(sgp);
+
                             TreePath p = new TreePath(((SceneTreeModel) n
                                     .getSceneTree().getModel())
-                                    .convertSceneGraphPath(sgp));
+                                    .convertSceneGraphPath(v.sgp));
                             n.getTreeSelectionModel().setSelectionPath(p);
                             n.getSceneTree().scrollPathToVisible(p);
-                            Appearance app = sgp.getLastComponent().getAppearance();
-                            if (lastcomp!=null ){
-                                lastcomp.setAppearance(lastapp);
-                                if (lastapp!=null)
-                                    lastapp.setAttribute(TRANSPARENCY_ENABLED, false);
+
+                            v.selectionManager.setSelection(new Selection(v.sgp));
+
+
+
+                            Appearance app = v.sgp.getLastComponent().getAppearance();
+                            Color selectionColor = Color.white;
+                            if (v.lastcomp!=null ){
+                                v.lastcomp.setAppearance(v.lastapp);
+                                //                                if (v.lastapp!=null)
+                                //                                    v.lastapp.setAttribute(TRANSPARENCY_ENABLED, false);
                             }
-                            lastcomp = sgp.getLastComponent();
-                            lastapp =  sgp.getLastComponent().getAppearance();
+                            v.lastcomp = v.sgp.getLastComponent();
+                            v.lastapp =  v.sgp.getLastComponent().getAppearance();
                             if (app == null){
                                 app = new Appearance("Select");
-                                sgp.getLastComponent().setAppearance(app);
                             }
-                            app.setAttribute(TRANSPARENCY_ENABLED, true);
-                            app.setAttribute(POLYGON_SHADER+"."+TRANSPARENCY, .4);
-                          //  selectionManager.setSelection(new Selection(sgp));
+                            app.setAttribute(POLYGON_SHADER+"."+DIFFUSE_COLOR, selectionColor);
+                            v.lastcomp.setAppearance(app);
+
+                            //                            app.setAttribute(TRANSPARENCY_ENABLED, true);
+                            //                           app.setAttribute(POLYGON_SHADER+"."+TRANSPARENCY, .4);
+                            //  selectionManager.setSelection(new Selection(sgp));
 
                         }
                     }

@@ -19,10 +19,13 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Level;
 
+import javax.swing.JPanel;
+
 import phelps.lang.Integers;
 import uk.ac.liv.jt.debug.DebugJTReader;
 import uk.ac.liv.jt.segments.LSGSegment;
 import uk.ac.liv.jt.viewer.JTReader;
+import uk.ac.liverpool.fab4.Fab4;
 
 import multivalent.Behavior;
 import multivalent.Context;
@@ -44,6 +47,9 @@ import de.jreality.softviewer.Renderer;
 import de.jreality.tools.ClickWheelCameraZoomTool;
 import de.jreality.tools.RotateTool;
 import de.jreality.toolsystem.ToolSystem;
+import de.jreality.ui.viewerapp.SelectionManager;
+import de.jreality.ui.viewerapp.SelectionManagerImpl;
+import de.jreality.ui.viewerapp.SelectionRenderer;
 import de.jreality.util.CameraUtility;
 import de.jreality.util.Input;
 import de.jreality.util.LoggingSystem;
@@ -101,10 +107,24 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
 
     private SceneGraphComponent geometryNode;
 
-    private int fixedw;
+    private int fixedw =0;
 
-    private int fixedh;
+    private int fixedh = 0;
     private boolean reg = false;
+
+    private RenderTrigger rt;
+
+    public Appearance lastapp;
+    public SceneGraphComponent lastcomp;
+
+    public SceneGraphComponent rootNode;
+    
+    public SceneGraphPath sgp;
+
+    private SelectionRenderer selectionRenderer;
+
+    public SelectionManager selectionManager;
+    
     
     public SoftViewerLeaf(String name, Map<String, Object> attr, INode parent)
             throws URISyntaxException {
@@ -122,8 +142,8 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         }
         if (attr == null)
             return;
-        fixedw = Integers.parseInt((String)attr.get("width"), 400);
-        fixedh = Integers.parseInt((String)attr.get("height"), 400);
+        fixedw = Integers.parseInt((String)attr.get("width"), 0);
+        fixedh = Integers.parseInt((String)attr.get("height"), 0);
         bbox.setSize(fixedw, fixedh);
         dummy = new Canvas() {
             public int getWidth() {return bbox.width;};
@@ -166,7 +186,7 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         }
 
         setBackground(Color.white);
-        SceneGraphComponent rootNode = new SceneGraphComponent("root");
+        rootNode = new SceneGraphComponent("root");
         SceneGraphComponent cameraNode = new SceneGraphComponent("camera");
         geometryNode = new SceneGraphComponent("geometry");
         SceneGraphComponent lightNode = new SceneGraphComponent("light");
@@ -204,13 +224,17 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         toolSystem.initializeSceneTools();
         //
 
-        RenderTrigger rt = new RenderTrigger();
+        rt = new RenderTrigger();
         rt.addSceneGraphComponent(rootNode);
         rt.addViewer(this);
         // rt.forceRender();
         // render();
         CameraUtility.encompass(this);
-    
+         Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).threednote.setVisible(true);
+         selectionManager = SelectionManagerImpl.selectionManagerForViewer(this);
+         // a utility class which handles highlighting the selected component
+             selectionRenderer = new SelectionRenderer(selectionManager, this);
+             selectionRenderer.setVisible(true);
     }
 
     
@@ -539,6 +563,12 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     }
 
     public void close() {
+        
+        Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).threednote.setVisible(false);
+        rt.removeSceneGraphComponent(root);
+        rt.removeViewer(this);
+        ToolSystem toolSystem = ToolSystem.toolSystemForViewer(this);
+        toolSystem.dispose();
         cameraPath = null;
         auxiliaryRoot = null;
         root = null;

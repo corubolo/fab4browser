@@ -83,6 +83,8 @@ public class AnnotationSidePanel extends JPanel {
 	JButton bHideAnno;
 
 	JButton bCopy;
+	
+	public JButton threednote;
 
 	JList annoUserList;
 
@@ -292,6 +294,7 @@ class AnnoToolBar extends JToolBar {
 	private static final long serialVersionUID = 1L;
 	protected static final String SAVE = "";
 
+
 	public AnnoToolBar(final Browser br, final Fab4 f,
 			final AnnotationSidePanel asp) {
 		super("Notes", SwingConstants.HORIZONTAL);
@@ -396,20 +399,20 @@ class AnnoToolBar extends JToolBar {
 		}
 		try {
                     Class.forName("uk.ac.liverpool.fab4.jreality.SceneNote");
-                    create = new JButton("3d model note", FabIcons.getIcons().NOTE_ICO_CALL);
-                    create.setToolTipText("3d model note");
-                    create.addActionListener(new ActionListener() {
+                    asp.threednote = new JButton("3d model note", FabIcons.getIcons().NOTE_ICO_CALL);
+                    asp.threednote.setToolTipText("3d model note");
+                    asp.threednote.addActionListener(new ActionListener() {
                             @SuppressWarnings("unchecked")
                             public void actionPerformed(ActionEvent e) {
                                     HashMap hh = new HashMap<String, Object>(1);
-                                    hh.put("callout", "");
-                                    Behavior.getInstance("3dNote",
+                                    Behavior.getInstance("Note",
                                                     "uk.ac.liverpool.fab4.jreality.SceneNote", null, hh, f
                                                     .getCurDoc().getLayer(Layer.PERSONAL));
                             }
                     });
-                    create.setFont(nf);
-                    add(create);
+                    asp.threednote.setFont(nf);
+                    asp.threednote.setVisible(false);
+                    add(asp.threednote);
 
             } catch (Exception edd) {
             }
