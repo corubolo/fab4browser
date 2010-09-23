@@ -19,6 +19,7 @@ package uk.ac.liverpool.annotationConnector;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -226,9 +227,15 @@ public class SwordAnnotationServer implements AnnotationServerConnectorInterface
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			//JOptionPane.showMessageDialog(null, "Error on annotation submission; check password and logs\n"+ e.getMessage());
+			
+			///SAM:
+			return -1;
+			///
 		}
 
-		return 1;
+		///SAM since LocalLucene and REST return 0 in fine conditions, I change it to 0:
+		//return 1;
+		return 0;
 	}
 
 	
@@ -405,6 +412,51 @@ public class SwordAnnotationServer implements AnnotationServerConnectorInterface
 		return "annoDbRDF";
 	}
 	
+	
+	///SAM
+	public HashMap<String, String> authenticated(String username, String pass) {
+		// TODO Auto-generated method stub
+		HashMap<String, String> ret = new HashMap<String, String>();
+		ret.put("state", "0");
+		return ret;
+	}
+
+	public int createNewUser(String username, String pass, String name,
+			String des, String aff) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int createNewUser(String username, String pass, String email,
+			String name, String des, String aff) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int addAnnotatedResource(String bibtex, String url) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public String[] bibtexSearch(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int updateResourceBib(String url, String doi, String keywords) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public String urlLacksBibDoiKeywords(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[] retreiveAllTags(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
