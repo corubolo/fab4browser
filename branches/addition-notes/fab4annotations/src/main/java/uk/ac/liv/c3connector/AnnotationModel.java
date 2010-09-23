@@ -39,6 +39,14 @@ public class AnnotationModel {
 	public String version;
 	public String resourceUri;
 
+	///SAM should move to internal model
+	public boolean isReplyToSth = false;	
+	public Integer replyTo = null;
+	public String replyToFabId;
+	public Integer uniqueId = null;  //when not yet stored in db, it will be null
+	public Integer resourceId = null;	
+	///
+	
 	public static final String type = " application/rdf+xml";
 
 	public static void printModel (PrintStream ps, Object o){
@@ -178,5 +186,55 @@ public class AnnotationModel {
 		return version;
 	}
 
+	///SAM
+	public boolean isReplyToSth() {
+		return isReplyToSth;
+	}
 
+	public void setReplyToSth(boolean isReplyToSth) {
+		this.isReplyToSth = isReplyToSth;
+	}
+
+	public Integer getReplyTo() {
+		return replyTo;
+	}
+
+	public void setReplyTo(Integer replyTo) {
+		this.replyTo = replyTo;
+	}
+
+	public String getAnnotationUri() {
+		return annotationUri;
+	}
+
+	public void setAnnotationUri(String annotationUri) {
+		this.annotationUri = annotationUri;
+	}
+
+	public String getReplyToFabId() {
+		return replyToFabId;
+	}
+
+	public void setReplyToFabId(String replyToFabId) {
+		this.replyToFabId = replyToFabId;
+	}
+
+	public Integer getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(Integer uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public Integer getResourceId() {
+		return resourceId;
+	}
+
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
+	}
+	
+	
+	///
 }

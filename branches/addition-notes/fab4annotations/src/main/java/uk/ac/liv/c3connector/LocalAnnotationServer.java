@@ -18,6 +18,7 @@
 package uk.ac.liv.c3connector;
 
 import java.io.File;
+import java.util.HashMap;
 
 import uk.ac.liverpool.annotationConnector.AnnotationServerConnectorInterface;
 
@@ -175,6 +176,57 @@ public class LocalAnnotationServer implements AnnotationServerConnectorInterface
 		return "annoDb";
 	}
 
+	///SAM
+	public HashMap<String, String> authenticated(String username, String pass) {
+		// TODO Auto-generated method stub
+		HashMap<String, String> ret = new HashMap<String, String>();
+		ret.put("state", "0");
+		return ret;
+	}
+
+
+	public int createNewUser(String username, String pass, String name,
+			String des, String aff) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public int createNewUser(String username, String pass, String email,
+			String name, String des, String aff) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public int addAnnotatedResource(String bibtex, String url) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public String[] bibtexSearch(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public int updateResourceBib(String url, String doi, String keywords) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public String urlLacksBibDoiKeywords(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public String[] retreiveAllTags(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

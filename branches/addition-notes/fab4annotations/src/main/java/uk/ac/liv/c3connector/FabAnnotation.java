@@ -52,6 +52,10 @@ public class FabAnnotation {
 	boolean sameTxtCRC;
 
 	boolean sameLs;
+	
+	///SAM
+	boolean sameBib;
+	///
 
 	boolean anonymous;
 
@@ -199,6 +203,16 @@ public class FabAnnotation {
 		this.anonymous = anonymous;
 	}
 
+	///SAM
+	public boolean isSameBib() {
+		return sameBib;
+	}
 
+	public void setSameBib(boolean sameBib) {
+		this.sameBib = sameBib;
+	}
+
+	///
+	
 }
 
