@@ -179,6 +179,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		"http://hypatia.cs.ualberta.ca:8888/searchService";
 		// 
 		//"http://shaman.cheshire3.org/services/annotations";
+	
+	private static String RESTpublish =
+//		"http://localhost:8888/publishService"; 
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
+	private static String RESTsearch = 
+//		"http://localhost:8888/searchService"; 
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
@@ -1939,12 +1946,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 						/*annotationResourceURI = 
 							//"http://localhost:8888/annotationResource"; 
 							"http://hypatia.cs.ualberta.ca:8888/annotationResource";*/
-						publishServiceURL =
-							//"http://localhost:8888/publishService"; 
-							"http://hypatia.cs.ualberta.ca:8888/publishService";
-						searchServiceURL =
-							//"http://localhost:8888/searchService"; 
-							"http://hypatia.cs.ualberta.ca:8888/searchService";
+						publishServiceURL = RESTpublish;
+						searchServiceURL = RESTsearch;
 					}
 					else if(c.equals(Class.forName("uk.ac.liverpool.annotationConnector.SwordAnnotationServer"))){
 						currentServer = Servers.RDF_SWORD;
@@ -3169,13 +3172,19 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	}
 	
 	public static void setCurrentRemoteServer(String cur){
+		
+		Class temp = remoteAsc;
 		try {
 			
 			if(cur.equals("REST")){				
 				remoteAsc = (Class<AnnotationServerConnectorInterface>) Class.forName("ca.ualberta.cs.RESTServerConnector.RESTAnnotationServer");
+				publishServiceURL = RESTpublish;
+				searchServiceURL = RESTsearch;	
 			}
 			else if(cur.equals("RDF")){			
 				remoteAsc = (Class<AnnotationServerConnectorInterface>) Class.forName("uk.ac.liverpool.annotationConnector.SwordAnnotationServer");
+				publishServiceURL = "http://shaman.cheshire3.org/sword/annotations/";
+				searchServiceURL = "http://shaman.cheshire3.org/services/annotations";
 			}
 			
 			ras = generateRemote();
@@ -3191,6 +3200,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			else if(cur.equals("RDF"))
 				currentServer = Servers.RDF_SWORD;
 			
+			las.setDefaultAMS(ras.getDefaultAMS());
+			
 		} catch (Exception e) {
 			e.printStackTrace();			
 						
@@ -3199,6 +3210,17 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					null,
 					"The chosen server is not responding! Going back to previous one!",
 					"Warning", JOptionPane.WARNING_MESSAGE);
+			
+			remoteAsc = temp;
+			if(currentServer == Servers.REST){							
+				publishServiceURL = RESTpublish;
+				searchServiceURL = RESTsearch;				
+			}
+			else if(currentServer == Servers.RDF_SWORD){							
+				publishServiceURL = "http://shaman.cheshire3.org/sword/annotations/";
+				searchServiceURL = "http://shaman.cheshire3.org/services/annotations";				
+			}
+			
 		}
 			
 	}
