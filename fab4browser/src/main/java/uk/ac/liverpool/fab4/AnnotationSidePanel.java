@@ -431,6 +431,60 @@ class AnnoToolBar extends JToolBar {
 		high.setToolTipText("New comment on highlight");
 		high.setFont(nf);
 		add(high);
+		
+		///SAM
+		try {
+			//Class.forName("uk.ac.liv.c3connector.CalloutNote");
+			create = new JButton("Rate", FabIcons.getIcons().ICOICO);
+			create.setToolTipText("Rate this resource");
+			create.addActionListener(new ActionListener() {
+				@SuppressWarnings("unchecked")
+				public void actionPerformed(ActionEvent e) {	
+					try{
+						HashMap hh = new HashMap<String, Object>(1);
+//						hh.put("callout", "");
+						Behavior.getInstance("Rate",
+								"uk.ac.liv.c3connector.RateResource", null, hh, f
+								.getCurDoc().getLayer(Layer.PERSONAL));
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			create.setFont(nf);
+			add(create);
+			
+			create = new JButton("Tag", FabIcons.getIcons().NOTE_ICO_CALL);
+			create.setToolTipText("Tag this resource");
+			create.addActionListener(new ActionListener() {
+				@SuppressWarnings("unchecked")
+				public void actionPerformed(ActionEvent e) {
+					Class disAnnos;
+					try {
+						/*disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
+					
+						//Class parameterTypes = Class.forName("java.lang.String");
+						disAnnos.getDeclaredMethod("tagThisUrl" ).invoke(disAnnos.newInstance());
+					*/	
+						HashMap hh = new HashMap<String, Object>(1);
+//						hh.put("callout", "");
+						Behavior.getInstance("Tag",
+								"uk.ac.liv.c3connector.TagResource", null, hh, f
+								.getCurDoc().getLayer(Layer.PERSONAL));
+						
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			create.setFont(nf);
+			add(create);
+
+		} catch (Exception edd) {
+		}
+		///
 
 	}
 
