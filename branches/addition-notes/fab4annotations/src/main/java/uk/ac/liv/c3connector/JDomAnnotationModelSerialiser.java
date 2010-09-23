@@ -59,21 +59,23 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 		am.version = r.getChildTextTrim("");
 		
 		///SAM
-		if(r.getChildText("replyToSth") != null ){ //for annotations that were saved before adding this to code!
-			am.setReplyToSth(r.getChildText("replyToSth").equals("true"));
-		
-			if(!r.getChildText("replyTo").equals(""))
-				am.setReplyTo(Integer.parseInt(r.getChildText("replyTo")));
-		
-		
-			am.setReplyToFabId(r.getChildText("replyToFabId"));
+		if(DistributedPersonalAnnos.currentServer == Servers.REST){
+			if(r.getChildText("replyToSth") != null ){ //for annotations that were saved before adding this to code!
+				am.setReplyToSth(r.getChildText("replyToSth").equals("true"));
 			
-			if(!r.getChildText("uniqueid").equals(""))
-				am.setUniqueId(Integer.parseInt(r.getChildText("uniqueid")));
+				if(!r.getChildText("replyTo").equals(""))
+					am.setReplyTo(Integer.parseInt(r.getChildText("replyTo")));
 			
-			if(r.getChildText("resourceId") != null )
-				if(!r.getChildText("resourceId").equals(""))
-					am.setResourceId(Integer.parseInt(r.getChildText("resourceId")));
+			
+				am.setReplyToFabId(r.getChildText("replyToFabId"));
+				
+				if(!r.getChildText("uniqueid").equals(""))
+					am.setUniqueId(Integer.parseInt(r.getChildText("uniqueid")));
+				
+				if(r.getChildText("resourceId") != null )
+					if(!r.getChildText("resourceId").equals(""))
+						am.setResourceId(Integer.parseInt(r.getChildText("resourceId")));
+			}
 		}
 		///
 		//am.printModel(System.out, am);
@@ -114,11 +116,13 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 		r.addContent(new Element("location").addContent(new Element("page_number").addContent(""+s.pageNumber)));
 		
 		///SAM
-		r.addContent(new Element("replyToSth").addContent(s.isReplyToSth()?"true":"false"));
-		r.addContent(new Element("replyToFabId").addContent(s.replyToFabId));
-		r.addContent(new Element("uniqueid").addContent(s.getUniqueId()!=null ? String.valueOf(s.getUniqueId()) : null ));
-		r.addContent(new Element("replyTo").addContent(s.getReplyTo()!=null ? String.valueOf(s.getReplyTo()) : null ));
-		r.addContent(new Element("resourceId").addContent(s.getResourceId()!=null ? String.valueOf(s.getResourceId()) : null ));
+		if(DistributedPersonalAnnos.currentServer == Servers.REST){
+			r.addContent(new Element("replyToSth").addContent(s.isReplyToSth()?"true":"false"));
+			r.addContent(new Element("replyToFabId").addContent(s.replyToFabId));
+			r.addContent(new Element("uniqueid").addContent(s.getUniqueId()!=null ? String.valueOf(s.getUniqueId()) : null ));
+			r.addContent(new Element("replyTo").addContent(s.getReplyTo()!=null ? String.valueOf(s.getReplyTo()) : null ));
+			r.addContent(new Element("resourceId").addContent(s.getResourceId()!=null ? String.valueOf(s.getResourceId()) : null ));
+		}
 		///
 		
 		Document d = new Document();

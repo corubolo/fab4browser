@@ -332,6 +332,10 @@ public class PreferencesDialog extends Dialog {
 				DistributedPersonalAnnos.setCurrentRemoteServer("REST");
 				if(!DistributedPersonalAnnos.getCurrentRemoteServer().equals("REST"))
 					rest.setEnabled(false);
+				else
+					serverChanged = true;
+				jTextField6.setText(DistributedPersonalAnnos.searchServiceURL);
+				jTextField13.setText(DistributedPersonalAnnos.publishServiceURL);
 			}
 		});
 		
@@ -340,6 +344,10 @@ public class PreferencesDialog extends Dialog {
 				DistributedPersonalAnnos.setCurrentRemoteServer("RDF");
 				if(!DistributedPersonalAnnos.getCurrentRemoteServer().equals("RDF"))
 					rdf.setEnabled(false);
+				else
+					serverChanged = true;
+				jTextField6.setText(DistributedPersonalAnnos.searchServiceURL);
+				jTextField13.setText(DistributedPersonalAnnos.publishServiceURL);
 			}
 		});
 		
@@ -890,6 +898,12 @@ public class PreferencesDialog extends Dialog {
 		da.savePrefs();
 	}
 	boolean preferencesChanged() {
+		
+		///SAM
+		if(serverChanged)
+			return true;
+		///
+		
 		if (
 				DistributedPersonalAnnos.publishServiceURL.equals(jTextField13.getText())&&
 				DistributedPersonalAnnos.userid.equals( jTextField14.getText())&&
@@ -1059,4 +1073,7 @@ public class PreferencesDialog extends Dialog {
 	private javax.swing.JTextField jTextField8;
 	// End of variables declaration
 
+	///SAM
+	boolean serverChanged = false;
+	///
 }
