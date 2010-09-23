@@ -422,6 +422,10 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     public JMenu medit = null;
 
     public JMenu manno = null;
+    
+    ///SAM
+	public JMenu mtag = null;
+	///
 
     public JMenu mcopyed = null;
 
@@ -450,6 +454,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     JMenuItem mannos[] = new JMenuItem[3];
 
     JMenuItem mnewnote;
+    
+	///SAM
+	JMenuItem mtagThis;
+	JMenuItem mshowTags;
+	///
 
     JMenuItem msearch;
 
@@ -727,6 +736,24 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             Fab4.currFile = fileChoser.getSelectedFile();
             getCurBr().eventq(Document.MSG_OPEN, Fab4.currFile.toURI());
+            
+			///SAM            
+			try {
+				Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
+				
+				String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);
+				
+				if(curServer.equals("REST")){
+					Class parameterTypes = Class.forName("java.lang.String");
+					disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, Fab4.currFile.toURI().toString());
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			///
+            
             Fab4.currFile = Fab4.currFile.getAbsoluteFile();
             Fab4.prefs.getProps()
             .setProperty("lastSelectedDir", Fab4.currFile.toString());
@@ -1187,6 +1214,9 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             jJMenuBar.add(getMedit());
             jJMenuBar.add(getMbookmarks());
             jJMenuBar.add(getManno());
+            ///SAM
+			jJMenuBar.add(getTagmenu());
+			///
             jJMenuBar.add(getMcopyed());
             jJMenuBar.add(getMstyle());
             jJMenuBar.add(getMlens());
@@ -1301,11 +1331,56 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         return manno;
     }
 
+  ///SAM
+	/** This method initializes Tag menu */
+	private JMenu getTagmenu() {
+		mtag = new JMenu("Tags");
+		mtag.setMnemonic(java.awt.event.KeyEvent.VK_A);
+//		JMenuItem tm;
+		
+		mtagThis = new JMenuItem("Tag this page");
+		
+		//mtagThis.setIcon(FabIcons.getIcons().NOTE_ICO);
+		mtagThis.setMnemonic(java.awt.event.KeyEvent.VK_M);
+		mtagThis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//if (annotationExtension)
+					Behavior.getInstance("tag",
+							"uk.ac.liv.c3connector.TagResource", null,
+							new HashMap<String, Object>(1), getCurDoc()
+							.getLayer(Layer.PERSONAL));
+				/*else
+					Behavior.getInstance("Note", "multivalent.std.Note", null,
+							new HashMap<String, Object>(1), getCurDoc()
+							.getLayer(Layer.PERSONAL));*/
+
+			}
+		});
+		
+		mtag.add(mtagThis);
+		
+		mshowTags = new JMenuItem("Show all tags");
+		
+		//mtagThis.setIcon(FabIcons.getIcons().NOTE_ICO);
+		
+		setAction(mshowTags, "showAllTags");
+		mshowTags.setEnabled(true);
+		mtag.add(mshowTags);
+		return mtag;
+	}
+///
+    
     void publishAnnos() {
         getCurBr().eventq(PersonalAnnos.MSG_PUBLISH_ANNOS, "");
 
     }
 
+    ///SAM
+	void showAllTags(){
+		getCurBr().eventq("showAllTags", "");	
+	}
+	///
+	
     /** This method initializes bookmarks */
     private JMenu getMbookmarks() {
         if (mbookmarks == null) {
@@ -2179,7 +2254,21 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             topButtonBar.address.setText(testo);
         }
         open(testo, currentBrowser);
-
+		///SAM
+		try {
+			Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
+			String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);			
+			if(curServer.equals("REST")){
+				Class parameterTypes = Class.forName("java.lang.String");			
+				disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, testo);
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		///
     }
 
     /**
