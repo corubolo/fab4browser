@@ -85,6 +85,7 @@
 		<module>simplx</module>
 		<module>file</module>
 		<module>JT-MediaEngine</module>
+		<module>RESTAnnotationServerConnector</module>
 	</modules>
 	<repositories>
 		<repository>
@@ -210,6 +211,12 @@
 			<dependency>
 				<groupId>uk.ac.liverpool.fab4browser</groupId>
 				<artifactId>lljvm_image_spi
+  			</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>uk.ac.liverpool.fab4browser</groupId>
+				<artifactId>RESTAnnotationServerConnector
   			</artifactId>
 				<version>${project.version}</version>
 			</dependency>
