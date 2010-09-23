@@ -1988,12 +1988,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 */
 	private void publishAnnotations(final boolean reload,
 			final AnnotationServerConnectorInterface as, final Behavior[] toStore) {
-
-		///SAM: It was a thread in Fab4, I changed it to not to be thread FIXME reason: problem with copytoserver and 'was'
+		
 		/* The publishing thread */
-	/*	pt = new Thread(new Runnable() {
+		pt = new Thread(new Runnable() {
 
-			public void run() {*/
+			public void run() {
 				cancelPublish = false;
 				//final ComputeLexicalServiceLocator sl = new ComputeLexicalServiceLocator();
 				final Browser br = getBrowser();
@@ -2096,7 +2095,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 												state = as.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
 											else{
 												boolean auth = true;
-												if( (was == ras && ras != null) || useRemoteServer || DistributedPersonalAnnos.copyToPub )
+												if( (as != las && ras != null) || was == ras || useRemoteServer)
+//												if( (was == ras && ras != null) || useRemoteServer || DistributedPersonalAnnos.copyToPub )
 													auth = authenticate();
 												
 												
@@ -2145,7 +2145,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 								}
 							hideSplash(splash);
-			/*}
+			}
 ///SAM commented this section
 		});
 
@@ -2155,7 +2155,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				pt.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}*/
+			}
 
 	}
 
@@ -2854,9 +2854,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			
 			if (ras != null){
 				///SAM
-				AnnotationServerConnectorInterface temp = was;
+				/*AnnotationServerConnectorInterface temp = was;
 				was = ras; //going to public for a while
-				DistributedPersonalAnnos.copyToPub = true;
+				DistributedPersonalAnnos.copyToPub = true;*/
 				///
 				
 				///SAM 
@@ -2866,8 +2866,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					publishAnnotations(false, ras, theNotes);
 				
 				///SAM
-				was = temp; //going back
-				DistributedPersonalAnnos.copyToPub = false;
+				/*was = temp; //going back
+				DistributedPersonalAnnos.copyToPub = false;*/
 				///
 			}
 		}
@@ -3064,12 +3064,22 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	public HashMap<String,String> isAuthenticated(String username, String pass){
 		/*if( DistributedPersonalAnnos.copyToPub )
 			return ras.authenticated(username, pass);
-		else*/ if( was != null )
+		else*/ 
+		/*if( was != null )
 			return was.authenticated(username, pass);
-		else if( PersonalAnnos.useRemoteServer )
+		else 
+		if( ras != null && PersonalAnnos.useRemoteServer )
 			return ras.authenticated(username, pass);
 		else
 			return las.authenticated(username, pass);
+			*/
+		if( ras != null )
+			return ras.authenticated(username, pass);
+		else{
+			HashMap<String,String> ret = new HashMap<String, String>();
+			ret.put("3", "");
+			return ret;
+		}
 	}
 	
 	public int createNewUser(String username, String passw, String email, String name, String des, String aff){
