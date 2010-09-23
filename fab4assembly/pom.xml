@@ -125,6 +125,12 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>RESTAnnotationServerConnector</artifactId>
+			<scope>compile</scope>
+			<version>0.99</version>
+		</dependency> 
 	</dependencies>
 	<build>
 		<resources>
