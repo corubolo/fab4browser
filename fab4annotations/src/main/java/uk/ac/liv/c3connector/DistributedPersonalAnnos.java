@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -93,6 +94,8 @@ import org.apache.xbean.finder.ResourceFinder;
 
 import uk.ac.liv.c3connector.crypto.PKCS5SimpleKeyStore;
 import uk.ac.liv.c3connector.ui.AnnotationProperties;
+import uk.ac.liv.c3connector.ui.Authenticator;
+import uk.ac.liv.c3connector.ui.DocumentInfoRequester;
 import uk.ac.liv.c3connector.ui.FabAnnoAuthorComparator;
 import uk.ac.liv.c3connector.ui.FabAnnoListRenderer;
 import uk.ac.liv.c3connector.ui.FabAnnoModificationDateComparator;
@@ -136,6 +139,8 @@ import com.pt.io.InputUni;
  * 
  */
 
+enum Servers {RDF_SWORD, REST};
+
 @SuppressWarnings("deprecation")
 public class DistributedPersonalAnnos extends PersonalAnnos {
 
@@ -153,13 +158,29 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	/** Location of the lexical signature server (not used by default) */
 	public static String lswsAddress = "http://bodoni.lib.liv.ac.uk/c3c/services/ComputeLexical";
 
-	private static final String annotationResourceURI = "http://shaman.cheshire3.org/services/annotations/";
+	///SAM
+	private static final String annotationResourceURI = 
+//		"http://localhost:8888/annotationResource"; 
+		"http://hypatia.cs.ualberta.ca:8888/annotationResource"; 
+		// 
+		//"http://shaman.cheshire3.org/services/annotations/";
+
 
 	/** Default publishing service URL */
-	public static String publishServiceURL = "http://shaman.cheshire3.org/sword/annotations/";
+	public static String publishServiceURL = 
+//		"http://localhost:8888/publishService"; 
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
+		// 
+		//"http://shaman.cheshire3.org/sword/annotations/";
 
 	/** Default search service URL */
-	public static String searchServiceURL = "http://shaman.cheshire3.org/services/annotations";
+	public static String searchServiceURL = 
+//		"http://localhost:8888/searchService"; 
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
+		// 
+		//"http://shaman.cheshire3.org/services/annotations";
+	///
+	
 
 	/** Default preferences */
 	public static String author = "Demo user";
@@ -181,6 +202,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	public static boolean sameTxtDigest = true;
 
 	public static boolean trustedParty = false;
+	
+	///SAM
+	public static boolean sameBib = false; //may point to more than one url
+	
+	public static boolean sameDOI = false; //some bibs may not contain DOI, this may lead to bringing unrelated annos where bibs are similar in title,..
+						//but since this a very low risk, even maybe impossible! (if really no two papers have same title) we put this aside for future if feeling the need
+	///
 
 	public static boolean showFab4 = true;
 
@@ -216,12 +244,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	private static LocalAnnotationServer las;
 
 	LinkedList<Behavior> order = new LinkedList<Behavior>();
-
+	
+	///SAM I made ras and was static
 	/** the remote one */
-	private AnnotationServerConnectorInterface ras;
+	private static AnnotationServerConnectorInterface ras;
 
 	/** where we write to */
-	private AnnotationServerConnectorInterface was;
+	private static AnnotationServerConnectorInterface was;
 
 	public JList theList;
 
@@ -240,17 +269,26 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 	private Thread delThread;
 
+	///SAM made it static
 	/**
 	 * this variable handles the specific limitations of Cheshire3 annotation
 	 * servers
 	 */
-	private boolean c3as = false;
+	private static boolean c3as = false;
+	
+	///SAM	
+	public static Servers currentServer = Servers.RDF_SWORD;
+	///
 
 	private long lastCheck;
 
 	private JMenuItem mtopublic;
 
 	private JMenuItem mtoprivate;
+	
+	///SAM
+	private JMenuItem mreply;
+	///
 
 	private boolean toSave = true;
 
@@ -262,6 +300,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	private String dbLocation = "annoDb";
 	private static Class<AnnotationServerConnectorInterface> remoteAsc;
 
+	///SAM
+	private static boolean copyToPub = false;
+	//this should have been as an attribute in the Document or DocInfo, but I didn't want to edit multivalent
+	private static HashMap<String,Integer> bibForDocument = new HashMap<String,Integer>(); 	//String: document uri, Integer: resourceId
+	//those who don't provide bibtex, dont need resourceid, will be found by url
+	private static HashMap<String, ArrayList<String>> tagsForDocument = new HashMap<String, ArrayList<String>>();
+	///
 
 	/**
 	 * 
@@ -283,7 +328,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		if (Fab4.prefs.wsuser == null) {
 			// System.out.println("n");
 			props.setProperty("userid", DistributedPersonalAnnos.userid);
-			props.setProperty("pass", DistributedPersonalAnnos.pass);
+			///SAM
+			if(currentServer == Servers.RDF_SWORD) ///
+				props.setProperty("pass", DistributedPersonalAnnos.pass);
+			///SAM
+			else if(currentServer == Servers.REST )
+				props.setProperty("pass", ""); //don't save password
+			///
 		} else if (DistributedPersonalAnnos.pass != null)
 			Fab4.prefs.getProps().setProperty(
 					DistributedPersonalAnnos.userid + "|" + DistributedPersonalAnnos.publishServiceURL, DistributedPersonalAnnos.pass);
@@ -291,6 +342,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		props.setProperty("sameDigest", Boolean.toString(DistributedPersonalAnnos.sameDigest));
 		props.setProperty("sameLexical", Boolean.toString(DistributedPersonalAnnos.sameLexical));
 		props.setProperty("sameTxtDigest", Boolean.toString(DistributedPersonalAnnos.sameTxtDigest));
+		
+		///SAM
+		props.setProperty("sameBib", Boolean.toString(DistributedPersonalAnnos.sameBib));
+		///
+		
 		props.setProperty("showFab4", Boolean.toString(DistributedPersonalAnnos.showFab4));
 		props.setProperty("showPlay", Boolean.toString(DistributedPersonalAnnos.showPlay));
 		props.setProperty("showVoice", Boolean.toString(DistributedPersonalAnnos.showVoice));
@@ -321,14 +377,69 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			public void run() {
 				try {
 					setWasToLocalOrRemote();
-					int r;
+					int r = 0;
 					if (c3as)
 						r = was.deleteAnnotation(
 								fa.ann.getId(), DistributedPersonalAnnos.userid, fa
 								.getStringAnno());
-					else
+					///SAM
+					else if(currentServer == Servers.RDF_SWORD ){
+						///
 						r = was.deleteAnnotation(
 								fa.ann.getId(), DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+						///SAM
+					}
+					else if(currentServer == Servers.REST){
+						
+						boolean auth = true; 
+						if(useRemoteServer)	
+							auth = authenticate();
+						if(auth){
+													
+							/*if(was == null) //TODO , I don't know why it is null when setWas was called just before..
+								setWasToLocalOrRemote();*/
+							
+							if( fa.ann.getUniqueId() != null )
+								r = was.deleteAnnotation(
+										String.valueOf(fa.ann.getUniqueId()), DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+							
+							else 
+							///  //was only this line originally
+								r = was.deleteAnnotation(
+									fa.ann.getId(), DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+						}
+						else
+							r = 1;
+						
+					}
+					
+					///SAM
+					if( r == 1 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"User is not authenticated. Operation canceled",
+								"Try again...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if( r == 2 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"Sorry, the annotation server is not responding. Please try later.",
+								"Try later...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if( r == 3 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"You are not allowed to delete an annotation that has a reply on it",
+								"Not allowed...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					///					
+					
 					int k = 0;
 					while (k < 2 && PersonalAnnos.useRemoteServer) {
 						try {
@@ -342,6 +453,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 							break;
 						k++;
 					}
+					if( r == 0 ){ ///SAM added if(r == 0)
 					if (!SwingUtilities.isEventDispatchThread())
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
@@ -350,6 +462,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 						});
 					else
 						updateDeleted(fa);
+					}
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -373,7 +486,14 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 		if (PersonalAnnos.useRemoteServer && DistributedPersonalAnnos.remoteAsc != null) {
 			getRemoteAs();
-			was = ras;
+			///SAM: getremote may fail, so before setting was we should again check:
+			if(PersonalAnnos.useRemoteServer )
+				///
+				was = ras;
+			///SAM
+			else
+				was = DistributedPersonalAnnos.las;
+			///
 		} else
 			was = DistributedPersonalAnnos.las;
 	}
@@ -420,7 +540,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			JOptionPane
 			.showMessageDialog(
 					getBrowser(),
-					"Swhiching to private annotations, the server is not serponding!",
+					"Swiching to private annotations, the server is not responding!",
 					"Warning", JOptionPane.WARNING_MESSAGE);
 			Fab4.getMVFrame(br).annoPanels.get(br).annotationPaneLabel
 			.setSelectedIndex(1);
@@ -428,7 +548,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 	}
 
-	private AnnotationServerConnectorInterface generateRemote() throws InstantiationException, IllegalAccessException {
+	///SAM I made this static
+	private static AnnotationServerConnectorInterface generateRemote() throws InstantiationException, IllegalAccessException {
 		AnnotationServerConnectorInterface c = DistributedPersonalAnnos.remoteAsc.newInstance();
 		c.init(DistributedPersonalAnnos.publishServiceURL, DistributedPersonalAnnos.searchServiceURL);
 		return c;
@@ -652,11 +773,25 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			public void actionPerformed(ActionEvent e) {
 				Object[] m = l.getSelectedValues();
 				boolean allMine = areAllSelectedValuesOwn(m);
-				if (DistributedPersonalAnnos.deleteall || allMine || !PersonalAnnos.useRemoteServer)
-					for (Object o : m) {
-						FabAnnotation fa = (FabAnnotation) o;
-						getBrowser().eventq(PersonalAnnos.MSG_DELETE, fa);
-					}
+				
+				///SAM
+				if(currentServer == Servers.RDF_SWORD ){ ///
+					if (DistributedPersonalAnnos.deleteall || allMine || !PersonalAnnos.useRemoteServer)
+						for (Object o : m) {
+							FabAnnotation fa = (FabAnnotation) o;
+							getBrowser().eventq(PersonalAnnos.MSG_DELETE, fa);
+						}
+				///SAM TODO I don't remember why I did this!
+				}
+				else if(currentServer == Servers.REST ){
+					if (DistributedPersonalAnnos.deleteall || allMine )
+						for (Object o : m) {
+							FabAnnotation fa = (FabAnnotation) o;
+							//TODO if( fa.ann.hasReply() )
+							getBrowser().eventq(PersonalAnnos.MSG_DELETE, fa);
+						}
+				}
+				///
 			}
 		});
 		mdele.setToolTipText("Delete selected notes");
@@ -678,11 +813,30 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			}
 		});
 
+		///SAM:
+		mreply = new JMenuItem("Reply to this comment",
+				FabIcons.getIcons().ICOPUB);
+		mreply.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				replyToAnno();
+			}
+		});
+		
+		if(currentServer != Servers.REST)
+			mreply.setEnabled(false);
+		///
+		
 		mtopublic
 		.setToolTipText("Publishes the selected notes to the central server. Only own notes can be copied.");
 		poppa.add(mtopublic);
 		mtoprivate.setToolTipText("Makes a local copy of the selected notes. ");
 		poppa.add(mtoprivate);
+		
+		///SAM
+		mreply.setToolTipText("Opens a new note on which you can post your reply on selected annotation");
+		poppa.add(mreply);
+		///
+		
 		cb.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -1000,7 +1154,26 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 	/** convenience method to reload a document */
 	private void reloadDocument() {
+		
+		///SAM: before reloading, check if going to public, so authenticate
+		if(currentServer == Servers.REST ){
+			boolean auth = true;
+			if( PersonalAnnos.useRemoteServer )
+				auth = authenticate(); //if authentication failed (or cancelled): go back to local
+					
+			
+			if(!auth)
+				return;
+		}
+		///
+		
 		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		
+		///SAM: before reloading...
+		if(currentServer == Servers.REST )
+			askForDocumentInfo(doc.uri.toString());
+		///
+		
 		getBrowser().event(new SemanticEvent(this, Document.MSG_RELOAD, doc));
 	}
 
@@ -1182,6 +1355,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			mtopublic.setEnabled(true);
 		else
 			mtopublic.setEnabled(false);
+		///SAM
+		if(currentServer == Servers.REST )
+			mreply.setEnabled(true);
+		else
+			mreply.setEnabled(false);
+		///
 	}
 
 	protected void hideNoteContent(TextSpanNote ts) {
@@ -1426,6 +1605,31 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 						sem.release();
 						return;
 					}
+					
+					///SAM
+					if(currentServer == Servers.REST ){
+						if (DistributedPersonalAnnos.sameBib) {
+							setWasToLocalOrRemote();
+							String[] slist = was.bibtexSearch(uri);
+	
+							annoList = valdateAndCrateList(slist);
+							for (FabAnnotation ad : annoList) {
+								FabAnnotation cd = hm.get(ad.getAnn().getId());
+	
+								if (cd == null) {
+									ad.setSameBib(true);
+									hm.put(ad.getAnn().getId(), ad);
+								} else
+									cd.setSameBib(true);
+							}
+						}
+						if (loadThread != Thread.currentThread()) {
+							sem.release();
+							return;
+						}
+					}
+					///
+					
 					SwingUtilities.invokeAndWait(new Runnable() {
 						public void run() {
 							int pc = mvDocument
@@ -1566,8 +1770,15 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 				} else {
 					fabNote.setFontTitle(VFrame.FONT_TITLE_LIGHT);
-					fabNote.setTitle("("
-							+ fa.getAnn().getUserid() + ")");
+					///SAM
+					if(currentServer == Servers.RDF_SWORD ) ///
+						fabNote.setTitle("("
+								+ fa.getAnn().getUserid() + ")");
+					///SAM
+					else if(currentServer == Servers.REST )
+						fabNote.setTitle("("
+								+ fa.getAnn().getAuthor() + ")");
+					///
 				}
 				fabNote.setLampshade(true);
 				if (fa.getAnn().getUserid().equals("anonymous"))
@@ -1680,6 +1891,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					Boolean.toString(DistributedPersonalAnnos.sameLexical)));
 			DistributedPersonalAnnos.sameTxtDigest = Boolean.valueOf(props.getProperty("sameTxtDigest",
 					Boolean.toString(DistributedPersonalAnnos.sameTxtDigest)));
+			
+			///SAM
+			DistributedPersonalAnnos.sameBib = Boolean.valueOf(props.getProperty("sameBib", Boolean
+					.toString(DistributedPersonalAnnos.sameBib)));
+			///
+			
 			DistributedPersonalAnnos.trustedParty = Boolean.valueOf(props.getProperty("trustedParty",
 					Boolean.toString(DistributedPersonalAnnos.trustedParty)));
 			DistributedPersonalAnnos.showFab4 = Boolean.valueOf(props.getProperty("showFab4", Boolean
@@ -1715,7 +1932,27 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					Class c = ir.next();
 					System.out.println("Set remoteasc to:" + c);
 					DistributedPersonalAnnos.remoteAsc = c;
-
+										
+					///SAM
+					if(c.equals(Class.forName("ca.ualberta.cs.RESTServerConnector.RESTAnnotationServer"))){
+						currentServer = Servers.REST;
+						/*annotationResourceURI = 
+							//"http://localhost:8888/annotationResource"; 
+							"http://hypatia.cs.ualberta.ca:8888/annotationResource";*/
+						publishServiceURL =
+							//"http://localhost:8888/publishService"; 
+							"http://hypatia.cs.ualberta.ca:8888/publishService";
+						searchServiceURL =
+							//"http://localhost:8888/searchService"; 
+							"http://hypatia.cs.ualberta.ca:8888/searchService";
+					}
+					else if(c.equals(Class.forName("uk.ac.liverpool.annotationConnector.SwordAnnotationServer"))){
+						currentServer = Servers.RDF_SWORD;
+//						annotationResourceURI = "http://shaman.cheshire3.org/services/annotations/";
+						publishServiceURL = "http://shaman.cheshire3.org/sword/annotations/";
+						searchServiceURL = "http://shaman.cheshire3.org/services/annotations";
+					}
+					///
 				}
 
 			} catch (IOException e) {
@@ -1752,11 +1989,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	private void publishAnnotations(final boolean reload,
 			final AnnotationServerConnectorInterface as, final Behavior[] toStore) {
 
-
+		///SAM: It was a thread in Fab4, I changed it to not to be thread FIXME reason: problem with copytoserver and 'was'
 		/* The publishing thread */
-		pt = new Thread(new Runnable() {
+	/*	pt = new Thread(new Runnable() {
 
-			public void run() {
+			public void run() {*/
 				cancelPublish = false;
 				//final ComputeLexicalServiceLocator sl = new ComputeLexicalServiceLocator();
 				final Browser br = getBrowser();
@@ -1851,8 +2088,56 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 									try {
 										if (anonymous)
 											as.postAnonymousAnnotation(stringAnno, "any");
-										else
-											as.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+										else{
+											///SAM
+											int state = 0; 
+											
+											if(currentServer != Servers.REST )
+												state = as.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+											else{
+												boolean auth = true;
+												if( (was == ras && ras != null) || useRemoteServer || DistributedPersonalAnnos.copyToPub )
+													auth = authenticate();
+												
+												
+												if(auth) ///
+													state = as.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+												///SAM
+												else
+													state = 1;
+											}
+											
+											if( state == 1 ){
+												JOptionPane
+												.showMessageDialog(
+														getBrowser(),
+														"User is not authenticated. Operation canceled",
+														"Try again...",
+														JOptionPane.INFORMATION_MESSAGE);
+											}
+											else if( state == 2 ){
+												JOptionPane
+												.showMessageDialog(
+														getBrowser(),
+														"Sorry, the annotation server is not responding. Please try later.",
+														"Try later...",
+														JOptionPane.INFORMATION_MESSAGE);
+											}
+											else if( state != 0 ){
+												JOptionPane
+												.showMessageDialog(
+														getBrowser(),
+														"Sorry, a problem exists either in the annotation format or in server. Please try later.",
+														"Try later...",
+														JOptionPane.INFORMATION_MESSAGE);
+											}
+											/*else if( state > 0 ){ //when id is returned
+												fa.getAnn().setUniqueId(state);
+												if(las != null && DistributedPersonalAnnos.copyToPub ) //update local db if it was a request for copying from private to local
+													las.updateAnnotation(stringAnno, fa.getAnn().getUserid(), DistributedPersonalAnnos.pass);
+											}*/
+											///
+										}
 									} catch (Exception e) {
 
 										e.printStackTrace();
@@ -1860,8 +2145,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 								}
 							hideSplash(splash);
-			}
-
+			/*}
+///SAM commented this section
 		});
 
 		pt.start();
@@ -1870,7 +2155,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				pt.join();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			}*/
 
 	}
 
@@ -1995,10 +2280,23 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			// deledele
 			if (DistributedPersonalAnnos.deleteall)
 				deleteAnno(fa);
-			else if (fa.getSigner() != null && fa.getSigner().isItsme()
-					|| fa.getAnn().getUserid().equals(
-					"anonymous") || !PersonalAnnos.useRemoteServer)
-				deleteAnno(fa);
+			
+			else{
+				///SAM
+				if(currentServer == Servers.REST ){
+					if (fa.getSigner() != null && fa.getSigner().isItsme()
+						|| fa.getAnn().getUserid().equals(
+						"anonymous") || fa.getAnn().getUserid().equals(DistributedPersonalAnnos.userid) //.split("-")[0]) 
+						|| !PersonalAnnos.useRemoteServer)
+						deleteAnno(fa);
+				} 
+				else /// 
+					if (fa.getSigner() != null && fa.getSigner().isItsme()
+						|| fa.getAnn().getUserid().equals(
+						"anonymous") || !PersonalAnnos.useRemoteServer)
+					deleteAnno(fa);
+			}
+			
 		} else if (PersonalAnnos.MSG_PUBLISH_ANNOS == msg
 				&& br.getCurDocument().getAttr(Document.ATTR_LOADING) == null) {
 			setWasToLocalOrRemote();
@@ -2006,12 +2304,32 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				if (ras == null)
 					getRemote();
 				/* FIXME: for remote annotations, no reload since C3 takes some times to index them */
-				publishAnnotations(false, ras, null);
+				///SAM
+				if(currentServer == Servers.RDF_SWORD ) ///
+					publishAnnotations(false, ras, null);
+				///SAM: I want reload:
+				else if(currentServer == Servers.REST )
+					publishAnnotations(true, ras, null); ///
+				
 			} else if (se.getArg() != null && se.getArg() == PersonalAnnos.MSG_LOAD_REMOTE)
 				publishAnnotations(true, DistributedPersonalAnnos.las, null);
 			else
 				publishAnnotations(true, was, null);
-		} else if (Document.MSG_OPENED == msg) {
+		}
+		else if(msg != null && msg.equals("showAllTags")){
+			setWasToLocalOrRemote();			
+			if (ras == null)
+				getRemote();
+			String[] tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
+			JOptionPane
+			.showMessageDialog(
+					getBrowser(),
+					tags,
+					"This resource's tags",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
+		///
+		else if (Document.MSG_OPENED == msg) {
 			DocInfo di = (DocInfo) se.getArg();
 			Document doc2 = di.doc;
 			URI uri = doc2.getURI(); // may have been normalized
@@ -2076,6 +2394,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			mtoprivate.setEnabled(true);
 			mtopublic.setEnabled(true);
 		}
+		///SAM
+		if(currentServer == Servers.REST )
+			mreply.setEnabled(true);
+		else
+			mreply.setEnabled(false);
+		///
 	}
 
 	private void showNoteContent(TextSpanNote ts) {
@@ -2273,6 +2597,14 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				} else if (!ff.getAnn().getUserid().equals(
 				"anonymous"))
 					allMine = false;
+				
+				///SAM for REST only
+				//TODO without considering security, I want to let it work by this:
+				//if( ff.getAnn().getUserid().equals(DistributedPersonalAnnos.userid))
+				if(currentServer == Servers.REST )	
+					allMine = true; //overrides previous decisions!
+				///
+				
 				bb = ff.getBehaviour();
 				if (bb != null && bb instanceof FabNote) {
 					FabNote aa = (FabNote) bb;
@@ -2347,6 +2679,23 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 		AnnotationModel am = new AnnotationModel();
 
+		///SAM
+		if( annotationBehaviour instanceof FabNote ){
+			if( ((FabNote)annotationBehaviour).replyOnSth ){ 
+				am.setReplyToSth(true);
+				am.setReplyToFabId(((FabNote)annotationBehaviour).replyOnFabId);
+				am.setReplyTo( ((FabNote)annotationBehaviour).replyOn ); //null or not null, no problem 				
+			}
+		}
+		
+		if (modified && fa != null) //taken from up
+			if (fa.ann != null && fa.ann != null)
+				if( fa.ann.getUniqueId() != null ) //I think it has unique id only if modified, and if modified it has ann filled
+					am.setUniqueId(fa.ann.getUniqueId());
+		
+		//TODO set unique id as an attr in annotationBehavior, here, find if it is needed
+		///
+		
 		am.setId(id);
 		// we write down the annotation body (from Multivalent);
 		String annoBody = annotationBehaviour.save().writeXML();
@@ -2375,10 +2724,29 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		System.out.println("On Publish "+ base64.toString(digestTxtDocument));
 		am.setDocumentTextDigest(base64.toString(digestTxtDocument));
 		am.setPageNumber(PageCount);
-		am.setDocumentDigest(base64.toString(digest));
+		
+		///SAM:
+		if( digest != null )
+			am.setDocumentDigest(base64.toString(digest));
+		else{
+			am.setDocumentDigest(null);
+			System.err.println("\n**************");
+			System.err.println("DIGEST was NULL......\n");
+		}
+		/// (there were no if-else, but only the instruction in 'if' -without if		
+		
 		am.setUri(DistributedPersonalAnnos.annotationResourceURI);
 		am.setResourceUri(uri);
 
+		///SAM
+		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		if(bibForDocument.containsKey(doc)){
+			int resourceId = bibForDocument.get(doc);
+			if(resourceId != -1)
+				am.setResourceId(resourceId);
+		}
+		///
+		
 		String stringAnno;
 		try {
 			stringAnno = destination.getDefaultAMS().serialise(am);
@@ -2405,8 +2773,50 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 						destination.updateAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
 				} else if (anonymous)
 					destination.postAnonymousAnnotation(stringAnno, "any");
-				else
-					destination.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+				else{
+					///SAM
+					int state = 0;
+					if(currentServer == Servers.REST ){
+						boolean auth = true;
+						if( (was == ras && ras != null ) || useRemoteServer || DistributedPersonalAnnos.copyToPub )
+							auth = authenticate();
+						
+						
+						if(auth) ///
+							state = destination.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+						///SAM
+						else 
+							state = 1;
+					}
+					else
+						state = destination.postAnnotation(stringAnno, DistributedPersonalAnnos.userid, DistributedPersonalAnnos.pass);
+					
+					if( state == 1 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"User is not authenticated. Operation canceled",
+								"Try again...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if( state == 2 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"Sorry, the annotation server is not responding. Please try later.",
+								"Try later...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					else if( state != 0 ){
+						JOptionPane
+						.showMessageDialog(
+								getBrowser(),
+								"Sorry, a problem exists either in the annotation format or in server. Please try later.",
+								"Try later...",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					///
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
 
@@ -2424,9 +2834,42 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				FabAnnotation fa = (FabAnnotation) m[i];
 				theNotes[i] = fa.getBehaviour();
 			}
-			getRemoteAs();
-			if (ras != null)
-				publishAnnotations(false, ras, theNotes);
+			///SAM:
+			int i = 0;
+			do{///
+				getRemoteAs();
+				///SAM
+				i++;
+				if( i > 1000 ){
+					JOptionPane
+					.showMessageDialog(
+							getBrowser(),
+							"Sorry, the annotation server is not responding. Please try later.",
+							"Try later...",
+							JOptionPane.INFORMATION_MESSAGE);
+					break;
+				}
+				//System.out.print("*");
+			}while(ras == null); ///
+			
+			if (ras != null){
+				///SAM
+				AnnotationServerConnectorInterface temp = was;
+				was = ras; //going to public for a while
+				DistributedPersonalAnnos.copyToPub = true;
+				///
+				
+				///SAM 
+				if(currentServer == Servers.REST)
+					publishAnnotations(true, ras, theNotes);
+				else ///
+					publishAnnotations(false, ras, theNotes);
+				
+				///SAM
+				was = temp; //going back
+				DistributedPersonalAnnos.copyToPub = false;
+				///
+			}
 		}
 	}
 
@@ -2442,4 +2885,312 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		publishAnnotations(false, DistributedPersonalAnnos.las, theNotes);
 	}
 
+	///SAM
+	private void replyToAnno(){
+		
+	  try{	
+		JList l = theList;
+		Object[] m = l.getSelectedValues();
+		
+		//just get the last selected one! TODO: make it to select only one
+		//for (int i = 0; i < m.length; i++) {
+		FabAnnotation fa = (FabAnnotation) m[m.length-1];
+		Behavior replyTo = fa.getBehaviour();
+		//}
+		//create an anchored note
+		
+		HashMap<String, Object> hh = new HashMap<String, Object>(1);
+		hh.put("callout", "");
+		hh.put("replyOnSth", "");
+		
+		//String replyToName = fa.getAnn().getUniqueName();
+		/*annotationUri + fa.getAnn().id;
+		try {
+			replyToName = fa.getAnn().annotationUri + URLEncoder.encode(fa.getAnn().id, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}*/
+		//hh.put("replyOn", replyToName);
+		
+		if(fa.getAnn().getUniqueId() != null){
+			hh.put("replyOn", String.valueOf(fa.getAnn().getUniqueId() ) );
+		}
+		hh.put("replyOnFabId", fa.getAnn().getId());
+		
+		hh.put("px", replyTo.getValue("x"));
+		hh.put("py", replyTo.getValue("y"));
+		///needed: f.getCurDoc().getLayer(Layer.PERSONAL) I thought I can use: (TODO: make sure)
+		Document mvDocument = (Document) getBrowser().getRoot().findBFS("content");
+		Layer personal = mvDocument.getLayer(Layer.PERSONAL);
+		///
+		
+		Behavior.getInstance("Note","uk.ac.liv.c3connector.FabNote", null, hh, personal);
+		
+		
+		/*FabNote reply = new FabNote();
+		reply.callout = true;
+		reply.replyOnSth = true;
+		reply.replyOn = replyTo;
+		reply.show(true); //don't know!!
+*/		
+	  }catch(Exception e){
+		e.printStackTrace();
+	  }
+	}
+	///
+
+	///SAM
+	private boolean authenticate(){
+		String msg = "Swiching to private annotations. Sorry, the server is not responding!";
+		boolean ret = true;
+		
+		if(pass != null && !pass.equals("")) //already authenticated
+			return true;
+		
+		try{
+			Authenticator.running = true;
+			Authenticator au = new Authenticator(this, Fab4.getMVFrame(getBrowser()), true, Authenticator.LOGIN);
+			au.setAlwaysOnTop(true);
+			au.setLocationRelativeTo(null);
+			au.setVisible(true);
+			//wait();
+			
+			if( Authenticator.CANCEL ){
+				Authenticator.CANCEL = false;
+				ret = false;
+				msg = "Going to public zone canceled.. Returning to private annotations.";
+			}
+			
+		}catch(Exception e){			
+			e.printStackTrace();
+			ret = false;
+		}
+		
+		if( !ret ){
+			//the following block is a copy of what was given in getRemote's exception handler
+			ras = null;
+			final Browser br = getBrowser();
+			PersonalAnnos.useRemoteServer = false;
+			JOptionPane
+			.showMessageDialog(
+					getBrowser(),
+					msg,
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			Fab4.getMVFrame(br).annoPanels.get(br).annotationPaneLabel
+			.setSelectedIndex(1);
+			//reloadDocument();
+		}
+		
+		return ret;
+	}
+	
+	
+	private static Integer requestBibOrUrl(URI oldURi){
+			
+//		HashMap<URI,Integer> info = new HashMap<URI, Integer>();
+		
+		Integer resourceId = -1;
+		String uri = oldURi.toString();
+//		String newUrl = uri;
+		String bibtex = null;
+		String doi = null;
+		String keywords = null;
+		String needed = "0";
+		try{			
+			/*if(ras == null)
+				setWasToLocalOrRemote();*/
+			if(ras != null)
+				needed = ras.urlLacksBibDoiKeywords(uri);
+			if(!needed.equals("11")){
+				while( Authenticator.running );
+//				if(!Authenticator.CANCEL){
+					DocumentInfoRequester docR = new DocumentInfoRequester(/*this,*/ /*Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
+					docR.setLocationRelativeTo(null);
+					docR.setVisible(true);
+//				}
+			}
+			
+			/*if(DocumentInfoRequester.newUrl != null){
+				newUrl = DocumentInfoRequester.newUrl;
+				DocumentInfoRequester.newUrl = null;
+			}*/
+			if(DocumentInfoRequester.bibtex != null){
+				bibtex = DocumentInfoRequester.bibtex;
+				DocumentInfoRequester.bibtex = null;
+			}
+			if(DocumentInfoRequester.doi != null){
+				doi = DocumentInfoRequester.doi;
+				DocumentInfoRequester.doi = null;
+			}
+			if(DocumentInfoRequester.keywords != null){
+				keywords = DocumentInfoRequester.keywords;
+				DocumentInfoRequester.keywords = null;
+			}
+			//wait();
+					
+		
+		
+		
+		if(needed.equals("0"))
+			resourceId = addNewResource(bibtex, /*newUrl*/ uri);
+		else if(doi != null || keywords != null)
+			resourceId = updateResourceBib(uri,doi,keywords);
+		
+		}catch(Exception e){			
+			e.printStackTrace();		
+		}
+		/*URI newURi = oldURi;
+		try {
+			newURi = new URI(newUrl);
+		} catch (URISyntaxException e) {
+			JOptionPane
+			.showMessageDialog(
+					getBrowser()null,
+					"Invalid URL. URL Ignored. Document's URI will be used instead.",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+			e.printStackTrace();
+		}
+		
+		info.put(newURi, resourceId);
+		return info;*/
+		return resourceId;
+	}
+	
+	
+	///
+	
+	///SAM
+	public HashMap<String,String> isAuthenticated(String username, String pass){
+		/*if( DistributedPersonalAnnos.copyToPub )
+			return ras.authenticated(username, pass);
+		else*/ if( was != null )
+			return was.authenticated(username, pass);
+		else if( PersonalAnnos.useRemoteServer )
+			return ras.authenticated(username, pass);
+		else
+			return las.authenticated(username, pass);
+	}
+	
+	public int createNewUser(String username, String passw, String email, String name, String des, String aff){
+		if( was != null )
+			return was.createNewUser(username, passw, email, name, des, aff);		
+		else if( PersonalAnnos.useRemoteServer )
+			return ras.createNewUser(username, passw, email, name, des, aff);
+		else
+			return las.createNewUser(username, passw, email, name, des, aff);
+	}
+	
+	/**
+	 * @param bib
+	 * @param url
+	 * @return resourceId if ok, otherwise a negative number
+	 */
+	public static int addNewResource(String bib, String url){
+		if(ras != null)
+			return ras.addAnnotatedResource(bib, url);
+		else{
+			try {
+				ras = generateRemote();
+				return ras.addAnnotatedResource(bib, url);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return -1;
+	}
+	
+	public static int updateResourceBib(String url, String doi, String keywords){
+		if(ras != null)
+			return ras.updateResourceBib(url, doi, keywords);
+		else{
+			try {
+				ras = generateRemote();
+				return ras.updateResourceBib(url, doi, keywords);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			return -1;
+	}
+	
+	public static void askForDocumentInfo(String uri){
+		
+		///SAM
+		if( !bibForDocument.containsKey(uri) && PersonalAnnos.useRemoteServer){	//FIXME what about copy to server?		
+			try {
+				/*HashMap<URI,Integer> info = requestBibOrUrl(new URI(uri));
+				Set<URI> key = info.keySet();
+				URI newUrl;
+				
+					newUrl = new URI(uri);
+				
+				Integer resourceId = null;
+				for(URI k : key ){
+					newUrl = k;
+					resourceId = info.get(k);
+				}
+				uri = newUrl.toString(); //FIXME, why no setter?
+*/				
+				Integer resourceId = requestBibOrUrl(new URI(uri));
+				//even if resourceId==-1, because we don't want to bother user
+				bibForDocument.put(uri,resourceId);
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static String getCurrentRemoteServer(){
+		if(currentServer == Servers.REST)
+			return "REST";
+		else if(currentServer == Servers.RDF_SWORD)
+			return "RDF";
+		return "";
+	}
+	
+	public static void setCurrentRemoteServer(String cur){
+		try {
+			
+			if(cur.equals("REST")){				
+				remoteAsc = (Class<AnnotationServerConnectorInterface>) Class.forName("ca.ualberta.cs.RESTServerConnector.RESTAnnotationServer");
+			}
+			else if(cur.equals("RDF")){			
+				remoteAsc = (Class<AnnotationServerConnectorInterface>) Class.forName("uk.ac.liverpool.annotationConnector.SwordAnnotationServer");
+			}
+			
+			ras = generateRemote();
+			DistributedPersonalAnnos.PrevAnnotationServerLocation = DistributedPersonalAnnos.publishServiceURL;
+			if (ras.getRepositoryType().indexOf("cheshire3") >= 0)
+				c3as = true;
+			else
+				c3as = false;
+			
+			//if no exception occurred:
+			if(cur.equals("REST"))
+				currentServer = Servers.REST;
+			else if(cur.equals("RDF"))
+				currentServer = Servers.RDF_SWORD;
+			
+		} catch (Exception e) {
+			e.printStackTrace();			
+						
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"The chosen server is not responding! Going back to previous one!",
+					"Warning", JOptionPane.WARNING_MESSAGE);
+		}
+			
+	}
+	
 }

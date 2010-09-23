@@ -19,6 +19,8 @@
 
 package uk.ac.liverpool.annotationConnector;
 
+import java.util.HashMap;
+
 import uk.ac.liv.c3connector.AnnotationModelSerialiser;
 
 /**
@@ -226,5 +228,39 @@ public interface AnnotationServerConnectorInterface {
 	public String getNewIdentifier (String user, String secret);
 
 	public String getDbLocation();
+	
+	///SAM:
+	
+	/**
+	 * @return users info and state of the authentication 
+	 * state: 0: if ok, 1: if wrong pass, 2: if no such username, 3 if an exception
+	 * if state is 0: then also returns user's name, email, affiliation
+	 */
+	public HashMap<String, String> authenticated(String username, String pass);
+	
+	/**
+	 * @return 0: if ok, 1: if duplicated username, 2: if an exception occurs
+	 */
+	public int createNewUser(String username, String pass, String email, String name, String des, String aff);
+	
+	public int addAnnotatedResource(String bibtex, String url);
+	
+	/**
+	 * finds annotations on resources which have same bibtex as the bibtex of this url
+	 * @param url
+	 * @return
+	 */
+	public String[] bibtexSearch(String url);
+	
+	/** 
+	 * @param url
+	 * @return String, '0' if no bib available , otherwise 'ab': a and b can be 0 or 1. a: 0 means no DOI in DB, 1: DOI available. b: talks about existence of keywords
+	 */
+	public String urlLacksBibDoiKeywords(String url);
+	
+	public int updateResourceBib(String url, String doi, String keywords);
+	
+	public String[] retreiveAllTags(String url);
+	///
 }
 

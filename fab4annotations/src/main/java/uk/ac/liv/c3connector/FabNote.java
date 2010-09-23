@@ -130,7 +130,12 @@ public class FabNote extends Behavior {
 	protected float rx=1.0f, ry=1.0f;
 
 	public boolean callout = false;
-
+	///SAM:
+	public boolean replyOnSth = false;
+	public String replyOnFabId ; 
+	public Integer replyOn;
+	///
+	
 	int tw,th;
 
 	private String title = DistributedPersonalAnnos.author;
@@ -393,6 +398,14 @@ public class FabNote extends Behavior {
 
 		int aa = 20+rr;
 		if (callout) {
+			///SAM
+			if( getAttr("replyOnSth") != null ){
+				replyOnSth = true;
+				if(getAttr("replyOn") != null )
+					replyOn = Integer.parseInt(getAttr("replyOn"));
+				replyOnFabId = getAttr("replyOnFabId");
+			}
+			///
 			ArrowVFrame arro = new ArrowVFrame("Note",null, doc);
 			win_ = arro;
 			int px,py;
@@ -582,19 +595,40 @@ public class FabNote extends Behavior {
 		//		r.height = (int)(r.width / zl);
 		putAttr("x", String.valueOf(r.x)); putAttr("y", String.valueOf(r.y)); putAttr("width", String.valueOf(r.width)); putAttr("height", String.valueOf(r.height));
 		if (callout) {
-			ArrowVFrame arro = (ArrowVFrame) win_;
-			int px = (int)(arro.getPx()/zl);
-			int py = (int)(arro.getPy()/zl);
-			putAttr("px", String.valueOf(px));
-			putAttr("py", String.valueOf(py));
-			e= super.save();  // after updating attrs
-			if (e!=null && arro.destination!=null){
-				CHashMap<Object> pdest_=new CHashMap<Object>(5);
-				RobustLocation.descriptorFor(arro.destination,0, getDocument(), pdest_);
-				e.appendChild(new ESISNode("destination", pdest_));
+			///SAM:
+			if( replyOnSth ){
+				ArrowVFrame arro = (ArrowVFrame) win_;
+				
+				/*int px = Integer.parseInt(getAttr("px"));
+					//(int)(arro.getPx()/zl);
+				int py = Integer.parseInt(getAttr("py"));
+				
+				putAttr("px", String.valueOf(px));
+				putAttr("py", String.valueOf(py));*/
+				e= super.save();  // after updating attrs
+				if (e!=null && arro.destination!=null){
+					CHashMap<Object> pdest_=new CHashMap<Object>(5);
+					RobustLocation.descriptorFor(arro.destination,0, getDocument(), pdest_);
+					e.appendChild(new ESISNode("destination", pdest_));
+				}
 			}
-			//			System.out.println("SAVE: "+ arro.getPx() +" - "+ arro.getPy());
-			//			System.out.println("SAVE: "+arro.destination);
+			else{
+				///Not SAM:
+				ArrowVFrame arro = (ArrowVFrame) win_;
+				int px = (int)(arro.getPx()/zl);
+				int py = (int)(arro.getPy()/zl);
+				putAttr("px", String.valueOf(px));
+				putAttr("py", String.valueOf(py));
+				e= super.save();  // after updating attrs
+				if (e!=null && arro.destination!=null){
+					CHashMap<Object> pdest_=new CHashMap<Object>(5);
+					RobustLocation.descriptorFor(arro.destination,0, getDocument(), pdest_);
+					e.appendChild(new ESISNode("destination", pdest_));
+				}
+				//			System.out.println("SAVE: "+ arro.getPx() +" - "+ arro.getPy());
+				//			System.out.println("SAVE: "+arro.destination);
+				///Not SAM ends
+			} ///
 		} else
 			e = super.save();  // after updating attrs
 
