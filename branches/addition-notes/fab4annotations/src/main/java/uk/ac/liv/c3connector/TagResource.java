@@ -58,7 +58,7 @@ public class TagResource extends Behavior{
 		opos = new Rectangle(win_.getBbox());
 
 		doc_ = new Document("Note",null, win_);	// free scrolling in Note!
-		String name = "NOTE"+String.valueOf(Math.abs(FabNote.random.nextInt()));
+		String name = "TAG"+String.valueOf(Math.abs(FabNote.random.nextInt()));
 		putAttr("name", name);
 		doc_.padding = INode.INSETS[3];
 		doc_.setScrollbarShowPolicy(VScrollbar.SHOW_NEVER);
