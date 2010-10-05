@@ -181,11 +181,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-		"http://localhost:8888/publishService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/publishService";
+//		"http://localhost:8888/publishService"; 
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
 	private static String RESTsearch = 
-		"http://localhost:8888/searchService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/searchService";
+//		"http://localhost:8888/searchService"; 
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
@@ -486,10 +486,16 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	private void setWasToLocalOrRemote() {
 		createLocalAs();
 		if (DistributedPersonalAnnos.remoteAsc == null){
-			Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).annotationPaneLabel
-			.setSelectedIndex(1);
-			Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).annotationPaneLabel.setEnabled(false);
-			PersonalAnnos.useRemoteServer= false;
+			///SAM
+			toLoad = true;
+			loadSettings();
+			if(DistributedPersonalAnnos.remoteAsc == null){
+			///
+				Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).annotationPaneLabel
+				.setSelectedIndex(1);
+				Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).annotationPaneLabel.setEnabled(false);
+				PersonalAnnos.useRemoteServer= false;				
+			}
 		}
 		if (PersonalAnnos.useRemoteServer && DistributedPersonalAnnos.remoteAsc != null) {
 			getRemoteAs();
@@ -584,6 +590,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			}
 			DistributedPersonalAnnos.las = new LocalAnnotationServer(new File(new File(System
 					.getProperty("user.home"), ".Multivalent"), dbLocation ));
+			///SAM
+			if (DistributedPersonalAnnos.remoteAsc == null){
+				toLoad = true;
+				loadSettings();
+			}
+			///
 			if (DistributedPersonalAnnos.remoteAsc != null)
 				DistributedPersonalAnnos.las.setDefaultAMS(ras.getDefaultAMS());
 			AnnotationSidePanel asp = f.annoPanels.get(br);
@@ -1738,6 +1750,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	void loadAnnotation(Browser br, Document doc, FabAnnotation fa) {
 		AnnotationModel doc2 = fa.getAnn();
 		Layer personal = doc.getLayer(Layer.PERSONAL);
+		
+		///SAM
+		if((fa.getBehaviour() instanceof RateResource) || (fa.getBehaviour() instanceof TagResource) )
+			return;
+		///
+		
 		if (fa.isLoaded() && fa.getBehaviour() instanceof FabNote)
 			if (fa.getBehaviour() != null) {
 				FabNote ff = (FabNote) fa.getBehaviour();
@@ -1758,11 +1776,26 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			XML xml = (XML) Behavior.getInstance("xml", "XML",null, null);
 			xml.setInput(InputUni.getInstance(anno, null, null));
 			ESISNode n = xml.parse();
+			
+						
 			n.putAttr("closed", "false");
 			n.putAttr(DistributedPersonalAnnos.FABANNO, fa);
+			
+			
+			
 			Behavior newlay = Behavior.getInstance(n.getGI(), n
 					.getAttr("behavior"), n, n.attrs, personal);
 			fa.setBehaviour(newlay);
+			
+			///SAM
+			if( newlay != null && ((newlay instanceof RateResource) ||
+					(n.getAttr("name") != null && n.getAttr("name").startsWith("RATE"))) )
+			{
+				RateResource rateNote = (RateResource) newlay;
+				rateNote.setVisible(false);
+			}
+			///
+			
 			if (newlay instanceof FabNote) {
 				FabNote fabNote = (FabNote) newlay;
 				if (fa.getSigner() != null) {
@@ -2419,7 +2452,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 		) {
 			Document mvDocument = (Document) getBrowser().getRoot().findBFS(
-			"content");
+			"content"); 
 			Layer personal = mvDocument.getLayer(Layer.PERSONAL);
 			int pc = mvDocument.getAttr(Document.ATTR_PAGECOUNT) != null ? Integer
 					.parseInt(mvDocument.getAttr(Document.ATTR_PAGECOUNT))
@@ -2652,6 +2685,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				modified = ((Span) annotationBehaviour).modified;
 			else if (annotationBehaviour instanceof FabNote)
 				modified = ((FabNote) annotationBehaviour).isModified();
+			///SAM
+			else if (annotationBehaviour instanceof RateResource)
+				modified = ((RateResource) annotationBehaviour).isModified();
+			///
 		if (modified && fa != null) {
 			annotationBehaviour.removeAttr(DistributedPersonalAnnos.FABANNO);
 			annotationBehaviour.removeAttr("decorates");
