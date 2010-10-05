@@ -32,8 +32,9 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	
 	private ClientConfig cc = new DefaultClientConfig(); //TODO, is default good?
 	private Client client = Client.create(cc);
-	private WebResource publishWR = client.resource(DistributedPersonalAnnos.publishServiceURL);
+	private WebResource publishWR = client.resource(DistributedPersonalAnnos.publishServiceURL);	
 	private WebResource searchWR = client.resource(DistributedPersonalAnnos.searchServiceURL);
+	private WebResource updateWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/update");
 	private WebResource searchBibWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/sameBib");
 	private WebResource delWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/del");
 	private WebResource usersAuthWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/users/auth");
@@ -172,8 +173,9 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 
 	public int updateAnnotation(String replacement, String user, String secret)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		List<JAXBBean> reqArr = wrapRequest("updated", replacement, "username", user, "secret", secret);		
+		String response = (String) updateWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
+		return Integer.parseInt(response);
 	}
 
 	public int updateAnonymousAnnotation(String id, String replacement,

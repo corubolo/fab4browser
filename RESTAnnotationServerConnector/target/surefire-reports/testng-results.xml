@@ -1,0 +1,14 @@
+<testng-results>
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite">
+    <groups>
+    </groups>
+    <test name="Command line test">
+      <class name="ca.ualberta.cs.RESTServerConnector.AppTest">
+        <test-method status="PASS" signature="testApp()" name="testApp on instance testApp(ca.ualberta.cs.RESTServerConnector.AppTest)" duration-ms="4" started-at="2010-10-02T11:42:08Z" finished-at="2010-10-02T11:42:08Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>
