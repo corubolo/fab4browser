@@ -46,33 +46,35 @@ import uk.ac.liverpool.fab4.Fab4utils;
 
 public class RateResource extends Behavior{
 
-	VFrame win_ ;
+//	VFrame win_ ;
 	JDialog dialog ;
 	
-	Rectangle opos;
-	Document doc_;
-	protected Color deffg_=Color.BLACK, defbg_=Color.CYAN.brighter();	
+//	Rectangle opos;
+//	Document doc_;
+//	protected Color deffg_=Color.BLACK, defbg_=Color.CYAN.brighter();	
 //	String ocont;
 //	boolean viz_ = true;
 	int numOfCriteria = 5;
-	enum RateCritera {clarity, structure, novelty, usefulness, total};
+	//enum RateCritera {clarity, structure, novelty, usefulness, total};
 	String[] criteriaLabels = {"clarity", "structure", "novelty", "usefulness", "total"};
 	int rateMax = 5;
-		
-	VRadiobox[][] vradios;// = new VRadiobox[numOfCriteria][rateMax];
-	VRadiogroup[] vgroups;// = new VRadiogroup[numOfCriteria];
+	static boolean rateExited = false;
+	static boolean modified = false;
 	
 	@Override
 	public void restore(ESISNode n, Map<String,Object> attr, Layer layer){
+		modified = false;
+		this.setName("rate");
 		super.restore(n,attr, layer);
 		
-		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		
+		final Document doc = (Document) getBrowser().getRoot().findBFS("content");
 		float zl = doc.getMediaAdaptor().getZoom();
-		doc = getDocument();
+//		doc = getDocument();
+				
+		dialog = new JDialog(Fab4.getMVFrame(getBrowser()));
 		
-//		dialog = new JDialog(Fab4.getMVFrame(getBrowser()));
-		
-		win_ = new VFrame("Rate",null, doc);
+		/*win_ = new VFrame("Rate",null, doc);
 		win_.setShrinkTitle(true);
 		win_.setTransparent(true);
 		win_.setTitle("Your rating of this resource");
@@ -88,8 +90,10 @@ public class RateResource extends Behavior{
 		opos = new Rectangle(win_.getBbox());
 		
 		doc_ = new Document("Note",null, win_);	// free scrolling in Note!
+		*/
 		String name = "RATE"+String.valueOf(Math.abs(FabNote.random.nextInt()));
 		putAttr("name", name);
+		/*
 		doc_.padding = INode.INSETS[3];
 		doc_.setScrollbarShowPolicy(VScrollbar.SHOW_NEVER);
 		
@@ -102,8 +106,7 @@ public class RateResource extends Behavior{
 
 		Browser br = getBrowser();
 		final INode body = new IVBox("body", null, null);
-//		final VTextArea ed = new VTextArea("ed", null, doc_, body);
-		FabAnnotation fa = (FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO);
+		FabAnnotation fa = (FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO); */
 //		ed.editable = false;
 	/*	if (fa!=null)
 			if (fa.getSigner()!=null)
@@ -113,7 +116,7 @@ public class RateResource extends Behavior{
 		//ed.editable = isEditable();
 //		ed.setSizeChars(0, 0); // override VTextArea to set dimensions directly
 		//ed.
-		if (content != null && content.size() > 0
+		/*if (content != null && content.size() > 0
 				&& ((String) content.childAt(0)).trim().length() > 0) {
 			win_.setIn(false);
 			String txt = (String) content.childAt(0);
@@ -162,100 +165,75 @@ public class RateResource extends Behavior{
 //			ed.editable = true;
 			win_.raise();
 		}
-
+*/
 		// colors
-		final StyleSheet ss = doc_.getStyleSheet();
-		CLGeneral gs = new CLGeneral();
+//		final StyleSheet ss = doc_.getStyleSheet();
+		/*CLGeneral gs = new CLGeneral();
 		gs.setForeground(Colors.getColor(getAttr("foreground"), deffg_));
 		gs.setBackground(Colors.getColor(getAttr("background"), defbg_));
 		// font...
 		gs.setFont(FabNote.FONT_TEXT);
 		ss.put("note", gs);
 		gs = new CLGeneral();
-		gs.setPadding(5);
+		gs.setPadding(5);*/
 		
-//		JPanel mainpanel = new JPanel(new GridLayout(numOfCriteria+2, rateMax));
+		JPanel mainpanel = new JPanel(new GridLayout(numOfCriteria+2, rateMax));
 		
-//		ButtonGroup[] groups = new ButtonGroup[numOfCriteria];
-		vgroups = new VRadiogroup[numOfCriteria];
+		ButtonGroup[] groups = new ButtonGroup[numOfCriteria];		
 		
-//		JPanel[] radioPanels = new JPanel[numOfCriteria];
+		JPanel[] radioPanels = new JPanel[numOfCriteria];
 		
-		/*JPanel rates = new JPanel();		
-		JLabel one = new JLabel("(very poor) 1 ");
-		JLabel two = new JLabel("  2 ");
-		JLabel three = new JLabel("  3 ");
-		JLabel four = new JLabel("  4 ");
-		JLabel five = new JLabel("  5 (excellent)");
-		rates.add(new JLabel("   "));
+		JPanel rates = new JPanel();		
+		JLabel one = new JLabel("  (very poor) 1                     ");
+		JLabel two = new JLabel(" 2                     ");
+		JLabel three = new JLabel(" 3                     ");
+		JLabel four = new JLabel(" 4                     ");
+		JLabel five = new JLabel(" 5 (excellent)");
+//		rates.add(new JLabel("   "));
 		rates.add(one);
 		rates.add(two);
 		rates.add(three);
 		rates.add(four);
 		rates.add(five);		
-		mainpanel.add(rates);
-		*/
-		
-//		final JRadioButton[][] radios = new JRadioButton[numOfCriteria][rateMax];
-		vradios = new VRadiobox[numOfCriteria][rateMax];
+		mainpanel.add(rates,BorderLayout.NORTH);
+				
+		final JRadioButton[][] radios = new JRadioButton[numOfCriteria][rateMax];		
 		
 		for(int criteria = 0 ; criteria < numOfCriteria ; criteria++ ){
 			
-		/*	radios[criteria] = new JRadioButton[rateMax];
+			radios[criteria] = new JRadioButton[rateMax];
 			groups[criteria] = new ButtonGroup();
-		*/	
-			vradios[criteria] = new VRadiobox[rateMax];
-			vgroups[criteria] = new VRadiogroup();
 			
-		/*	radioPanels[criteria] = new JPanel(new GridLayout(1, 0));
+			
+			radioPanels[criteria] = new JPanel(new GridLayout(1, 0));
 			
 			radioPanels[criteria].add(new JLabel(criteriaLabels[criteria]+"  "));
-		*/	
-			createUI("label", criteriaLabels[criteria]+"  ", new SemanticEvent(getBrowser(), FabNote.MSG_SHOW, null/*win_*/, this, null), doc_, "Rate", false);
-			Context cx = new Context();
+					
 			
 			Integer selected = null;
 			if(getAttr(criteriaLabels[criteria]) != null){
-				selected = Integer.parseInt(getAttr(criteriaLabels[criteria])) - 1;				
+				selected = Integer.parseInt(getAttr(criteriaLabels[criteria])) - 1;
+				rateExited = true;
 			}
 			for( int rate = 0 ; rate < rateMax ; rate++){
-//				radios[criteria][rate] = new JRadioButton("");
-//				vradios[criteria][rate] = new VRadiobox(String.valueOf(rate+1), attr, doc_, vgroups[criteria]);
+				radios[criteria][rate] = new JRadioButton("");
 				
-//				vradios[criteria][rate].paintNode(opos, cx);
+				if(selected != null && selected.intValue() == rate)
+					radios[criteria][rate].setSelected(true);
 				
-				vradios[criteria][rate] = (VRadiobox) createUI("radiobox", String.valueOf(rate+1)+"  ", new SemanticEvent(getBrowser(), FabNote.MSG_SHOW, /*win_*/ null, this, null), doc_, "Rate", false);
-				
-//				vradios[criteria][rate].repaint();
-				vradios[criteria][rate].setRadiogroup(vgroups[criteria]);
-//				vradios[criteria][rate].formatNode(20, 10, /*ss.getContext()*/ cx);
-				
-				vradios[criteria][rate].formatBeforeAfter(10, 10, cx);
-//				vradios[criteria][rate].dx();
-//				vradios[criteria][rate].dy();
-//				vradios[criteria][rate].repaint(r.x+rate*2, r.y+criteria*3, 10, 10);
-				vradios[criteria][rate].bbox = new Rectangle(10, 10);
-//				vradios[criteria][rate].repaint();
-				
-				if(selected != null && (selected.intValue()) == rate ){
-//					radios[criteria][rate].setSelected(true);
-					vradios[criteria][rate].setState(true);
-				}
-				
-		/*		groups[criteria].add(radios[criteria][rate]);
-				radioPanels[criteria].add(radios[criteria][rate]);*/
+				groups[criteria].add(radios[criteria][rate]);
+				radioPanels[criteria].add(radios[criteria][rate]);
 			}
 			
-//			mainpanel.add(radioPanels[criteria]);
+			mainpanel.add(radioPanels[criteria]);
 		}
 		
-//		JPanel buttonGroup = new JPanel();
+		JPanel buttonGroup = new JPanel();
 		
 		
-//		JButton ok = new JButton("Done");
-//		VButton vok = new VButton("OK", attr, win_);
+		JButton ok = new JButton("Done");
 		
-		/*ok.addActionListener(new ActionListener() {
+		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				mainpanel.
 				for(int i = 0 ; i < numOfCriteria ; i++ ){
@@ -265,19 +243,28 @@ public class RateResource extends Behavior{
 							break;
 					}
 					System.out.print(criteriaLabels[i]+": "+ (j+1) +"\n");
+					
+					if(getAttr(criteriaLabels[i]) == null || !getAttr(criteriaLabels[i]).equals(String.valueOf(j+1)) )
+						modified = true;
+					
 					putAttr(criteriaLabels[i], String.valueOf(j+1));
 				}
+		
 				dialog.dispose();
 				
-				win_ = new VFrame("Rate",null, doc);
+				if(getValue(DistributedPersonalAnnos.FABANNO) != null)
+					putAttr(DistributedPersonalAnnos.FABANNO, null);
+								
+				
+/*				win_ = new VFrame("Rate",null, doc);
 				win_.setShrinkTitle(true);
 				win_.setTransparent(true);
 				win_.setTitle("You have rated this resource!");		
-				win_.setPinned(getAttr(FabNote.ATTR_FLOATING)==null);
+				win_.setPinned(getAttr(FabNote.ATTR_FLOATING)==null);*/
 			}
 		});
-		*/
-		/*JButton cancel = new JButton("Cancel");
+		
+		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dialog.dispose();
@@ -286,7 +273,7 @@ public class RateResource extends Behavior{
 		buttonGroup.add(ok);
 		buttonGroup.add(cancel);
 
-		mainpanel.add(buttonGroup);*/
+		mainpanel.add(buttonGroup);
 		
 	
 		
@@ -295,21 +282,23 @@ public class RateResource extends Behavior{
 		//if (win_!=null)
 //		win_.setTitle("Your tags");
 		
-		/*dialog.setTitle("Rate this resource");
+		dialog.setTitle("Rate this resource");
 //		ocont = Fab4utils.getTextSpaced(doc_);
 
 		dialog.add(mainpanel);
 		dialog.setAlwaysOnTop(true);
 		dialog.pack();
 		dialog.setVisible(true);
-*/				
-//		layer.addBehavior(this);
+				
+		if(layer.getBehavior("rate") == null)
+			layer.addBehavior(this);
 	}
 	
 	@Override
 	public ESISNode save(){
-		ESISNode e;		
-		
+		ESISNode e;
+		this.setName("rate");
+//		putAttr("name", "rate");
 		e = super.save();
 		if (getAttr("uri")==null) {  // inline -- for now only editable kind
 			StringBuffer csb = getStringContent();
@@ -329,20 +318,7 @@ public class RateResource extends Behavior{
 			if (sube!=null)
 				e.appendChild(sube);
 		}*/
-
-		for(int i = 0 ; i < numOfCriteria ; i++ ){
-			int selected = -1;
-			for(int j = 0 ; j < rateMax ; j++ ){
-				if(vgroups[i].getActive() != null && vgroups[i].getActive().equals(vradios[i][j]) ){
-					selected = j;
-					break;
-				}
-			}
-			if(selected != -1){
-				System.out.print(criteriaLabels[i]+": "+ (selected+1) +"\n");
-				putAttr(criteriaLabels[i], String.valueOf(selected+1));
-			}
-		}
+		
 		
 		return e;
 	}
@@ -369,9 +345,9 @@ public class RateResource extends Behavior{
 	@Override
 	public void destroy() {
 		Document doc = (Document) getBrowser().getRoot().findBFS("content");
-		if (win_!=null)
+		/*if (win_!=null)
 			win_.close();
-		win_=null;
+		win_=null;*/
 		if (getValue(DistributedPersonalAnnos.FABANNO)!=null)
 			((FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO)).setLoaded(false);
 		try {
@@ -383,5 +359,15 @@ public class RateResource extends Behavior{
 		super.destroy();
 	}
 	
+	public void setVisible(boolean vis){
+		if(vis)
+			dialog.setVisible(true);
+		else
+			dialog.setVisible(false);
+	}
+
+	public boolean isModified(){
+		return modified;
+	}
 	
 }
