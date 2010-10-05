@@ -441,11 +441,21 @@ class AnnoToolBar extends JToolBar {
 				@SuppressWarnings("unchecked")
 				public void actionPerformed(ActionEvent e) {	
 					try{
+						
 						HashMap hh = new HashMap<String, Object>(1);
+						Layer layer = f.getCurDoc().getLayer(Layer.PERSONAL);
+						Behavior beh = layer.getBehavior("rate");
+						if( beh != null){
+							beh.restore(null, beh.getAttributes(), layer);
+						}
+						else{
 //						hh.put("callout", "");
-						Behavior.getInstance("Rate",
+							Behavior.getInstance("rate",
 								"uk.ac.liv.c3connector.RateResource", null, hh, f
 								.getCurDoc().getLayer(Layer.PERSONAL));
+						}
+						f.updateAnnoIcon();
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
