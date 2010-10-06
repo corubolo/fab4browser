@@ -2354,7 +2354,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 		else if(msg != null && msg.equals("showAllTags")){
 			setWasToLocalOrRemote();			
-			if (ras == null)
+			while (ras == null) //TODO once I encountered an exception here, may be because of ras. how come ras is sometimes null?
 				getRemote();
 			String[] tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
 			JOptionPane
