@@ -189,15 +189,17 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<descriptors>
+							<!--<descriptors>
 								<descriptor>src/main/assembly/fab4browser.xml</descriptor>
 							</descriptors>
-						</configuration>
+						--></configuration>
 					</execution>
 				</executions>
 				<configuration>
 					<finalName>fab4</finalName>
-
+					<descriptors>
+						<descriptor>src/main/assembly/fab4browser.xml</descriptor>
+					</descriptors>
 				</configuration>
 			</plugin>
 			<!--
