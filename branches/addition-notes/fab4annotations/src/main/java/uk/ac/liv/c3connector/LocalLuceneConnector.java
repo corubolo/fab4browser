@@ -573,4 +573,9 @@ public class LocalLuceneConnector implements AnnotationServerConnectorInterface 
 		return null;
 	}
 
+	public void storePageAccess(String url, String username) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
