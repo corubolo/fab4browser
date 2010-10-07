@@ -261,6 +261,8 @@ public interface AnnotationServerConnectorInterface {
 	public int updateResourceBib(String url, String doi, String keywords);
 	
 	public String[] retreiveAllTags(String url);
+	
+//	public void storePageAccess(String url, String username);
 	///
 }
 
