@@ -2255,18 +2255,19 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         }
         open(testo, currentBrowser);
 		///SAM
-		try {
+		/*try {
 			Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
 			String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);			
 			if(curServer.equals("REST")){
 				Class parameterTypes = Class.forName("java.lang.String");			
 				disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, testo);
+//				disAnnos.getDeclaredMethod("pageAccessed", parameterTypes ).invoke(null, testo);
 			}
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		
 		///
     }
