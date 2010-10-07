@@ -248,7 +248,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	public int addAnnotatedResource(String bibtex, String url) {
 		if(url.startsWith("file:/"))
 			url = DistributedPersonalAnnos.userid + ":" + url;
-		List<JAXBBean> reqArr = wrapRequest("bibtex", bibtex, "url", url, "", null);		
+		List<JAXBBean> reqArr = wrapRequest("bibtex", bibtex, "url", url, "username", DistributedPersonalAnnos.userid);		
 		String response = (String) resourcesAddWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 		return Integer.parseInt(response);
 	}
@@ -285,9 +285,6 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 			tags[i] = res.get(i).getKey();
 		return tags;
 	}
-
-	
-
 	
 
 }
