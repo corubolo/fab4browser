@@ -385,6 +385,22 @@ DocInfo di = (DocInfo)arg;
 			// move this to MediaLoader?
 			//System.out.println("open(DocInfo) on "+openURI);
 
+			///SAM
+			try {
+				Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
+				String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);			
+				if(curServer.equals("REST")){
+					Class parameterTypes = Class.forName("java.lang.String");			
+					disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, openURI.toString());
+//					disAnnos.getDeclaredMethod("pageAccessed", parameterTypes ).invoke(null, openURI.toString());
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			///
+			
 			if (handleScheme( di,  br, doc, openURI))
 				return;
 
