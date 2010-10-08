@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ApachePOI">
+        <wb-resource deploy-path="/" source-path="/src/java"/>
+        <wb-resource deploy-path="/" source-path="/src/scratchpad/src"/>
+        <wb-resource deploy-path="/" source-path="/src/contrib/src"/>
+        <wb-resource deploy-path="/" source-path="/src/resources/main"/>
+        <wb-resource deploy-path="/" source-path="/src/resources/scratchpad"/>
+    </wb-module>
+</project-modules>
