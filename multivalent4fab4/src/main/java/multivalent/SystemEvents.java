@@ -390,9 +390,11 @@ DocInfo di = (DocInfo)arg;
 				Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
 				String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);			
 				if(curServer.equals("REST")){
-					Class parameterTypes = Class.forName("java.lang.String");			
-					disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, openURI.toString());
-//					disAnnos.getDeclaredMethod("pageAccessed", parameterTypes ).invoke(null, openURI.toString());
+					if(!openURI.toString().startsWith("systemresource:")){
+						Class parameterTypes = Class.forName("java.lang.String");			
+						disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, openURI.toString());
+	//					disAnnos.getDeclaredMethod("pageAccessed", parameterTypes ).invoke(null, openURI.toString());
+					}
 				}
 				
 			} catch (Exception e) {
