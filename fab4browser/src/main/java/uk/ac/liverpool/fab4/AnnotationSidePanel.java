@@ -73,9 +73,15 @@ public class AnnotationSidePanel extends JPanel {
 
 	JButton bMoveAnno;
 
-	JButton bPubAnno;
+	///SAM made it public static
+	public static JButton bPubAnno;
 	JButton bSaveAnno;
 
+	///SAM
+	JButton rateResource;
+	JButton tag;
+	///
+	
 	JButton bShowAnno;
 
 	JButton bIconAnno;
@@ -435,9 +441,9 @@ class AnnoToolBar extends JToolBar {
 		///SAM
 		try {
 			//Class.forName("uk.ac.liv.c3connector.CalloutNote");
-			create = new JButton("Rate", FabIcons.getIcons().ICOICO);
-			create.setToolTipText("Rate this resource");
-			create.addActionListener(new ActionListener() {
+			asp.rateResource = new JButton("Rate", FabIcons.getIcons().ICOICO);
+			asp.rateResource.setToolTipText("Rate this resource");
+			asp.rateResource.addActionListener(new ActionListener() {
 				@SuppressWarnings("unchecked")
 				public void actionPerformed(ActionEvent e) {	
 					try{
@@ -462,12 +468,12 @@ class AnnoToolBar extends JToolBar {
 					}
 				}
 			});
-			create.setFont(nf);
-			add(create);
+			asp.rateResource.setFont(nf);
+			add(asp.rateResource);
 			
-			create = new JButton("Tag", FabIcons.getIcons().NOTE_ICO_CALL);
-			create.setToolTipText("Tag this resource");
-			create.addActionListener(new ActionListener() {
+			asp.tag = new JButton("Tag", FabIcons.getIcons().NOTE_ICO_CALL);
+			asp.tag.setToolTipText("Tag this resource");
+			asp.tag.addActionListener(new ActionListener() {
 				@SuppressWarnings("unchecked")
 				public void actionPerformed(ActionEvent e) {
 					Class disAnnos;
@@ -489,8 +495,8 @@ class AnnoToolBar extends JToolBar {
 					}
 				}
 			});
-			create.setFont(nf);
-			add(create);
+			asp.tag.setFont(nf);
+			add(asp.tag);
 
 		} catch (Exception edd) {
 		}
