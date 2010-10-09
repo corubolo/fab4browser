@@ -886,6 +886,37 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
                 }
         ap.bPubAnno.setEnabled(toPublish);
         ap.bSaveAnno.setEnabled(toPublish);
+        
+        
+        ///SAM
+        //if private
+        ap.rateResource.setEnabled(PersonalAnnos.useRemoteServer);
+    	ap.tag.setEnabled(PersonalAnnos.useRemoteServer);
+        
+    	/*try {
+			Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");			
+			String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);
+			
+			if(curServer.equals("REST")){
+				Class rateres = Class.forName("uk.ac.liv.c3connector.RateResource");
+//				Class parameterTypes = Class.forName("java.lang.String");
+				boolean rated_ok = (Boolean) rateres.getDeclaredMethod("getRated_ok").invoke(null);
+				if(rated_ok){
+					getCurBr().eventq(PersonalAnnos.MSG_PUBLISH_ANNOS,
+							PersonalAnnos.MSG_PUBLISH_ANNOS);
+					System.out.println("\n********DDDDDDDDDDDDDDDDD**************\n");
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+    	
+    	
+        	
+        ///
+        
         mpublish.setEnabled(toPublish);
 
         // if (toPublish){
