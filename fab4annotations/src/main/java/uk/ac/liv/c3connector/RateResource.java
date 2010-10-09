@@ -2,6 +2,7 @@ package uk.ac.liv.c3connector;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -15,6 +16,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import com.thoughtworks.xstream.core.TreeMarshaller.CircularReferenceException;
 
@@ -41,13 +44,17 @@ import multivalent.node.LeafUnicode;
 import phelps.awt.Colors;
 import phelps.lang.Integers;
 import uk.ac.liv.c3connector.ui.FabAnnoListRenderer;
+import uk.ac.liverpool.fab4.AnnotationSidePanel;
 import uk.ac.liverpool.fab4.Fab4;
 import uk.ac.liverpool.fab4.Fab4utils;
+import uk.ac.liverpool.fab4.PersonalAnnos;
 
 public class RateResource extends Behavior{
 
 //	VFrame win_ ;
 	JDialog dialog ;
+	
+//	static boolean rated_ok = false;
 	
 //	Rectangle opos;
 //	Document doc_;
@@ -64,6 +71,8 @@ public class RateResource extends Behavior{
 	@Override
 	public void restore(ESISNode n, Map<String,Object> attr, Layer layer){
 		modified = false;
+//		rated_ok = false;
+		
 		this.setName("rate");
 		super.restore(n,attr, layer);
 		
@@ -177,18 +186,26 @@ public class RateResource extends Behavior{
 		gs = new CLGeneral();
 		gs.setPadding(5);*/
 		
-		JPanel mainpanel = new JPanel(new GridLayout(numOfCriteria+2, rateMax));
+		JPanel mainpanel = new JPanel(new GridLayout(numOfCriteria+3, rateMax));
+//		JPanel mainpanel = new JPanel(new GridLayout(3, 1));
 		
 		ButtonGroup[] groups = new ButtonGroup[numOfCriteria];		
 		
 		JPanel[] radioPanels = new JPanel[numOfCriteria];
 		
+		JPanel pan = new JPanel();
+		pan.add(new JLabel("<html> <h3> This will overwrite your previous rating of this resource </h3>  </html>"), BorderLayout.CENTER);
+		mainpanel.add(pan);
+		
+//		String[] ratess = {"(very poor) << 1", "2", "3", "4", "5 >> (excellent)"};
+//		Object[][] vals = new Object[numOfCriteria][6];
+		
 		JPanel rates = new JPanel();		
-		JLabel one = new JLabel("  (very poor) 1                     ");
-		JLabel two = new JLabel(" 2                     ");
-		JLabel three = new JLabel(" 3                     ");
-		JLabel four = new JLabel(" 4                     ");
-		JLabel five = new JLabel(" 5 (excellent)");
+		JLabel one = new JLabel("  (very poor) \t << \t 1 \t \t");
+		JLabel two = new JLabel(" \t \t 2 \t \t");
+		JLabel three = new JLabel(" \t \t 3 \t \t");
+		JLabel four = new JLabel(" \t \t 4 \t \t");
+		JLabel five = new JLabel(" \t \t 5 \t >> \t (excellent)");
 //		rates.add(new JLabel("   "));
 		rates.add(one);
 		rates.add(two);
@@ -207,8 +224,9 @@ public class RateResource extends Behavior{
 			
 			radioPanels[criteria] = new JPanel(new GridLayout(1, 0));
 			
-			radioPanels[criteria].add(new JLabel(criteriaLabels[criteria]+"  "));
-					
+//			radioPanels[criteria].add(new JLabel(" "));
+			radioPanels[criteria].add(new JLabel(" \t"+criteriaLabels[criteria]+"  "));
+//			vals[criteria][0] = new JLabel(criteriaLabels[criteria]);		
 			
 			Integer selected = null;
 			if(getAttr(criteriaLabels[criteria]) != null){
@@ -216,22 +234,31 @@ public class RateResource extends Behavior{
 				rateExited = true;
 			}
 			for( int rate = 0 ; rate < rateMax ; rate++){
-				radios[criteria][rate] = new JRadioButton("");
+				radios[criteria][rate] = new JRadioButton(String.valueOf(rate+1));
 				
 				if(selected != null && selected.intValue() == rate)
 					radios[criteria][rate].setSelected(true);
 				
+				radios[criteria][rate].setSize(10, 5);
 				groups[criteria].add(radios[criteria][rate]);
 				radioPanels[criteria].add(radios[criteria][rate]);
+//				vals[criteria][rate] = radios[criteria][rate];
 			}
-			
+						
 			mainpanel.add(radioPanels[criteria]);
 		}
 		
+		/*JTable table = new JTable(vals, ratess);
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        table.setFillsViewportHeight(true);
+
+        JScrollPane scrollPane = new JScrollPane(table);        
+        mainpanel.add(scrollPane);
+*/		
 		JPanel buttonGroup = new JPanel();
 		
 		
-		JButton ok = new JButton("Done");
+		JButton ok = new JButton("Save public");
 		
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -254,7 +281,10 @@ public class RateResource extends Behavior{
 				
 				if(getValue(DistributedPersonalAnnos.FABANNO) != null)
 					putAttr(DistributedPersonalAnnos.FABANNO, null);
-								
+			
+//				br.eventq(PersonalAnnos.MSG_PUBLISH_ANNOS, DistributedPersonalAnnos.MSG_PUBLISH_ANNOS);
+//				rated_ok = true;
+				AnnotationSidePanel.bPubAnno.doClick();
 				
 /*				win_ = new VFrame("Rate",null, doc);
 				win_.setShrinkTitle(true);
@@ -264,10 +294,16 @@ public class RateResource extends Behavior{
 			}
 		});
 		
+		
+		
 		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dialog.dispose();
+				
+				if(getValue(DistributedPersonalAnnos.FABANNO) == null)
+					putAttr(DistributedPersonalAnnos.FABANNO, FabAnnotation.dummy_);
+//				rated_ok = false;
 			}
 		});
 		buttonGroup.add(ok);
@@ -288,6 +324,7 @@ public class RateResource extends Behavior{
 		dialog.add(mainpanel);
 		dialog.setAlwaysOnTop(true);
 		dialog.pack();
+		dialog.setLocationRelativeTo(null);
 		dialog.setVisible(true);
 				
 		if(layer.getBehavior("rate") == null)
@@ -369,5 +406,9 @@ public class RateResource extends Behavior{
 	public boolean isModified(){
 		return modified;
 	}
+	
+	/*public static Boolean getRated_ok(){
+		return rated_ok;
+	}*/
 	
 }

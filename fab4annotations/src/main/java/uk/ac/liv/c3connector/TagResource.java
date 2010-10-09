@@ -150,7 +150,6 @@ public class TagResource extends Behavior{
 		win_.setTitle("Your tags");
 		ocont = Fab4utils.getTextSpaced(doc_);
 
-		
 
 	}
 	

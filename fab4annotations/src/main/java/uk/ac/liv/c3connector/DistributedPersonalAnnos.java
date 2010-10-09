@@ -181,11 +181,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-		"http://localhost:8888/publishService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/publishService";
+//		"http://localhost:8888/publishService"; 
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
 	private static String RESTsearch = 
-		"http://localhost:8888/searchService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/searchService";
+//		"http://localhost:8888/searchService"; 
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
@@ -2357,6 +2357,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			while (ras == null) //TODO once I encountered an exception here, may be because of ras. how come ras is sometimes null?
 				getRemote();
 			String[] tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
+			if(tags == null || tags.length == 0){
+				tags = new String[1];
+				tags[0] = "No tags yet assigned";
+			}
 			JOptionPane
 			.showMessageDialog(
 					getBrowser(),
@@ -2742,6 +2746,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		// and populate the whole annotation:
 		am.setAnnotationBody(annoBody);
 
+		System.out.println(annoBody);
 		boolean anonymous = annotationBehaviour.getAttr("anonymous") != null;
 
 		Date now = new Date();
@@ -3261,6 +3266,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 			
 	}
-		
+	
+	public void publishAnnos(){
+		getBrowser().eventq(PersonalAnnos.MSG_PUBLISH_ANNOS,
+				PersonalAnnos.MSG_PUBLISH_ANNOS);
+	}
 	
 }
