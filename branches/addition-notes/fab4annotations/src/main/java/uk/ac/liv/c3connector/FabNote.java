@@ -21,6 +21,7 @@ import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -36,6 +37,7 @@ import multivalent.INode;
 import multivalent.Layer;
 import multivalent.Leaf;
 import multivalent.Mark;
+import multivalent.MediaAdaptor;
 import multivalent.Node;
 import multivalent.SemanticEvent;
 import multivalent.Span;
@@ -43,8 +45,11 @@ import multivalent.StyleSheet;
 import multivalent.gui.VCheckbox;
 import multivalent.gui.VFrame;
 import multivalent.gui.VMenu;
+import multivalent.gui.VRadiobox;
+import multivalent.gui.VRadiogroup;
 import multivalent.gui.VScrollbar;
 import multivalent.gui.VTextArea;
+import multivalent.node.IHBox;
 import multivalent.node.IParaBox;
 import multivalent.node.IVBox;
 import multivalent.node.LeafUnicode;
@@ -134,6 +139,13 @@ public class FabNote extends Behavior {
 	public boolean replyOnSth = false;
 	public String replyOnFabId ; 
 	public Integer replyOn;
+	
+	VRadiobox posBox;
+	VRadiobox negBox;
+	VRadiobox infoBox;
+	VRadiobox neutBox;
+	VRadiogroup vgroup = new VRadiogroup();
+	VTextArea ed;
 	///
 	
 	int tw,th;
@@ -452,7 +464,31 @@ public class FabNote extends Behavior {
 		win_.setBounds(r.x,r.y,r.width,r.height);
 		opos = new Rectangle(win_.getBbox());
 
-		doc_ = new Document("Note",null, win_);	// free scrolling in Note!
+		///SAM: maybe here I should change doc_ to be html, and set name of resulting doc (INODE) to "Note"
+//		doc_ = new Document("Note",null, win_);	// free scrolling in Note!
+		
+		
+		/*IVBox ratedoc = (IVBox) MediaAdaptor.parseHelper("<html> <textarea rows=\"2\" cols=\"10\"> annobody:" +
+				"</textarea> " +
+				"<input type=\"radio\" name=\"sex\" value=\"Male\" /> Male<br />" +
+				  "<input type=\"radio\" name=\"sex\" value=\"Female\" checked=\"checked\" /> Female<br />" +
+				"</html>", "HTML", layer, win_);*/
+		
+		///SAM
+		IVBox vbox = new IVBox("m", null, win_);
+		doc_ = new Document("Note",null, vbox);	// free scrolling in Note!
+		
+		/*Node a = null;
+		while((a = ratedoc.getNextNode()) != null ){
+			System.out.println("---------"+a.getName());
+		}
+		
+		a = win_.getFirstChild();
+		do{
+			System.out.println("++++++++"+a.getName());
+		}
+		while((a = a.getNextNode()) != null );*/
+		
 		String name = "NOTE"+String.valueOf(Math.abs(FabNote.random.nextInt()));
 		putAttr("name", name);
 		doc_.padding = INode.INSETS[3];
@@ -483,7 +519,10 @@ public class FabNote extends Behavior {
 
 		}
 		final INode body = new IVBox("body", null, null);
-		final VTextArea ed = new VTextArea("ed", null, doc_, body);
+		///SAM
+//		final VTextArea ed = new VTextArea("ed", null, doc_, body);		
+		ed = new VTextArea("ed", null, doc_, body);
+		///
 		FabAnnotation fa = (FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO);
 		ed.editable = false;
 		if (fa!=null)
@@ -564,6 +603,79 @@ public class FabNote extends Behavior {
 		win_.setTitle(title);
 		ocont = Fab4utils.getTextSpaced(doc_);
 
+		
+//		Document rdoc = new Document("rdoc", null, vbox);
+//		final INode rbody = new IHBox("rbody", null, rdoc);
+		/*final VTextArea red = (VTextArea) createUI("textarea", "", 
+				new SemanticEvent(getBrowser(),FabNote.MSG_SHOW, null //win_
+				 //		, this, null) 
+				null, rdoc, "RateAnno", false);*/ 
+			//new VTextArea("red", null, rdoc, rbody);
+		
+//		IHBox hbox = new IHBox("h",null,vbox);
+//		Rectangle rec_rate = new Rectangle(hbox.getBbox());
+		
+//		Document dd = new Document("RATE", null, hbox);
+//		INode i = new INode("s", null, hbox);
+		
+		/*IVBox menu = (IVBox) MediaAdaptor.parseHelper("<html> " +
+				"<input type=\"radio\" name=\"sex\"  /> Male<br />" +
+				  "<input type=\"radio\" name=\"sex\" /> Female<br />" +
+				" </html>", "HTML", layer, hbox);
+		menu.setValid(true);*/
+		
+
+		createUI("label", "------------------", new SemanticEvent(getBrowser(), 
+				FabNote.MSG_SHOW, null //win_
+				, this, null), body, "RateAnno2", false);
+		
+		
+		IHBox hbox = new IHBox("h", null, body); //with body worked
+		IVBox in1 = new IVBox("in1", null, hbox);
+		IVBox in2 = new IVBox("in2", null, hbox);
+		
+		posBox = (VRadiobox) createUI("radiobox", " positive", /*new SemanticEvent(getBrowser(), 
+				FabNote.MSG_SHOW, null //win_
+				, this, null)*/ null, in1, "RateAnno", false); 
+		posBox.setName("pos");
+		posBox.setRadiogroup(vgroup);
+			//new VRadiobox("positive", null, hbox, vgroup);
+		negBox = (VRadiobox) createUI("radiobox", " negative" 
+				, /*new SemanticEvent(getBrowser() , FabNote.MSG_SHOW, null //win_
+						, this, null)*/ null
+				, in2, "RateAnno", false); 
+		negBox.setRadiogroup(vgroup);
+		negBox.setName("neg");
+		
+		neutBox = (VRadiobox) createUI("radiobox", " neutral", /*new SemanticEvent(getBrowser(), 
+				FabNote.MSG_SHOW, null //win_
+				, this, null)*/ null, in1, "RateAnno", false); 
+		neutBox.setName("neut");
+		neutBox.setRadiogroup(vgroup);
+		
+		infoBox = (VRadiobox) createUI("radiobox", " informative" 
+				, /*new SemanticEvent(getBrowser() , FabNote.MSG_SHOW, null //win_
+						, this, null)*/ null
+				, in2, "RateAnno", false); 
+		infoBox.setRadiogroup(vgroup);
+		infoBox.setName("info");
+		
+		
+		
+		if(getAttr("selected") != null){
+			if(getAttr("selected").equals(negBox.getName()))
+				negBox.setState(true);
+			if(getAttr("selected").equals(posBox.getName()))
+				posBox.setState(true);
+			if(getAttr("selected").equals(neutBox.getName()))
+				neutBox.setState(true);
+			if(getAttr("selected").equals(infoBox.getName()))
+				infoBox.setState(true);
+		}
+		
+		/*box1.setValid(true);
+		box2.setValid(true);*/
+//		win_.reformat(bogus)		
 		return;
 	}
 
@@ -586,6 +698,12 @@ public class FabNote extends Behavior {
 		if (getAttr(FabNote.ATTR_PAGE)==null) {
 
 		}
+		
+		if(vgroup.getActive() != null)
+			putAttr("selected", vgroup.getActive().getName());
+		else
+			putAttr("selected", "nocat");
+		
 		Rectangle r = win_.bbox;
 		ESISNode e;
 		float zl = getDocument().getMediaAdaptor().getZoom();
@@ -651,6 +769,8 @@ public class FabNote extends Behavior {
 				e.appendChild(sube);
 		}
 
+		
+		
 		return e;
 	}
 	/**
@@ -658,7 +778,10 @@ public class FabNote extends Behavior {
 	 */
 	private StringBuffer getStringContent() {
 		StringBuffer csb = new StringBuffer(2000);
-		doc_.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
+		///SAM
+//		doc_.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
+		ed.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
+		///
 		String trim = csb.substring(0).trim();
 		csb.setLength(0);
 		for (int i=0,imax=trim.length(); i<imax; i++) {
@@ -671,6 +794,15 @@ public class FabNote extends Behavior {
 		// ampty string creates a <content/> that breaks MV's xml parser
 		if (csb.length()==0)
 			csb.append("<br/>");
+		///SAM
+		else if(csb.length() > ("--------".length() + "<br/>".length()))
+			if(csb.indexOf("--------") >= "<br/>".length())
+				csb.delete(csb.indexOf("--------")-("<br/>".length()), csb.length());
+			else
+				csb.delete(csb.indexOf("--------"), csb.length());
+		else if(csb.length() > ("--------".length() ))
+			csb.delete(csb.indexOf("--------"), csb.length());
+		///
 		//System.out.println("00!!!!!");
 		return csb;
 	}

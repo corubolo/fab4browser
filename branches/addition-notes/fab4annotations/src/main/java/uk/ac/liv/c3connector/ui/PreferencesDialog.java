@@ -319,7 +319,7 @@ public class PreferencesDialog extends Dialog {
 		serverPanel.setFocusTraversalPolicyProvider(true);
 		serverPanel.setEnabled(true);
 		
-		final JRadioButton rest = new JRadioButton("CLR Server");
+		final JRadioButton rest = new JRadioButton("CoRAL Server");
 		final JRadioButton rdf = new JRadioButton("Fab4 Server");
 		
 		if(DistributedPersonalAnnos.getCurrentRemoteServer().equals("REST"))
