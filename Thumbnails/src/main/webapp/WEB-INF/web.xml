@@ -21,6 +21,25 @@
 				/Thumbnails
 				</url-pattern>
 	</servlet-mapping>
+
+
+
+	<servlet>
+		<servlet-name>RestThumbnailsServlet</servlet-name>
+		<servlet-class>uk.ac.liverpool.thumbnails.RestThumbnailsServlet</servlet-class>
+		<load-on-startup>
+			1
+		</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestThumbnailsServlet</servlet-name>
+		<url-pattern>
+				/RestThumbnailsServlet
+				</url-pattern>
+	</servlet-mapping>
+
+
+
 	<session-config>
 
 		<session-timeout>60</session-timeout>
