@@ -116,6 +116,10 @@ public class FabNote extends Behavior {
 	public static final String ATTR_FLOATING = "floating";
 	public static final String ATTR_ANONYMOUS = "anonymous";
 
+	///SAM
+	public static final String MSG_RATE_ATTEMP = "rateAttempted";
+	///
+	
 	// name, uri, x,y,width,height, foreground,background
 
 	protected Color deffg_=Color.BLACK, defbg_=Color.YELLOW.brighter();
@@ -345,6 +349,27 @@ public class FabNote extends Behavior {
 			}
 
 		}
+		///SAM
+		else if (FabNote.MSG_RATE_ATTEMP == msg){
+			FabAnnotation fa = (FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO);
+			if (fa==null || fa.getSigner()==null || !fa.getSigner().isItsme()){
+				negBox.setState(false);
+				posBox.setState(false);
+				negBox.setState(false);
+				infoBox.setState(false);
+				if(getAttr("rated") != null){
+					if(getAttr("rated").equals(negBox.getName()))
+						negBox.setState(true);
+					if(getAttr("rated").equals(posBox.getName()))
+						posBox.setState(true);
+					if(getAttr("rated").equals(neutBox.getName()))
+						neutBox.setState(true);
+					if(getAttr("rated").equals(infoBox.getName()))
+						infoBox.setState(true);
+				}
+			}
+		}
+		///
 
 
 		return super.semanticEventAfter(se,msg);
@@ -460,7 +485,7 @@ public class FabNote extends Behavior {
 		r.x = (int)(Integers.parseInt(getAttr("x"),aa) * zl);
 		r.y = (int)(Integers.parseInt(getAttr("y"),aa) * zl);
 		r.width = Integers.parseInt(getAttr("width"),220);
-		r.height = Integers.parseInt(getAttr("height"),100);
+		r.height = Integers.parseInt(getAttr("height"),120); ///SAM, was 100
 		win_.setBounds(r.x,r.y,r.width,r.height);
 		opos = new Rectangle(win_.getBbox());
 
@@ -520,8 +545,11 @@ public class FabNote extends Behavior {
 		}
 		final INode body = new IVBox("body", null, null);
 		///SAM
-//		final VTextArea ed = new VTextArea("ed", null, doc_, body);		
-		ed = new VTextArea("ed", null, doc_, body);
+//		final VTextArea ed = new VTextArea("ed", null, doc_, body);	
+		
+		IVBox vedbox = new IVBox("vedbox", null, doc_);
+		
+		ed = new VTextArea("ed", null, vedbox, body);
 		///
 		FabAnnotation fa = (FabAnnotation)getValue(DistributedPersonalAnnos.FABANNO);
 		ed.editable = false;
@@ -625,53 +653,87 @@ public class FabNote extends Behavior {
 		menu.setValid(true);*/
 		
 
-		createUI("label", "------------------", new SemanticEvent(getBrowser(), 
+		createUI("label", "-------------------", /*new SemanticEvent(getBrowser(), 
 				FabNote.MSG_SHOW, null //win_
-				, this, null), body, "RateAnno2", false);
+				, this, null)*/
+				null
+				, body, "RateAnno2", false);
 		
 		
-		IHBox hbox = new IHBox("h", null, body); //with body worked
+		
+//		Rectangle rec = new Rectangle(r.x,r.y+r.height/2,r.width,r.height/2);
+		
+		/*VFrame rateFrame = new VFrame("rateF", null, vbox);
+		rateFrame.setBounds(r.x, r.y+r.height, r.width, r.height/2);
+		rateFrame.setClosable(false);
+		rateFrame.setTitle("Categorize");
+		rateFrame.setShrinkTitle(true);
+		rateFrame.setPinned(win_.isPinned());
+		rateFrame.setIn(false);*/
+		
+		/*Document myd = new Document("myd", null, vbox);
+	
+		Layer msublay = myd.getLayers();
+		
+		if (n!=null) {
+			msublay.restoreChildren(n, msublay);
+//			content = sublay.getAux("content");     // beautiful: pagewise annos and now this in aux
+		}*/
+		
+//		VTextArea ved = new VTextArea("ved", null, vedbox);
+		
+		IHBox hbox = new IHBox("hb", null, body); //with body worked
+		
 		IVBox in1 = new IVBox("in1", null, hbox);
 		IVBox in2 = new IVBox("in2", null, hbox);
 		
-		posBox = (VRadiobox) createUI("radiobox", " positive", /*new SemanticEvent(getBrowser(), 
-				FabNote.MSG_SHOW, null //win_
-				, this, null)*/ null, in1, "RateAnno", false); 
+		posBox = (VRadiobox) createUI("radiobox", " positive", new SemanticEvent(getBrowser(), 
+				FabNote.MSG_RATE_ATTEMP, null //win_
+				, this, null), in1, "RateAnno", false); 
 		posBox.setName("pos");
 		posBox.setRadiogroup(vgroup);
 			//new VRadiobox("positive", null, hbox, vgroup);
 		negBox = (VRadiobox) createUI("radiobox", " negative" 
-				, /*new SemanticEvent(getBrowser() , FabNote.MSG_SHOW, null //win_
-						, this, null)*/ null
+				, new SemanticEvent(getBrowser() , FabNote.MSG_RATE_ATTEMP, null //win_
+						, this, null)
 				, in2, "RateAnno", false); 
 		negBox.setRadiogroup(vgroup);
 		negBox.setName("neg");
 		
-		neutBox = (VRadiobox) createUI("radiobox", " neutral", /*new SemanticEvent(getBrowser(), 
-				FabNote.MSG_SHOW, null //win_
-				, this, null)*/ null, in1, "RateAnno", false); 
+		neutBox = (VRadiobox) createUI("radiobox", " neutral", new SemanticEvent(getBrowser(), 
+				FabNote.MSG_RATE_ATTEMP, null //win_
+				, this, null) , in1, "RateAnno", false); 
 		neutBox.setName("neut");
 		neutBox.setRadiogroup(vgroup);
 		
 		infoBox = (VRadiobox) createUI("radiobox", " informative" 
-				, /*new SemanticEvent(getBrowser() , FabNote.MSG_SHOW, null //win_
-						, this, null)*/ null
+				, new SemanticEvent(getBrowser() , FabNote.MSG_RATE_ATTEMP, null //win_
+						, this, null) 
 				, in2, "RateAnno", false); 
 		infoBox.setRadiogroup(vgroup);
 		infoBox.setName("info");
+				
 		
-		
-		
-		if(getAttr("selected") != null){
-			if(getAttr("selected").equals(negBox.getName()))
+		if(getAttr("rated") != null){
+			if(getAttr("rated").equals(negBox.getName()))
 				negBox.setState(true);
-			if(getAttr("selected").equals(posBox.getName()))
+			if(getAttr("rated").equals(posBox.getName()))
 				posBox.setState(true);
-			if(getAttr("selected").equals(neutBox.getName()))
+			if(getAttr("rated").equals(neutBox.getName()))
 				neutBox.setState(true);
-			if(getAttr("selected").equals(infoBox.getName()))
+			if(getAttr("rated").equals(infoBox.getName()))
 				infoBox.setState(true);
 		}
+		
+		CLGeneral gsR = new CLGeneral();
+		gsR.setForeground(Colors.getColor(getAttr("foreground"), Color.BLACK));
+		gsR.setBackground(Colors.getColor(getAttr("background"), Color.CYAN));
+		// font...
+		NFont rateFont = NFont.getInstance("Sans", NFont.WEIGHT_LIGHT,
+                NFont.FLAG_EXPANDED, 14);
+		
+		gsR.setFont(rateFont);
+		ss.put("hb", gs);
 		
 		/*box1.setValid(true);
 		box2.setValid(true);*/
@@ -700,9 +762,9 @@ public class FabNote extends Behavior {
 		}
 		
 		if(vgroup.getActive() != null)
-			putAttr("selected", vgroup.getActive().getName());
+			putAttr("rated", vgroup.getActive().getName());
 		else
-			putAttr("selected", "nocat");
+			putAttr("rated", "nocat");
 		
 		Rectangle r = win_.bbox;
 		ESISNode e;

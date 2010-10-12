@@ -181,11 +181,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-		"http://localhost:8888/publishService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/publishService";
+//		"http://localhost:8888/publishService"; 
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
 	private static String RESTsearch = 
-		"http://localhost:8888/searchService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/searchService";
+//		"http://localhost:8888/searchService"; 
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
