@@ -83,6 +83,7 @@ public class LeafVideoSink extends Sink {
 
     @Override
     protected int render(Buffer buf) {
+        if (buf.duplicate)      return Pad.OK;
         if (buf.object instanceof ImageProducer) {
             ImageProducer ip = (ImageProducer) buf.object;
             // if (!ip.isConsumer(component)){
@@ -108,7 +109,15 @@ public class LeafVideoSink extends Sink {
     public boolean setProperty(String name, java.lang.Object value) {
         if (name.equals("component")) {
             component = (LeafVideo) value;
-        } else {
+        }
+        else if (name.equals("keep-aspect")) {
+            keepAspect = String.valueOf(value).equals("true");
+        } else if(name.equals("ignore-aspect")) {
+            ignoreAspect = value.toString().equals("true");
+        } else if (name.equals("scale")) {
+            scale = String.valueOf(value).equals("true");
+        } 
+        else {
             return super.setProperty(name, value);
         }
 
@@ -118,7 +127,11 @@ public class LeafVideoSink extends Sink {
     @Override
     public java.lang.Object getProperty(String name) {
         if (name.equals("component")) {
-            return component;
+            return component;}
+        else if (name.equals("keep-aspect")) {
+            return (keepAspect ? "true": "false");
+        } else if (name.equals("bounds")) {
+            return bounds;
         } else {
             return super.getProperty(name);
         }

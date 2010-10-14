@@ -84,7 +84,7 @@ public class ODT extends MediaAdaptor {
         };
         ODF_SUFFIXES = new HashMap<String, String>();
         for (String[] odfMime : ODF_MIMES) {
-            ODF_SUFFIXES.put(odfMime[1], odfMime[2]);
+            ODF_SUFFIXES.put(odfMime[0], odfMime[1]);
         }
     }
 
