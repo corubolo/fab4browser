@@ -42,6 +42,8 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
     private boolean enableVideo;
     private boolean ignoreAspect;
     private int enableKate;
+    private String enableKateLanguage = "";
+    private String enableKateCategory = "";
     private LeafVideo component;
     private int bufferSize = -1;
     private int bufferLow = -1;
@@ -62,7 +64,7 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
     private Vector katedec = new Vector();
     private Vector k_queue = new Vector();
     private Element kselector = null;
-
+    private boolean keepAspect;
     public boolean usingJavaX = false;
 
     private boolean setupVideoDec(String name) {
@@ -214,6 +216,7 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
                 Debug.debug("No Kate selector yet, creating one");
 
                 /* insert an overlay before the video sink */
+                if (videodec != null) {
                 ovsinkpad.unlink();
                 videodec.getPad("src").unlink();
                 overlay = ElementFactory.makeByName("kateoverlay", "overlay");
@@ -231,6 +234,16 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
                 add(overlay);
                 overlay.setProperty("component", component);
                 overlay.getPad("videosrc").link(videosink.getPad("sink"));
+                }
+        else {
+          Element fakesink = ElementFactory.makeByName("fakesink", "fakesink");
+          if (fakesink == null) {
+            noSuchElement("fakesink");
+            return;
+          }
+          oksinkpad = fakesink.getPad("sink");
+          add(fakesink);
+        }
 
                 kselector = ElementFactory.makeByName("selector", "selector");
                 if (kselector == null) {
@@ -283,8 +296,17 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
             if (enableKate == katedec.size() - 1) {
                 doEnableKateIndex(enableKate);
             }
+      else if (enableKate < 0 && (!enableKateLanguage.equals("") || !enableKateCategory.equals(""))) {
+        String language = caps.getFieldString("language", "");
+        String category = caps.getFieldString("category", "");
+        boolean matching_language = enableKateLanguage.equals("") || enableKateLanguage.equals(language);
+        boolean matching_category = enableKateCategory.equals("") || enableKateCategory.equals(category);
+        if (matching_language && matching_category) {
+          doEnableKateIndex(katedec.size()-1);
+        }
         }
     }
+  }
 
     public void padRemoved(Pad pad) {
         pad.unlink();
@@ -311,6 +333,9 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
             remove(audiosink);
             audiosink = null;
             changed = true;
+      if (videosink != null) {
+        videosink.setProperty ("max-lateness", Long.toString(Long.MAX_VALUE));
+        }
         }
         if (vpad == null && enableVideo) {
             Debug.log(Debug.INFO, "file has no video, remove videosink");
@@ -318,23 +343,23 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
             if (overlay != null) {
                 overlay.setState(STOP);
             }
-            for (int n = 0; n < katedec.size(); ++n) {
-                el = (Element) katedec.elementAt(n);
-                el.setState(STOP);
-                remove(el);
-                el = (Element) k_queue.elementAt(n);
-                el.setState(STOP);
-                remove(el);
-            }
-            if (kselector != null) {
-                kselector.setState(STOP);
-                remove(kselector);
-                kselector = null;
-            }
+//            for (int n = 0; n < katedec.size(); ++n) {
+//                el = (Element) katedec.elementAt(n);
+//                el.setState(STOP);
+//                remove(el);
+//                el = (Element) k_queue.elementAt(n);
+//                el.setState(STOP);
+//                remove(el);
+//            }
+//            if (kselector != null) {
+//                kselector.setState(STOP);
+//                remove(kselector);
+//                kselector = null;
+//            }
             remove(videosink);
             remove(overlay);
-            katedec.removeAllElements();
-            k_queue.removeAllElements();
+//            katedec.removeAllElements();
+//            k_queue.removeAllElements();
             videosink = null;
             overlay = null;
             changed = true;
@@ -363,7 +388,12 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
     public void setUserId(String aUserId) {
         userId = aUserId;
     }
-
+  public void setKeepAspect(boolean keep) {
+    keepAspect = keep;
+  }
+  public void setIgnoreAspect(boolean ignore) {
+    ignoreAspect = ignore;
+  }
     public void setPassword(String aPassword) {
         password = aPassword;
     }
@@ -636,8 +666,8 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
             videosink.setProperty("component", component);
             resize(component.getBbox().getSize());
 
-            videosink.setProperty("max-lateness", Long
-                    .toString(Clock.MSECOND * 20));
+      videosink.setProperty ("max-lateness", 
+         Long.toString(enableAudio ? Clock.MSECOND * 20 : Long.MAX_VALUE));
             add(videosink);
 
             ovsinkpad = videosink.getPad("sink");
@@ -867,4 +897,15 @@ public class Fab4Pipeline extends Pipeline implements PadListener, CapsListener 
         }
         return result;
     }
+    protected int getNumKateStreams() {
+        return katedec.size();
+      }
+      protected String getKateStreamCategory(int idx) {
+        if (idx < 0 || idx >= katedec.size()) return "";
+        return String.valueOf(((Element)katedec.elementAt(idx)).getProperty("category"));
+      }
+      protected String getKateStreamLanguage(int idx) {
+        if (idx < 0 || idx >= katedec.size()) return "";
+        return String.valueOf(((Element)katedec.elementAt(idx)).getProperty("language"));
+      }
 }

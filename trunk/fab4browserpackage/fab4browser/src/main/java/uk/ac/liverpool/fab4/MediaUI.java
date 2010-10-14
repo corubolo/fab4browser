@@ -24,6 +24,9 @@ import javax.swing.event.ChangeListener;
 
 import uk.ac.liverpool.fab4.behaviors.TimedMedia;
 
+import java.awt.Color;
+import java.awt.Insets;
+
 
 /**
  * 
@@ -44,6 +47,7 @@ public class MediaUI extends JToolBar implements ChangeListener{
 	public JTextField time;
 	public JSlider sl;
 	public boolean ticking = false;
+	public JTextField totalTime;
 
 	public MediaUI(Fab4 fab4) {
 		super();
@@ -54,6 +58,7 @@ public class MediaUI extends JToolBar implements ChangeListener{
 		pause = f.getButton("mcpause");
 		stop = f.getButton("mcstop");
 		sl = new JSlider(SwingConstants.HORIZONTAL,0,100,0);
+		sl.setPaintLabels(true);
 		sl.addChangeListener(this);
 		time = new JTextField("00:00:00");
 		time.setEditable(false);
@@ -66,11 +71,21 @@ public class MediaUI extends JToolBar implements ChangeListener{
 		add(stop);
 		add(time);
 		add (sl);
+		
+		totalTime = new JTextField("00:00:00");
+		totalTime.setMargin(new Insets(0, 3, 0, 3));
+		totalTime.setFont(totalTime.getFont().deriveFont(9f));
+		totalTime.setEditable(false);
+		add(totalTime);
 
 		f.setActionS(play, TimedMedia.MSG_PLAY);
 		f.setActionS(pause, TimedMedia.MSG_PAUSE);
 		f.setActionS(stop, TimedMedia.MSG_STOP);
 		doLayout();
+		setBackground(Color.yellow);
+		play.setBackground(Color.yellow);
+		pause.setBackground(Color.yellow);
+		stop.setBackground(Color.yellow);
 		setVisible(false);
 
 	}

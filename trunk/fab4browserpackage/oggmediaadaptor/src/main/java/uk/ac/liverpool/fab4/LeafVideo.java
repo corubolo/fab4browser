@@ -36,9 +36,11 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageConsumer;
 import java.awt.image.ImageProducer;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -64,7 +66,7 @@ import com.fluendo.utils.Debug;
  * Implements a video frame for the cortado applet, supporting streaming media.
  */
 public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
-        ImageConsumer, TimedMedia, BufferedImageSink {
+ImageConsumer, TimedMedia, BufferedImageSink {
 
     private Fab4Pipeline pipeline;
     private URI uri;
@@ -84,6 +86,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
     private float fps;
     private long originaltt;
     double duration;
+    long durationBytes;
     private int durationFormat;
     boolean busy;
     int percent;
@@ -92,6 +95,9 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
     private boolean paintInterface = false;
     private FrameFull fullf;
     private boolean isBuffering;
+    private int desiredState;
+    private boolean isError = false;
+    private boolean isfile = false;
 
     synchronized void startFull() {
         if (im == null || fullf != null)
@@ -99,7 +105,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
         fullf = new FrameFull();
 
         GraphicsEnvironment ge = GraphicsEnvironment
-                .getLocalGraphicsEnvironment();
+        .getLocalGraphicsEnvironment();
         GraphicsDevice gd_ = ge.getDefaultScreenDevice();
         gd_.setFullScreenWindow(fullf);
 
@@ -109,7 +115,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
     synchronized void stopFull() {
         if (fullf != null) {
             GraphicsEnvironment ge = GraphicsEnvironment
-                    .getLocalGraphicsEnvironment();
+            .getLocalGraphicsEnvironment();
             GraphicsDevice gd_ = ge.getDefaultScreenDevice();
             gd_.setFullScreenWindow(null);
             gd_ = null;
@@ -122,8 +128,8 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
     class FrameFull extends Frame implements MouseListener, KeyListener {
 
         /**
-		 * 
-		 */
+         * 
+         */
         private static final long serialVersionUID = 1L;
 
         public FrameFull() {
@@ -149,7 +155,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             if (im != null) {
 
                 double r2 = ((double) this.getWidth())
-                        / ((double) this.getHeight());
+                / ((double) this.getHeight());
                 double r1 = ((double) w) / ((double) h);
                 double d1 = ((double) this.getWidth()) / w;
                 double d2 = ((double) this.getHeight()) / h;
@@ -220,7 +226,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
                             (getWidth() - (14 + 24 + 2)), 14);
                     if (area.contains(rel)) {
                         double percent = (double) (rel.x - 14 + 24 + 2)
-                                / getWidth();
+                        / getWidth();
                         doSeek(percent);
                     }
                 }
@@ -291,13 +297,14 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             // }
             // System.out.println("a "+w1+" "+h1 );
             bbox.setSize(w1, h1);
+            pipeline.resize(bbox.getSize());
             // System.out.println("z " +width+" "+height );
         }
         return super.formatNode(w1, h1, cx);
     }
 
     public LeafVideo(String name, Map<String, Object> attr, INode parent)
-            throws URISyntaxException {
+    throws URISyntaxException, MalformedURLException {
         super(name, attr, parent);
         if (attr == null)
             return;
@@ -317,13 +324,29 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             uri = new URI((String) attr.get("src"));
         }
         // System.out.println(uri);
-        pipeline.setUrl(uri.toString());
+        String scheme = uri.getScheme();
+        pipeline.setUrl(uri.toURL().toString());
         pipeline.enableAudio(true);
         pipeline.enableVideo(true);
-        pipeline.setBufferSize(200);
-        pipeline.setBufferLow(10);
-        pipeline.setBufferHigh(70);
+        if (scheme.contains("file")) {
+            isfile  = true;
+            pipeline.setBufferSize(-1);
+            pipeline.setBufferLow(-1);
+            pipeline.setBufferHigh(-1);
+        } else {
+            pipeline.setBufferSize(800);
+            pipeline.setBufferLow(10);
+            pipeline.setBufferHigh(90);
+        }
         pipeline.setComponent(this);
+        URL documentBase;
+        try {
+            documentBase = uri.resolve("./").toURL();
+            Debug.log(Debug.INFO, "Document base: " + documentBase);
+        } catch (Throwable t) {
+            documentBase = null;
+        }
+        pipeline.setDocumentBase(documentBase);
         pipeline.getBus().addHandler(this);
         // bbox.setSize(640, 480);
         // System.out.println("bb" + bbox);
@@ -348,9 +371,15 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
         else
             pipeline.setState(Element.PAUSE);
         try {
-            duration = new DurationScanner().getDurationForURL(uri.toURL(),
-                    null, null);
-            // System.out.println("Duration for" + uri.toURL() +duration);
+
+            if (isfile) {
+                durationBytes = new File(uri).length();
+                duration = new FileDurationScanner().getDurationForFile(new File (uri));
+            } else  duration = new DurationScanner().getDurationForURL(uri.toURL(),
+                    "" , "");
+            System.out.println("Duration for" + uri.toURL() +duration);
+          getBrowser().eventq(TimedMedia.MSG_GOT_DURATION,
+          new Double(duration));
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -359,7 +388,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
 
     public boolean formatNodeContent(Context cx, int start, int end) {
         int wh = Integers.parseInt(getAttr("width"), -1), hh = Integers
-                .parseInt(getAttr("height"), -1);
+        .parseInt(getAttr("height"), -1);
 
         // if (wh != -1 && hh != -1) {
         // //w=wh;h=hh;
@@ -373,16 +402,16 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
     public boolean eventBeforeAfter(AWTEvent e, Point rel) {
 
         if (e.getID() == MouseEvent.MOUSE_ENTERED) {
-            if (embedded) {
-                paintInterface = true;
-                repaint();
-            }
+            //if (embedded) {
+            paintInterface = true;
+            repaint();
+            //    }
         }
         if (e.getID() == MouseEvent.MOUSE_EXITED) {
-            if (embedded) {
-                paintInterface = false;
-                repaint();
-            }
+            // if (embedded) {
+            paintInterface = false;
+            repaint();
+            // }
         }
         return super.eventBeforeAfter(e, rel);
     }
@@ -455,7 +484,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
 
     public void handleMessage(Message msg) {
 
-        // System.out.println("*** "+ msg.getType() + " " + msg.toString());
+        //System.out.println("*** "+ msg.getType() + " " + msg.toString());
         switch (msg.getType()) {
         case Message.WARNING:
             System.out.println(msg.toString());
@@ -465,11 +494,15 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             currentStatus = Status.ERROR;
             getBrowser().eventq(TimedMedia.MSG_STATUS_CHANGED, currentStatus);
             System.out.println(msg.toString());
+            isError = true;
             break;
         case Message.EOS:
-            pipeline.setState(Element.STOP);
-            currentStatus = Status.STOP;
-            getBrowser().eventq(TimedMedia.MSG_STATUS_CHANGED, currentStatus);
+            if (!isError) {
+                pipeline.setState(Element.STOP);
+                currentStatus = Status.STOP;
+                getBrowser().eventq(TimedMedia.MSG_STATUS_CHANGED, currentStatus);
+            }
+
             break;
         case Message.STREAM_STATUS:
             // System.out.println("STATTT" + msg.toString());
@@ -479,14 +512,12 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             getBrowser().eventq(TimedMedia.MSG_RES, msg.parseResourceString());
             break;
         case Message.DURATION:
-            if (duration <= 0) {
-                duration = msg.parseDurationValue();
-                durationFormat = msg.parseDurationFormat();
-                getBrowser().eventq(TimedMedia.MSG_GOT_DURATION,
-                        new Double(duration));
-            }
-            getBrowser().eventq(TimedMedia.MSG_GOT_DURATION,
-                    new Double(duration));
+//            long duration;
+//
+//            duration = msg.parseDurationValue();
+//            System.out.println( msg.parseDurationFormat());
+//            getBrowser().eventq(TimedMedia.MSG_GOT_DURATION,
+//                    new Double(duration));
             break;
         case Message.TAG:
             System.out.println("TAG" + msg.toString());
@@ -495,11 +526,12 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
 
             busy = msg.parseBufferingBusy();
             percent = msg.parseBufferingPercent();
-            if (busy) {
+            if (busy && !isfile ) {
                 if (!isBuffering) {
                     Debug.log(Debug.INFO, "PAUSE: we are buffering");
                     if (currentStatus == Status.PLAY) {
                         pipeline.setState(Element.PAUSE);
+                        currentStatus = Status.PAUSE;
                     }
                     isBuffering = true;
 
@@ -507,8 +539,10 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             } else {
                 if (isBuffering) {
                     Debug.log(Debug.INFO, "PLAY: we finished buffering");
-                    if (currentStatus == Status.PLAY) {
+                    if (currentStatus == Status.PAUSE) {
                         pipeline.setState(Element.PLAY);
+                        currentStatus = Status.PLAY;
+
                     }
                     isBuffering = false;
                 }
@@ -540,7 +574,9 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
                 // System.out.println(currentStatus);
             }
             break;
-
+        case Message.BYTEPOSITION:
+            System.out.println(msg.parseBytePosition());
+            break;
         default:
             // System.out.println(msg.getType() + " " +msg.toString());
         }
@@ -635,7 +671,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
                 // g2.drawImage(im, null, 0, 0);
                 // g2.dispose();
                 double r2 = ((double) bbox.getWidth())
-                        / ((double) bbox.getHeight());
+                / ((double) bbox.getHeight());
                 double r1 = ((double) w) / ((double) h);
                 double d1 = ((double) bbox.getWidth()) / w;
                 double d2 = ((double) bbox.getHeight()) / h;
@@ -680,10 +716,10 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             lastfc = fnumber;
             prevtt = System.currentTimeMillis();
             getBrowser().eventq(TimedMedia.MSG_PlAYTIMEPERCENT, percent);
-            getBrowser().eventq(TimedMedia.MSG_PlAYTIME, duration);
+            getBrowser().eventq(TimedMedia.MSG_PlAYTIME, getPlayPosition());
         }
-        g.setColor(Color.white);
-        g.drawString("" + fps, 10, 10);
+        // g.setColor(Color.white);
+        // g.drawString("" + fps, 10, 10);
         if (paintInterface)
             paintInterface(g, w, h);
         fnumber++;
@@ -737,11 +773,21 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
         int hour = min / 60;
         min %= 60;
         String s = "" + hour + ":" + (min < 10 ? "0" + min : "" + min) + ":"
-                + (sec < 10 ? "0" + sec : "" + sec);
+        + (sec < 10 ? "0" + sec : "" + sec);
+        time = (int) getPlayDuration();
+        sec = time % 60;
+        min = time / 60;
+        hour = min / 60;
+        min %= 60;
+        String ss = "" + hour + ":" + (min < 10 ? "0" + min : "" + min) + ":"
+        + (sec < 10 ? "0" + sec : "" + sec);
+        if (isBuffering )
+            ss+=" Buffering " + percent +"%";
         g.setColor(Color.black);
         if (getPlayDuration() > 0)
-            g.drawString(s + " " + getPlayDuration(), 14 + 29, 12);
+            g.drawString(s + "  of " + ss, 14 + 29, 12);
         g.translate(-1, -(h - 15));
+
     }
 
     public void imageComplete(int status) {
@@ -851,6 +897,7 @@ public class LeafVideo extends Leaf implements /* ImageObserver, */BusHandler,
             System.out.println("video close: " + uri);
             pipeline.setState(Element.STOP);
             pipeline.shutDown();
+            pipeline = null;
         }
     }
 
