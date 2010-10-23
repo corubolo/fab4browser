@@ -34,6 +34,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	private Client client = Client.create(cc);
 	private WebResource publishWR = client.resource(DistributedPersonalAnnos.publishServiceURL);	
 	private WebResource searchWR = client.resource(DistributedPersonalAnnos.searchServiceURL);
+	private WebResource searchChecksumWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/checksum");
 	private WebResource updateWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/update");
 	private WebResource searchBibWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/sameBib");
 	private WebResource delWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/del");
@@ -63,14 +64,22 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 
 	public String[] checksumSearch(String checksum, String method,
 			String encoding) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<JAXBBean> reqArr = wrapRequest("checksum", checksum, "method", method, "encoding", encoding);
+		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
+        Collection<JAXBBean> response = searchChecksumWR.type("application/json").accept("application/json").post(genericXmlType, new GenericEntity<List<JAXBBean>> (reqArr){});
+		//GenericEntity<List<JAXBBean>> (reqArr){}
+		List<JAXBBean> res = (List<JAXBBean>) response;
+		String[] annos = new String[res.size()];
+		for(int i = 0 ; i < res.size() ; i++ )
+			annos[i] = res.get(i).getKey();
+		return annos;
 	}
 
 	public String[] customIdSearch(String costomId, String application,
 			String method) {
 		// TODO Auto-generated method stub
-		return null;
+		return checksumSearch(costomId, application, method); //TODO! change it!
 	}
 
 	public int deleteAnnotation(String id, String user, String secret) { //deletebyFabId
