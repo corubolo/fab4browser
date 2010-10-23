@@ -49,9 +49,11 @@ import multivalent.gui.VRadiobox;
 import multivalent.gui.VRadiogroup;
 import multivalent.gui.VScrollbar;
 import multivalent.gui.VTextArea;
+import multivalent.node.FixedLeafUnicodeKern;
 import multivalent.node.IHBox;
 import multivalent.node.IParaBox;
 import multivalent.node.IVBox;
+import multivalent.node.LeafText;
 import multivalent.node.LeafUnicode;
 import multivalent.std.Note;
 import multivalent.std.ui.DocumentPopup;
@@ -489,6 +491,21 @@ public class FabNote extends Behavior {
 		win_.setBounds(r.x,r.y,r.width,r.height);
 		opos = new Rectangle(win_.getBbox());
 
+		
+		/*Node leaf = myn;
+		while((leaf = leaf.getNextLeaf()) != null){
+			if(leaf instanceof LeafText){
+//				if(leaf.getAbsLocation().getX() < win_.getAbsLocation().getX()+100 && leaf.childNum() > win_.childNum()-40)
+				if(leaf.getAbsLocation().getX() < win_.getAbsLocation().getX()+350 && leaf.getAbsLocation().getX() > win_.getAbsLocation().getX()-350
+						&& 
+						leaf.getAbsLocation().getY() < win_.getAbsLocation().getY()+350 && leaf.getAbsLocation().getY() > win_.getAbsLocation().getY()-350)
+//				if(leaf.getRelLocation(win_).distance(r.x, r.y) < 200)
+					textsnapshot += ((LeafUnicode)leaf).getText() +" ";
+			}
+		}*/
+		
+		
+		
 		///SAM: maybe here I should change doc_ to be html, and set name of resulting doc (INODE) to "Note"
 //		doc_ = new Document("Note",null, win_);	// free scrolling in Note!
 		
@@ -831,7 +848,7 @@ public class FabNote extends Behavior {
 				e.appendChild(sube);
 		}
 
-		
+		getRelatedTextSnapshot();
 		
 		return e;
 	}
@@ -881,5 +898,125 @@ public class FabNote extends Behavior {
 		if (win_!=null)
 			win_.fitIntoPage();
 
+	}
+	
+	private String getRelatedTextSnapshot(){
+//		Node myn = doc.getFirstLeaf();
+//		Node leaf = myn;
+		String textsnapshot = "<html> <title> Snapshot of annotated section </title> <body> ";
+		
+		String doctype = null; 
+		Node docrootcontent = getBrowser().getRoot().findBFS("content");
+		Node rootcontent = null;
+		if( docrootcontent != null ){
+			if((rootcontent = docrootcontent.findBFS("html")) != null)
+				doctype = "html";			
+			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
+				doctype = "pdf";
+			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
+				doctype = null;*/
+		}
+		
+		float zl = getDocument().getMediaAdaptor().getZoom();
+		double sizeofline = 305 * (zl/1.25); // ??! anyway to compute? (this considered with: 320 for long lines, head to head, -15 for first paragraph lines
+		double distanceBetweenlines = 15 * (zl/1.25); // ??! anyway to compute?
+		
+		double note_x = callout? ((ArrowVFrame) win_).getPx() : win_.getAbsLocation().getX(); //considers zoom
+		double note_y = callout? ((ArrowVFrame) win_).getPy() : win_.getAbsLocation().getY();
+		
+		if( doctype.equals("pdf")){
+			INode text = (INode) rootcontent.findBFS("text");
+			if( text != null){
+//				Node line = text.getPrevNode(); //last line! (DFS)
+				INode line = (INode) text.getFirstChild();
+				
+				int preTextSize = 0;
+				int linescount = 0;
+				String[] lastSectionsFound = new String[2]; //"Title";
+				lastSectionsFound[0] = "Title";
+				lastSectionsFound[1] = "Authors";
+				
+				while( line != null ){
+					/*for( ; line != null && !line.getName().equals("line") ; line = (INode) line.getNextSibling()){
+						System.out.print("");
+					}*/
+					if(!line.getName().equals("line"))
+						break;
+					/*if( line == null )
+						break;*/
+					
+					//find section
+					Node leaf = line.getFirstLeaf();
+					
+					String thisline = "";
+					boolean aheader = false;
+					
+					if(leaf instanceof LeafText){ //find section
+						if (((LeafUnicode)leaf).baseline > preTextSize ){
+							Node sectionLeaf = leaf;
+							aheader = true;
+							lastSectionsFound[0] = lastSectionsFound[1];
+							lastSectionsFound[1] = "";
+							while( sectionLeaf != null){							
+								if(sectionLeaf instanceof LeafText){								
+									lastSectionsFound[1] += ((LeafUnicode)sectionLeaf).getText() +" ";
+								}
+								if( sectionLeaf == line.getLastLeaf())
+									break;
+								sectionLeaf = sectionLeaf.getNextLeaf();
+							}
+							System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
+						}
+						preTextSize = ((LeafUnicode)leaf).baseline;
+					}
+					
+					
+					//
+					
+					if(line.getAbsLocation().getX() < note_x+15 //after
+									&& 									
+									line.getAbsLocation().getX()+sizeofline > note_x-15 //after
+									) 
+					{
+									
+						if(! (line.getAbsLocation().getY() < note_y +5*distanceBetweenlines 
+									&& line.getAbsLocation().getY() > note_y -5*distanceBetweenlines
+									|| (linescount < 10 && linescount != 0) ) ){
+							
+							line = (INode) line.getNextSibling();
+							while(  line != null && line.getParentNode() != text ) //to avoid having annotation texts here
+								line = (INode) line.getNextSibling();
+							continue;
+						}
+						
+						
+						while( leaf != null){							
+							if(leaf instanceof LeafText){								
+								thisline += ((LeafUnicode)leaf).getText() +" ";
+							}
+							if( leaf == line.getLastLeaf())
+								break;
+							leaf = leaf.getNextLeaf();
+						}
+						if(aheader){							
+							thisline = "<h3>"+thisline+"</h3>";
+						}
+						textsnapshot += thisline +"<br>";
+//						textsnapshot += "\n";
+						linescount ++;
+					}
+					if(linescount >= 10) //keep 10 lines
+						break;
+//					line = text.getNextNode();
+					line = (INode) line.getNextSibling();
+					while( line != null && line.getParentNode() != text ) //to avoid having annotation texts here
+						line = (INode) line.getNextSibling();
+				}
+				
+			}
+		}
+		textsnapshot += "</body> </html>";
+		System.out.println("\n"+textsnapshot+"\n\n\n");
+		return textsnapshot;
 	}
 }
