@@ -64,6 +64,7 @@ import multivalent.node.FixedLeafImage;
 import multivalent.node.FixedLeafShape;
 import multivalent.node.FixedLeafUnicode;
 import multivalent.node.FixedLeafUnicodeKern;
+import multivalent.node.LeafText;
 import multivalent.node.LeafUnicode;
 import multivalent.std.span.StrokeSpan;
 import org.apache.commons.io.IOUtils;
@@ -71,6 +72,7 @@ import phelps.awt.color.ColorSpaceCMYK;
 import phelps.lang.Booleans;
 import phelps.lang.Doubles;
 import phelps.lang.Integers;
+
 import uk.ac.liverpool.fab4.Fab4utils;
 
 import java.awt.*;
@@ -623,7 +625,7 @@ System.out.println("  "+scmd);
                         break;
 
                         case 'c':       // c, cm, cs
-                        if (c2c3==' ') {        // (curpt-x, y-curpt) x1 y1 x2 y2 x3 y3 'c' - append a cubic Bézier curve to the current path: current point to x3 y3, with x1 y1 and x2 y2 as control points
+                        if (c2c3==' ') {        // (curpt-x, y-curpt) x1 y1 x2 y2 x3 y3 'c' - append a cubic Bï¿½zier curve to the current path: current point to x3 y3, with x1 y1 and x2 y2 as control points
                                 getDoubles(ops,d,6); ctm.transform(d,0, d,0, 3);
                                 /*if (pathlen==1 && peek=='S') simplepath = new CubicCurve2D.Double(d[0],d[1], d[2],d[3], d[4],d[5]);   // rare, so don't optimize
                                 else*/ path.curveTo((float)d[0],(float)d[1], (float)d[2],(float)d[3], (float)(curx=d[4]),(float)(cury=d[5]));
@@ -1300,7 +1302,7 @@ if (newTr >= 4) multivalent.Meta.sampledata("Tr "+newTr);
                         break;
 
                         case 'v':       // v
-                        if (c2c3==' ') {        // x2 y2 x3 y3 'v' - append a cubic Bézier curve to the current path: current point to x3 y3, with current point and x2 y2 as control points
+                        if (c2c3==' ') {        // x2 y2 x3 y3 'v' - append a cubic Bï¿½zier curve to the current path: current point to x3 y3, with current point and x2 y2 as control points
                                 getDoubles(ops,d,4); ctm.transform(d,0, d,0, 2);
                                 path.curveTo((float)curx,(float)cury, (float)d[0],(float)d[1], (float)(curx=d[2]),(float)(cury=d[3])); pathlen+=100;
                         }
@@ -1382,7 +1384,7 @@ if (newTr >= 4) multivalent.Meta.sampledata("Tr "+newTr);
                         break;
 
                         case 'y':       // y
-                        if (c2c3==' ') {        // x1 y1 x3 y3 'y' - append a cubic Bézier curve to the current path: current point to the point x3 y3, using x1 y1 and x3 y3 as control points
+                        if (c2c3==' ') {        // x1 y1 x3 y3 'y' - append a cubic Bï¿½zier curve to the current path: current point to the point x3 y3, using x1 y1 and x3 y3 as control points
                                 getDoubles(ops,d,4); ctm.transform(d,0, d,0, 2);
                                 path.curveTo((float)d[0],(float)d[1], (float)d[2],(float)d[3], (float)(curx=d[2]),(float)(cury=d[3])); pathlen+=100;
                         }
@@ -2279,4 +2281,410 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
     private boolean failed() {
         return fail_ != null;
     }
+    
+    ///SAM
+    
+    /**
+     * given a 'content' node, a center point, return ~ numOfLines/2 lines above the center point and numOfLines/2 below the center point in one column of the pdf
+     * also, return the last two headers (sections/subsections) seen in these/or before these numOfLines lines.
+     * @return pairs of key,value. keys are: lines (count:numOfLines), 'section1', 'section2' 
+     */
+    public static HashMap<String,String> getRelatedTextSnapshot(Node docrootcontent, double center_x, double center_y,float zoom, int numOfLines){
+    	
+    	HashMap<String,String> info = new HashMap<String, String>();
+		
+    	String[] lastSectionsFound = new String[2]; //"Title";
+		lastSectionsFound[0] = "Title";
+		lastSectionsFound[1] = "Authors";
+		String previousline = null;
+		int preTextSize = 0;
+		boolean preallsamesize = true;
+		boolean beforeabstract = true;
+		int err = 1; //error in same text sizes in consequtive lines
+		int errIn1Line = 0; //error in same text sizes in one line
+    	
+		double sizeofline = 305 * (zoom/1.25); // ??! anyway to compute? (this considered with: 320 for long lines, head to head, -15 for first paragraph lines
+		double distanceBetweenlines = 15 * (zoom/1.25); // ??! anyway to compute?		
+		
+		String textsnapshot = "<html> <title> Snapshot of annotated section </title> <body> ";
+		
+		String doctype = null; 
+		
+		Node rootcontent = null;
+		if( docrootcontent != null ){
+			if((rootcontent = docrootcontent.findBFS("html")) != null)
+				doctype = "html";			
+			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
+				doctype = "pdf";
+			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
+				doctype = null;*/
+		}
+		
+		
+		if( doctype.equals("pdf")){
+			INode text = (INode) rootcontent.findBFS("text");
+			if( text != null){
+//				Node line = text.getPrevNode(); //last line! (DFS)
+				INode line = (INode) text.getFirstChild();
+								
+				int linescount = 0;
+				
+				while( line != null ){
+					/*for( ; line != null && !line.getName().equals("line") ; line = (INode) line.getNextSibling()){
+						System.out.print("");
+					}*/
+					if(!line.getName().equals("line"))
+						break;
+					/*if( line == null )
+						break;*/
+					
+					//find section
+					Node leaf = line.getFirstLeaf();
+					
+					String thisline = "";
+//					boolean aheader = false;
+					
+					//take line and related statistics:
+					int firstleafsizeofline = 0;
+					
+					if(leaf instanceof LeafText){								
+						firstleafsizeofline = ((LeafUnicode)leaf).baseline;
+					}					
+					
+					boolean endswithdot = false;
+					boolean allsamesize = true;
+					
+					while( leaf != null){							
+						if(leaf instanceof LeafText){								
+							thisline += ((LeafUnicode)leaf).getText() +" ";
+							if(((LeafUnicode)leaf).baseline != firstleafsizeofline 
+									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline+errIn1Line 
+									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline-errIn1Line)
+								allsamesize = false;
+						}
+						
+						if( leaf == line.getLastLeaf()){
+							if( thisline.endsWith("."))
+								endswithdot = true;
+							break;
+						}
+						leaf = leaf.getNextLeaf();
+					}
+					
+					thisline = thisline.trim();
+					
+					if(previousline == null)
+						previousline = thisline;
+					
+					
+					if( ((thisline.equalsIgnoreCase("abstract") || thisline.endsWith("abstract")
+							|| thisline.endsWith("Abstract") || thisline.endsWith("ABSTRACT")) && allsamesize ) ){
+						lastSectionsFound[0] = lastSectionsFound[1];
+						lastSectionsFound[1] = "Abstract";
+						beforeabstract = false;
+					}
+					else if(!beforeabstract){
+						if (allsamesize && (firstleafsizeofline > preTextSize+err) && !endswithdot){
+	//						aheader = true;
+							lastSectionsFound[0] = lastSectionsFound[1];
+							if(!previousline.endsWith(".") 
+									&& (preTextSize == firstleafsizeofline || preTextSize-err == firstleafsizeofline || preTextSize+err == firstleafsizeofline))
+								lastSectionsFound[1] = previousline+" "+thisline;
+							else
+								lastSectionsFound[1] = thisline;
+						}
+						else if(preallsamesize && (firstleafsizeofline+err < preTextSize) && (previousline.endsWith("."))){
+							lastSectionsFound[0] = lastSectionsFound[1];
+							lastSectionsFound[1] = previousline;
+						}
+					}
+					
+					System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
+					
+//					while( leaf != null){
+						/*if(leaf instanceof LeafText){ //find section
+//							thisline += ((LeafUnicode)leaf).getText() +" ";
+							if (((LeafUnicode)leaf).baseline > preTextSize ){
+								Node sectionLeaf = leaf;
+								aheader = true;
+								lastSectionsFound[0] = lastSectionsFound[1];
+								lastSectionsFound[1] = "";
+								while( sectionLeaf != null){							
+									if(sectionLeaf instanceof LeafText){								
+										lastSectionsFound[1] += ((LeafUnicode)sectionLeaf).getText() +" ";
+									}
+									if( sectionLeaf == line.getLastLeaf())
+										break;
+									sectionLeaf = sectionLeaf.getNextLeaf();
+								}
+								System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
+							}
+							preTextSize = ((LeafUnicode)leaf).baseline;
+						}*/
+						/*if( leaf == line.getLastLeaf()){
+							break;
+						}
+						leaf = leaf.getNextLeaf();
+					}*/
+					
+					//
+					
+					if(line.getAbsLocation().getX() < center_x+15 //after
+									&& 									
+									line.getAbsLocation().getX()+sizeofline > center_x-15 //after
+									) 
+					{
+									
+						if(! (line.getAbsLocation().getY() < center_y +5*distanceBetweenlines 
+									&& line.getAbsLocation().getY() > center_y -5*distanceBetweenlines
+									|| (linescount < 10 && linescount != 0) ) ){
+							
+							line = (INode) line.getNextSibling();
+							while(  line != null && line.getParentNode() != text ) //to avoid having annotation texts here
+								line = (INode) line.getNextSibling();
+							continue;
+						}
+						
+						
+						/*while( leaf != null){							
+							if(leaf instanceof LeafText){								
+								thisline += ((LeafUnicode)leaf).getText() +" ";
+							}
+							if( leaf == line.getLastLeaf())
+								break;
+							leaf = leaf.getNextLeaf();
+						}*/
+						if(allsamesize && firstleafsizeofline > preTextSize+err){							
+							thisline = "<h3>"+thisline+"</h3>";
+						}
+						textsnapshot += thisline +"<br>";
+//						textsnapshot += "\n";
+						linescount ++;
+					}
+					if(linescount >= 10) //keep 10 lines
+						break;
+//					line = text.getNextNode();
+					line = (INode) line.getNextSibling();
+					while( line != null && line.getParentNode() != text ) //to avoid having annotation texts here
+						line = (INode) line.getNextSibling();
+				
+					preTextSize = firstleafsizeofline;
+					preallsamesize = allsamesize;
+				}
+				
+			}
+		}
+		textsnapshot += "</body> </html>";
+		System.out.println("\n"+textsnapshot+"\n\n\n");
+		
+		info.put("lines", textsnapshot);
+		info.put("section1", lastSectionsFound[0]);
+		info.put("section2", lastSectionsFound[1]);
+		return info;
+	}
+
+    /**
+     * If this pdf is a scientific publication: extract:
+     * title, abstract, and if possible: keywords, authors, author emails
+     * instead of authors, it currently returns fullAuthorInfo  
+     * assumes this is the first page of the pdf
+     * @param docrootcontent: the 'content' node, proabably: child of '_docroot' child of '_uiroot' chile of 'root'
+     * @return
+     */
+    public static HashMap<String,String> getPaperInfoAsaPublication(Node docrootcontent){
+    	HashMap<String,String> info = new HashMap<String, String>();
+    	
+    	String[] lastSectionsFound = new String[2]; //"Title";
+		lastSectionsFound[0] = "Title";
+		lastSectionsFound[1] = "Authors";
+		String previousline = null;
+		int preTextSize = 0;
+		boolean preallsamesize = true;
+		boolean beforeabstract = true;
+    	boolean titleDone = false;
+    	boolean keywordsFound = false;
+    	int maxTextSizeInNFirstLines = 0;
+    	boolean preWasHeader = false;
+    	
+		String abstr = "";
+		String title = "";
+		String keywords ="";
+		String authorsFullInfo ="";
+		int err = 1; //error in same text sizes in consequtive lines
+		int errIn1Line = 0; //error in same text sizes in one line
+		
+		String doctype = null; 
+		
+		Node rootcontent = null;
+		if( docrootcontent != null ){
+			if((rootcontent = docrootcontent.findBFS("html")) != null)
+				doctype = "html";			
+			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
+				doctype = "pdf";
+			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
+				doctype = null;*/
+		}
+		
+		
+		if( doctype.equals("pdf")){
+			INode text = (INode) rootcontent.findBFS("text");
+			if( text != null){
+				INode line = (INode) text.getFirstChild();
+								
+				INode firstLines = line;
+				//find title's text size
+				for(int i = 0 ; i < 5 ; i++){
+					if(!firstLines.getName().equals("line"))
+						break;
+					Node leaf = firstLines.getFirstLeaf();					
+					
+					if(leaf instanceof LeafText){								
+						if(((LeafUnicode)leaf).baseline > maxTextSizeInNFirstLines )
+							maxTextSizeInNFirstLines = ((LeafUnicode)leaf).baseline; 
+					}
+					
+					firstLines = (INode) firstLines.getNextSibling();
+					while( firstLines != null && firstLines.getParentNode() != text ) //to avoid having annotation texts here
+						firstLines = (INode) firstLines.getNextSibling();
+					if(firstLines == null)
+						break;
+				}
+				
+				while( line != null ){
+					/*for( ; line != null && !line.getName().equals("line") ; line = (INode) line.getNextSibling()){
+						System.out.print("");
+					}*/
+					if(!line.getName().equals("line"))
+						break;
+					/*if( line == null )
+						break;*/
+					
+					//find section
+					Node leaf = line.getFirstLeaf();
+					
+					String thisline = "";
+//					boolean aheader = false;
+					
+					//take line and related statistics:
+					int firstleafsizeofline = 0;
+					
+					if(leaf instanceof LeafText){								
+						firstleafsizeofline = ((LeafUnicode)leaf).baseline;
+					}					
+					
+					boolean endswithdot = false;
+					boolean allsamesize = true;
+					
+					while( leaf != null){							
+						if(leaf instanceof LeafText){								
+							thisline += ((LeafUnicode)leaf).getText() +" ";
+							if(((LeafUnicode)leaf).baseline != firstleafsizeofline 
+									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline+errIn1Line 
+									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline-errIn1Line)
+								allsamesize = false;
+						}
+						
+						if( leaf == line.getLastLeaf()){
+							if( thisline.endsWith("."))
+								endswithdot = true;
+							break;
+						}
+						leaf = leaf.getNextLeaf();
+					}
+					
+					if(previousline == null){
+						previousline = thisline.trim();						
+						preTextSize = firstleafsizeofline;
+					}
+					
+					if(!titleDone && !title.equals("") && 
+							(preTextSize == firstleafsizeofline || preTextSize+err == firstleafsizeofline || preTextSize-err == firstleafsizeofline) ) //if title is splitted in more than one line
+						title += thisline;
+					else if(!titleDone && (maxTextSizeInNFirstLines-err <= firstleafsizeofline)){
+						title += thisline;
+					}					
+					else if(!titleDone && !title.equals(""))
+						titleDone = true;
+					
+					thisline = thisline.trim();
+					boolean preWasHeaderSet = false;				
+					if( ((thisline.equalsIgnoreCase("abstract") || thisline.endsWith("abstract")
+							|| thisline.endsWith("Abstract") || thisline.endsWith("ABSTRACT")) && allsamesize ) ){
+						lastSectionsFound[0] = lastSectionsFound[1];
+						lastSectionsFound[1] = "Abstract";
+						beforeabstract = false;
+						preWasHeader = true;
+						preWasHeaderSet = true;
+					}
+					else if(!beforeabstract){
+						if (allsamesize && (firstleafsizeofline > preTextSize+err) && !endswithdot){
+	//						aheader = true;
+							lastSectionsFound[0] = lastSectionsFound[1];
+							preWasHeader = true;
+							preWasHeaderSet = true;
+							if(!previousline.endsWith(".") 
+									&& (preTextSize == firstleafsizeofline || preTextSize-err == firstleafsizeofline || preTextSize+err == firstleafsizeofline))
+								lastSectionsFound[1] = previousline+" "+thisline;
+							else
+								lastSectionsFound[1] = thisline;
+						}
+						else if(!preWasHeader && preallsamesize && (firstleafsizeofline+err < preTextSize) && (!previousline.endsWith("."))){
+							lastSectionsFound[0] = lastSectionsFound[1];
+							lastSectionsFound[1] = previousline;
+							preWasHeader = true;
+							preWasHeaderSet = true;
+						}
+					}
+					if(!preWasHeaderSet)
+						preWasHeader = false;
+					
+					if(lastSectionsFound[1].equalsIgnoreCase("keywords") || lastSectionsFound[1].contains("Keywords")
+							|| lastSectionsFound[1].contains("keywords")){
+						if(!(thisline.equalsIgnoreCase("keywords") || thisline.contains("Keywords")
+							|| thisline.contains("keywords"))){
+							if(thisline.endsWith("-"))								
+								keywords += thisline;
+							else
+								keywords += thisline +" ";
+						}
+						
+					}
+					
+					if(lastSectionsFound[0].equalsIgnoreCase("keywords") || lastSectionsFound[0].contains("Keywords")
+							|| lastSectionsFound[0].contains("keywords"))
+						keywordsFound = true;
+					
+//					System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
+									
+					if(lastSectionsFound[1].equalsIgnoreCase("Abstract")){
+						if( !(thisline.equalsIgnoreCase("abstract") || thisline.endsWith("abstract")
+								|| thisline.endsWith("Abstract") || thisline.endsWith("ABSTRACT")))
+								abstr += thisline +" ";
+					}
+					
+					if(beforeabstract && titleDone)
+						authorsFullInfo += thisline + "\n";
+					
+					if(!beforeabstract && keywordsFound)
+						break;
+					
+					line = (INode) line.getNextSibling();
+					while( line != null && line.getParentNode() != text ) //to avoid having annotation texts here
+						line = (INode) line.getNextSibling();
+					
+					preTextSize = firstleafsizeofline;
+					preallsamesize = allsamesize;
+					
+				}
+				
+			}
+		}
+
+    	info.put("abstract", abstr.trim());
+    	info.put("title", title.trim());
+    	info.put("keywords", keywords);
+    	info.put("fullAuthorInfo",authorsFullInfo);
+    	return info;
+    }
+    
 }
