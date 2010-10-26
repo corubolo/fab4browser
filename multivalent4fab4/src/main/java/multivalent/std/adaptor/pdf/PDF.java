@@ -2525,6 +2525,8 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				doctype = null;*/
 		}
 		
+		if(doctype == null || doctype.equals("html"))
+			return null;
 		
 		if( doctype.equals("pdf")){
 			INode text = (INode) rootcontent.findBFS("text");
@@ -2678,12 +2680,13 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				}
 				
 			}
+			info.put("abstract", abstr.trim());
+	    	info.put("title", title.trim());
+	    	info.put("keywords", keywords);
+	    	info.put("fullAuthorInfo",authorsFullInfo);
 		}
 
-    	info.put("abstract", abstr.trim());
-    	info.put("title", title.trim());
-    	info.put("keywords", keywords);
-    	info.put("fullAuthorInfo",authorsFullInfo);
+    	
     	return info;
     }
     
