@@ -245,6 +245,7 @@ public interface AnnotationServerConnectorInterface {
 	
 	public int addAnnotatedResource(String bibtex, String url);
 	
+	public int addAnnotatedResource(HashMap<String,String> paperInfo, String url);
 	/**
 	 * finds annotations on resources which have same bibtex as the bibtex of this url
 	 * @param url
@@ -261,6 +262,7 @@ public interface AnnotationServerConnectorInterface {
 	public int updateResourceBib(String url, String doi, String keywords);
 	
 	public String[] retreiveAllTags(String url);
+	
 	
 //	public void storePageAccess(String url, String username);
 	///
