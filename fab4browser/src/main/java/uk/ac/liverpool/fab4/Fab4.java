@@ -738,20 +738,21 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             getCurBr().eventq(Document.MSG_OPEN, Fab4.currFile.toURI());
             
 			///SAM            
-			try {
+			/*try {
 				Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
 				
 				String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);
 				
 				if(curServer.equals("REST")){
-					Class parameterTypes = Class.forName("java.lang.String");
-					disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, Fab4.currFile.toURI().toString());
+					Class parameterType1 = Class.forName("java.lang.String");
+					Class parameterType2 = Class.forName("multivalent.Document");s
+					disAnnos.getDeclaredMethod("askForDocumentInfo", parameterType1, parameterType2 ).invoke(null, Fab4.currFile.toURI().toString(),getCurDoc());
 				}
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			///
             
             Fab4.currFile = Fab4.currFile.getAbsoluteFile();
