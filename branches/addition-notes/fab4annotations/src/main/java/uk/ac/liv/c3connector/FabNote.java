@@ -22,6 +22,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -56,6 +58,7 @@ import multivalent.node.IVBox;
 import multivalent.node.LeafText;
 import multivalent.node.LeafUnicode;
 import multivalent.std.Note;
+import multivalent.std.adaptor.pdf.PDF;
 import multivalent.std.ui.DocumentPopup;
 import phelps.awt.Colors;
 import phelps.doc.RobustLocation;
@@ -791,6 +794,22 @@ public class FabNote extends Behavior {
 		//		r.width = (int)(r.height / zl);
 		//		r.height = (int)(r.width / zl);
 		putAttr("x", String.valueOf(r.x)); putAttr("y", String.valueOf(r.y)); putAttr("width", String.valueOf(r.width)); putAttr("height", String.valueOf(r.height));
+		
+		Node docrootcontent = getBrowser().getRoot().findBFS("content");
+		double note_x = callout? ((ArrowVFrame) win_).getPx() : win_.getAbsLocation().getX(); //considers zoom
+		double note_y = callout? ((ArrowVFrame) win_).getPy() : win_.getAbsLocation().getY();
+		
+		//TODO: because of misplacement of notes in the browser (it always happens, I don't know where it occurs)
+		note_x = note_x + 50*zl;
+		note_y = note_y + 100*zl;
+		//numoflines needed: 10
+		HashMap<String,String> relatedText = PDF.getRelatedTextSnapshot(docrootcontent, note_x, note_y, zl,10);
+		
+		String textsnapshot = relatedText.get("lines");
+		putAttr("textsnapshot",textsnapshot);
+		putAttr("relatedSection1", relatedText.get("section1"));
+		putAttr("relatedSection2", relatedText.get("section2"));
+		
 		if (callout) {
 			///SAM:
 			if( replyOnSth ){
@@ -848,8 +867,14 @@ public class FabNote extends Behavior {
 				e.appendChild(sube);
 		}
 
-		getRelatedTextSnapshot();
-		
+		/*HashMap<String,String> pageInfo = PDF.getPaperInfoAsaPublication(docrootcontent);
+		if(pageInfo.size() != 0){
+			System.out.println("title: "+pageInfo.get("title"));
+			System.out.println("abstract: "+pageInfo.get("abstract"));
+			System.out.println("keywords: "+pageInfo.get("keywords"));
+			System.out.println("fullAuthorInfo: "+pageInfo.get("fullAuthorInfo"));
+		}
+		*/
 		return e;
 	}
 	/**
@@ -900,123 +925,4 @@ public class FabNote extends Behavior {
 
 	}
 	
-	private String getRelatedTextSnapshot(){
-//		Node myn = doc.getFirstLeaf();
-//		Node leaf = myn;
-		String textsnapshot = "<html> <title> Snapshot of annotated section </title> <body> ";
-		
-		String doctype = null; 
-		Node docrootcontent = getBrowser().getRoot().findBFS("content");
-		Node rootcontent = null;
-		if( docrootcontent != null ){
-			if((rootcontent = docrootcontent.findBFS("html")) != null)
-				doctype = "html";			
-			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
-				doctype = "pdf";
-			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
-				doctype = null;*/
-		}
-		
-		float zl = getDocument().getMediaAdaptor().getZoom();
-		double sizeofline = 305 * (zl/1.25); // ??! anyway to compute? (this considered with: 320 for long lines, head to head, -15 for first paragraph lines
-		double distanceBetweenlines = 15 * (zl/1.25); // ??! anyway to compute?
-		
-		double note_x = callout? ((ArrowVFrame) win_).getPx() : win_.getAbsLocation().getX(); //considers zoom
-		double note_y = callout? ((ArrowVFrame) win_).getPy() : win_.getAbsLocation().getY();
-		
-		if( doctype.equals("pdf")){
-			INode text = (INode) rootcontent.findBFS("text");
-			if( text != null){
-//				Node line = text.getPrevNode(); //last line! (DFS)
-				INode line = (INode) text.getFirstChild();
-				
-				int preTextSize = 0;
-				int linescount = 0;
-				String[] lastSectionsFound = new String[2]; //"Title";
-				lastSectionsFound[0] = "Title";
-				lastSectionsFound[1] = "Authors";
-				
-				while( line != null ){
-					/*for( ; line != null && !line.getName().equals("line") ; line = (INode) line.getNextSibling()){
-						System.out.print("");
-					}*/
-					if(!line.getName().equals("line"))
-						break;
-					/*if( line == null )
-						break;*/
-					
-					//find section
-					Node leaf = line.getFirstLeaf();
-					
-					String thisline = "";
-					boolean aheader = false;
-					
-					if(leaf instanceof LeafText){ //find section
-						if (((LeafUnicode)leaf).baseline > preTextSize ){
-							Node sectionLeaf = leaf;
-							aheader = true;
-							lastSectionsFound[0] = lastSectionsFound[1];
-							lastSectionsFound[1] = "";
-							while( sectionLeaf != null){							
-								if(sectionLeaf instanceof LeafText){								
-									lastSectionsFound[1] += ((LeafUnicode)sectionLeaf).getText() +" ";
-								}
-								if( sectionLeaf == line.getLastLeaf())
-									break;
-								sectionLeaf = sectionLeaf.getNextLeaf();
-							}
-							System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
-						}
-						preTextSize = ((LeafUnicode)leaf).baseline;
-					}
-					
-					
-					//
-					
-					if(line.getAbsLocation().getX() < note_x+15 //after
-									&& 									
-									line.getAbsLocation().getX()+sizeofline > note_x-15 //after
-									) 
-					{
-									
-						if(! (line.getAbsLocation().getY() < note_y +5*distanceBetweenlines 
-									&& line.getAbsLocation().getY() > note_y -5*distanceBetweenlines
-									|| (linescount < 10 && linescount != 0) ) ){
-							
-							line = (INode) line.getNextSibling();
-							while(  line != null && line.getParentNode() != text ) //to avoid having annotation texts here
-								line = (INode) line.getNextSibling();
-							continue;
-						}
-						
-						
-						while( leaf != null){							
-							if(leaf instanceof LeafText){								
-								thisline += ((LeafUnicode)leaf).getText() +" ";
-							}
-							if( leaf == line.getLastLeaf())
-								break;
-							leaf = leaf.getNextLeaf();
-						}
-						if(aheader){							
-							thisline = "<h3>"+thisline+"</h3>";
-						}
-						textsnapshot += thisline +"<br>";
-//						textsnapshot += "\n";
-						linescount ++;
-					}
-					if(linescount >= 10) //keep 10 lines
-						break;
-//					line = text.getNextNode();
-					line = (INode) line.getNextSibling();
-					while( line != null && line.getParentNode() != text ) //to avoid having annotation texts here
-						line = (INode) line.getNextSibling();
-				}
-				
-			}
-		}
-		textsnapshot += "</body> </html>";
-		System.out.println("\n"+textsnapshot+"\n\n\n");
-		return textsnapshot;
-	}
 }

@@ -85,6 +85,7 @@ import multivalent.gui.VFrame;
 import multivalent.std.MediaLoader;
 import multivalent.std.Note;
 import multivalent.std.adaptor.XML;
+import multivalent.std.adaptor.pdf.PDF;
 import multivalent.std.span.BIUSpan;
 import multivalent.std.span.BackgroundSpan;
 import multivalent.std.ui.Multipage;
@@ -1190,7 +1191,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		
 		///SAM: before reloading...
 		if(currentServer == Servers.REST )
-			askForDocumentInfo(doc.uri.toString());
+			askForDocumentInfo(doc.uri.toString(),doc);
 		///
 		
 		getBrowser().event(new SemanticEvent(this, Document.MSG_RELOAD, doc));
@@ -1490,6 +1491,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 * @param mod
 	 */
 	private void loadAnnotations(final Document mvDocument) {
+		
 		prevSelected = null;
 		final boolean mod = false;
 		final String uri = mvDocument.getURI().toString();
@@ -1506,8 +1508,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 		user.clear();
 		Layer personal = mvDocument.getLayer(Layer.PERSONAL);
-		personal.clearBehaviors();
-
+		personal.clearBehaviors();		
+		
 		loadThread = new Thread(new Runnable() {
 			public void run() {
 				List<FabAnnotation> annoList;
@@ -1750,6 +1752,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	void loadAnnotation(Browser br, Document doc, FabAnnotation fa) {
 		AnnotationModel doc2 = fa.getAnn();
 		Layer personal = doc.getLayer(Layer.PERSONAL);
+		
+		///SAM
+//		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		if(currentServer == Servers.REST )
+			askForDocumentInfo(doc.getURI().toString(), doc);
+		///
 		
 		///SAM
 		if((fa.getBehaviour() instanceof RateResource) || (fa.getBehaviour() instanceof TagResource) )
@@ -3030,6 +3038,26 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		return ret;
 	}
 	
+	private static Integer addPaperInfo(URI uri, Document content){
+		HashMap<String,String> paperInfo = PDF.getPaperInfoAsaPublication(content);
+		if(paperInfo == null || !paperInfo.containsKey("title") || paperInfo.get("title") == null || paperInfo.get("title").length() == 0)
+			return -1;
+		if(ras != null)
+			return ras.addAnnotatedResource(paperInfo, uri.toString());
+		else{
+			try {
+				ras = generateRemote();
+				return ras.addAnnotatedResource(paperInfo, uri.toString());
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return -1;		
+	}
 	
 	private static Integer requestBibOrUrl(URI oldURi){
 			
@@ -3041,7 +3069,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		String bibtex = null;
 		String doi = null;
 		String keywords = null;
-		String needed = "0";
+		String needed = "0";		
+		
 		try{			
 			/*if(ras == null)
 				setWasToLocalOrRemote();*/
@@ -3050,7 +3079,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			if(!needed.equals("11")){
 				while( Authenticator.running );
 //				if(!Authenticator.CANCEL){
-					DocumentInfoRequester docR = new DocumentInfoRequester(/*this,*/ /*Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
+					DocumentInfoRequester docR = new DocumentInfoRequester(/*this, Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
 					docR.setLocationRelativeTo(null);
 					docR.setVisible(true);
 //				}
@@ -3177,10 +3206,13 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			return -1;
 	}
 	
-	public static void askForDocumentInfo(String uri){
+	public static void askForDocumentInfo(String uri, Document doc){
 		
 		///SAM
-		if( !bibForDocument.containsKey(uri) && PersonalAnnos.useRemoteServer){	//FIXME what about copy to server?		
+		int pn = doc.getAttr(Document.ATTR_PAGE) != null ? Integer
+				.parseInt(doc.getAttr(Document.ATTR_PAGE)) : 1; //only for first page
+		if( !bibForDocument.containsKey(uri) && PersonalAnnos.useRemoteServer
+				&& pn <= 1){	//FIXME what about copy to server?		
 			try {
 				/*HashMap<URI,Integer> info = requestBibOrUrl(new URI(uri));
 				Set<URI> key = info.keySet();
@@ -3195,7 +3227,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				}
 				uri = newUrl.toString(); //FIXME, why no setter?
 */				
-				Integer resourceId = requestBibOrUrl(new URI(uri));
+//				Integer resourceId = requestBibOrUrl(new URI(uri),doc);
+				Integer resourceId = addPaperInfo(new URI(uri),doc);
 				//even if resourceId==-1, because we don't want to bother user
 				bibForDocument.put(uri,resourceId);
 			} catch (URISyntaxException e) {
