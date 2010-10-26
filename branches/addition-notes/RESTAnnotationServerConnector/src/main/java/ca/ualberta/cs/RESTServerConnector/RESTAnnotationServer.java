@@ -51,6 +51,8 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	}
 
 	public String[] URISearch(String URI) {
+		if(URI.startsWith("file:/"))
+			URI = DistributedPersonalAnnos.userid + ":" + URI;
 		//List<JAXBBean> response = searchWR.type("text/plain").accept("application/json").post(List.class, URI);
 		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
         Collection<JAXBBean> response = searchWR.type("text/plain").accept("application/json").post(genericXmlType, URI);
@@ -262,8 +264,32 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return Integer.parseInt(response);
 	}
 
+	public int addAnnotatedResource(HashMap<String, String> paperInfo,String url) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
+		String title = null;
+		String abstr = null;
+		String fullauthorinfo = null;
+		String keywords = null;
+		if(paperInfo.containsKey("title"))
+			title = paperInfo.get("title");
+		if(paperInfo.containsKey("abstract"))
+			abstr = paperInfo.get("abstract");
+		if(paperInfo.containsKey("fullAuthorInfo"))
+			fullauthorinfo = paperInfo.get("fullAuthorInfo");
+		if(paperInfo.containsKey("keywords"))
+			keywords = paperInfo.get("keywords");
+		
+		List<JAXBBean> reqArr = wrapRequest("title", title, "url", url, "username", DistributedPersonalAnnos.userid);
+		reqArr.addAll(wrapRequest("abstract", abstr, "fullAuthorInfo", fullauthorinfo, "keywords", keywords));
+		String response = (String) resourcesAddWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
+		return Integer.parseInt(response);
+	}
+	
 	
 	public String[] bibtexSearch(String url) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
 		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
         Collection<JAXBBean> response = searchBibWR.type("text/plain").accept("application/json").post(genericXmlType, url);
 		//GenericEntity<List<JAXBBean>> (reqArr){}
@@ -275,16 +301,22 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	}
 
 	public String urlLacksBibDoiKeywords(String url) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
 		return resourceBibInfoWR.type("text/plain").accept("text/plain").post(String.class, url);		
 	}
 
 	public int updateResourceBib(String url, String doi, String keywords) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
 		List<JAXBBean> reqArr = wrapRequest("url", url, "doi", doi, "keywords", keywords);		
 		String response = (String) resourceBibInfoUpdateWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 		return Integer.parseInt(response);
 	}
 
 	public String[] retreiveAllTags(String url) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
 		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
         Collection<JAXBBean> response = searchTagsWR.type("text/plain").accept("application/json").post(genericXmlType, url);
 		//GenericEntity<List<JAXBBean>> (reqArr){}
@@ -294,6 +326,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 			tags[i] = res.get(i).getKey();
 		return tags;
 	}
+
 	
 
 }
