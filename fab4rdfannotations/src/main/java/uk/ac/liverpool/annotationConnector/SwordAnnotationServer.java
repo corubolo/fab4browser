@@ -462,6 +462,12 @@ public class SwordAnnotationServer implements AnnotationServerConnectorInterface
 		// TODO Auto-generated method stub
 		
 	}
+
+	public int addAnnotatedResource(HashMap<String, String> paperInfo,
+			String url) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 
