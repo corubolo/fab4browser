@@ -386,13 +386,14 @@ DocInfo di = (DocInfo)arg;
 			//System.out.println("open(DocInfo) on "+openURI);
 
 			///SAM
-			try {
+			/*try {
 				Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
 				String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);			
 				if(curServer.equals("REST")){
 					if(!openURI.toString().startsWith("systemresource:")){
-						Class parameterTypes = Class.forName("java.lang.String");			
-						disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes ).invoke(null, openURI.toString());
+						Class parameterTypes = Class.forName("java.lang.String");	
+						Class parameterType2 = Class.forName("multivalent.Document");
+						disAnnos.getDeclaredMethod("askForDocumentInfo", parameterTypes, parameterType2 ).invoke(null, openURI.toString(),doc);
 	//					disAnnos.getDeclaredMethod("pageAccessed", parameterTypes ).invoke(null, openURI.toString());
 					}
 				}
@@ -400,7 +401,7 @@ DocInfo di = (DocInfo)arg;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			///
 			
 			if (handleScheme( di,  br, doc, openURI))
