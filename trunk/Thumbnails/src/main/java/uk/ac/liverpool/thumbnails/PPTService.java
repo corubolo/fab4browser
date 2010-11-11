@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * This Library is :
+ * 
+ *     Copyright © 2010 Fabio Corubolo - all rights reserved
+ *     corubolo@gmail.com
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * see COPYING.LESSER.txt
+ * 
+ ******************************************************************************/
 package uk.ac.liverpool.thumbnails;
 
 import java.awt.Color;
@@ -6,14 +28,19 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.LinkedList;
 
 import org.apache.poi.hslf.HSLFSlideShow;
 import org.apache.poi.hslf.model.Comment;
 import org.apache.poi.hslf.model.HeadersFooters;
 import org.apache.poi.hslf.model.Notes;
+import org.apache.poi.hslf.model.PPFont;
 import org.apache.poi.hslf.model.Slide; 
 import org.apache.poi.hslf.model.TextRun;
 import org.apache.poi.hslf.usermodel.SlideShow;
@@ -22,14 +49,33 @@ import org.jdom.IllegalDataException;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
-public class PPTService {
+public class PPTService implements GenericService {
+    
+    
+    public FontInformation[] extractFontList(URI u, File fff) throws MalformedURLException, IOException {
+        
+        HSLFSlideShow hppt = getHPPT(u,fff);
+        SlideShow ppt = new SlideShow(hppt);
+        LinkedList<FontInformation> ll = new LinkedList<FontInformation>();
+        for (int i = 0; i < ppt.getNumberOfFonts(); i++) {
+            PPFont f = ppt.getFont(i);
+            FontInformation ff = new FontInformation();
+            ff.setCharset(""+ f.getCharSet());
+           ff.fontFlags = f.getFontFlags();
+           ff.setFontname( f.getFontName());
+           ff.setFontType(""+ f.getFontType());
+           ff.setPitchAndFamily(""+ f.getPitchAndFamily());
 
-    public static String extraxtXMLText(URI u) throws MalformedURLException,
+        }
+        return ll.toArray(new FontInformation[0]);
+    }
+    
+    public  String extraxtXMLText(URI u, File f) throws MalformedURLException,
             IOException {
-        SlideShow ppt;
+       
 
-        HSLFSlideShow hppt = new HSLFSlideShow(u.toURL().openStream());
-        ppt = new SlideShow(hppt);
+        HSLFSlideShow hppt = getHPPT(u, f);
+        SlideShow ppt = new SlideShow(hppt);
         Element root = new Element("Slideshow");
         root.setAttribute("URI", u.toString());
         Slide[] slides = ppt.getSlides();
@@ -118,23 +164,25 @@ public class PPTService {
         return p.outputString(d);
     }
 
-    public static BufferedImage generatePPTThumb(URI u, int w, int h)
+    public BufferedImage generateThumb(URI u, File f, int w, int h, int pn)
             throws MalformedURLException, IOException {
         // retrieve the slides from the docuemnt attributes
         HSLFSlideShow hppt = null;
-        Slide[] slide = null;
+
         // the slides are saved to a document attribute
 
         SlideShow ppt;
 
-        hppt = new HSLFSlideShow(u.toURL().openStream());
+        hppt = getHPPT(u, f);
         ppt = new SlideShow(hppt);
 
         // and memorise it as attribute to the document
-
+        Slide[] slide = null;
         slide = ppt.getSlides();
 
         int i = 0;
+        if (pn < slide.length)
+            i = pn;
         String title = slide[i].getTitle();
         System.out.println("Rendering slide " + slide[i].getSlideNumber()
                 + (title == null ? "" : ": " + title));
@@ -159,4 +207,31 @@ public class PPTService {
 
     }
 
+    private static HSLFSlideShow getHPPT(URI u, File f) throws IOException,
+            MalformedURLException {
+        HSLFSlideShow hppt;
+        if (f!=null) {
+            hppt = new HSLFSlideShow(new FileInputStream(f));
+        } else 
+        hppt = new HSLFSlideShow(u.toURL().openStream());
+        return hppt;
+    }
+
+    @Override
+    public String getSupportedMime() {
+        return PPT_MIME;
+    }
+
+
+    static final String PPT_MIME = "application/vnd.ms-powerpoint";
+
+
+    @Override
+    public void generateSVG(URI u, File f, int w, int h, int page, Writer out)
+            throws MalformedURLException, IOException {
+        // TODO Auto-generated method stub
+        return 
+;
+    }
+    
 }

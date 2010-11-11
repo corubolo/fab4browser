@@ -1,3 +1,25 @@
+/*******************************************************************************
+ * This Library is :
+ * 
+ *     Copyright © 2010 Fabio Corubolo - all rights reserved
+ *     corubolo@gmail.com
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * see COPYING.LESSER.txt
+ * 
+ ******************************************************************************/
 package uk.ac.liverpool.thumbnails;
 
 import java.awt.Color;
@@ -21,10 +43,11 @@ import javax.servlet.http.HttpServletResponse;
 public class RestThumbnailsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String u = request.getParameter("jt_uri");
+        String u = request.getParameter("file_uri");
         String f = request.getParameter("f");
         int w = getInt(request, "w", 700);
         int h = getInt(request, "h", 800);
+        int page = getInt(request, "p", 1);
         URI uri = null;
         try {
                 uri = new URI(u);
@@ -51,7 +74,7 @@ public class RestThumbnailsServlet extends HttpServlet {
                 f = "png";
         }
         try {
-                BufferedImage image = JTService.generateJTThumb(uri, w, h);
+                byte[] image = new ThumbnailService().generateThumbnail(u.toString(), w, h,f,"", page - 1);
                 writeImage(f, image, response);
         } catch (Exception e) {
                 String str = e.getMessage();
@@ -60,17 +83,20 @@ public class RestThumbnailsServlet extends HttpServlet {
         }
  }       
 
- private void writeImage(String f, BufferedImage image, HttpServletResponse response) throws IOException {
+ private void writeImage(String f, byte[] image, HttpServletResponse response) throws IOException {
         response.setContentType("image/"+f);
         OutputStream outputStream = response.getOutputStream();
-        ImageIO.write(image, f, outputStream);
+        //ImageIO.write(image, f, outputStream);\
+        outputStream.write(image);
         outputStream.close();
  }
 
  private void writeImage(String str, HttpServletResponse response) throws IOException {
         String f = "png";
         BufferedImage image = image(str);
-        writeImage(f, image, response);
+        OutputStream outputStream = response.getOutputStream();
+        ImageIO.write(image, f, outputStream);
+        outputStream.close();
  }
  
  
