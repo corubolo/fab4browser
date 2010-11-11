@@ -1,8 +1,32 @@
+/*******************************************************************************
+ * This Library is :
+ * 
+ *     Copyright © 2010 Fabio Corubolo - all rights reserved
+ *     corubolo@gmail.com
+ * 
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ * 
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ * 
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * see COPYING.LESSER.txt
+ * 
+ ******************************************************************************/
 package uk.ac.liverpool.thumbnails;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URI;
 
@@ -27,11 +51,11 @@ import de.jreality.sunflow.SunflowRenderer;
 import de.jreality.util.Input;
 import de.jreality.util.Rectangle3D;
 
-public class JTService {
+public class JTService implements GenericService{
 
     static boolean reg;
-
-    public static BufferedImage generateJTThumb(URI u, int w, int h)
+    public static final String JT_MIME = "application/x-jt";
+    public BufferedImage generateThumb(URI u, File f,  int w, int h, int page)
             throws MalformedURLException, IOException {
 
         // first register JT adapter
@@ -44,7 +68,12 @@ public class JTService {
             LSGSegment.doRender = false;
             reg = true;
         }
-        SceneGraphComponent sgc = Readers.read(new Input(u.toURL()));
+        Input in;
+        if (f!=null)
+            in = new Input(f);
+        else 
+            in = new Input(u.toURL());
+        SceneGraphComponent sgc = Readers.read(in);
         SceneGraphComponent rootNode = new SceneGraphComponent("root");
         SceneGraphComponent cameraNode = new SceneGraphComponent("camera");
         SceneGraphComponent geometryNode = new SceneGraphComponent("geometry");
@@ -120,5 +149,29 @@ public class JTService {
         return offscreen;
         // CameraUtility.encompass(this);
 
+    }
+
+    @Override
+    public String getSupportedMime() {
+        return JT_MIME;
+    }
+
+    @Override
+    public FontInformation[] extractFontList(URI u, File fff)
+            throws MalformedURLException, IOException {
+        return null;
+    }
+
+    @Override
+    public String extraxtXMLText(URI u, File f) throws MalformedURLException,
+            IOException {
+        return null;
+    }
+
+    @Override
+    public void generateSVG(URI u, File f, int w, int h, int page, Writer out)
+            throws MalformedURLException, IOException {
+        // TODO Auto-generated method stub
+        return ;
     }
 }
