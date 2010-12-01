@@ -60,11 +60,11 @@ public class PPTService implements GenericService {
         for (int i = 0; i < ppt.getNumberOfFonts(); i++) {
             PPFont f = ppt.getFont(i);
             FontInformation ff = new FontInformation();
-            ff.setCharset(""+ f.getCharSet());
+            ff.charset = ""+ f.getCharSet();
            ff.fontFlags = f.getFontFlags();
-           ff.setFontname( f.getFontName());
-           ff.setFontType(""+ f.getFontType());
-           ff.setPitchAndFamily(""+ f.getPitchAndFamily());
+           ff.fontName = f.getFontName();
+           ff.fontType = ""+ f.getFontType();
+           ff.pitchAndFamily = ""+ f.getPitchAndFamily();
 
         }
         return ll.toArray(new FontInformation[0]);
