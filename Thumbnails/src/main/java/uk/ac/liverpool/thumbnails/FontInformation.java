@@ -36,24 +36,6 @@ public class FontInformation implements Comparable<FontInformation> {
     public int hashCode() {
         return fontName.hashCode() + fontType.hashCode();
     } 
-    public String getFontName() {
-        return fontName;
-    }
-    public void setFontname(String fontname) {
-        this.fontName = fontname;
-    }
-    public String getCharset() {
-        return charset;
-    }
-    public void setCharset(String charset) {
-        this.charset = charset;
-    }
-    public String getFontType() {
-        return fontType;
-    }
-    public void setFontType(String fontType) {
-        this.fontType = fontType;
-    }
 
     public String fontName;
     public String charset;
@@ -67,12 +49,7 @@ public class FontInformation implements Comparable<FontInformation> {
     public String fontStretch;
     public float fontWeight;
     public int numGlyph;
-    public String getPitchAndFamily() {
-        return pitchAndFamily;
-    }
-    public void setPitchAndFamily(String pitchAndFamily) {
-        this.pitchAndFamily = pitchAndFamily;
-    }
+   
     @Override
     public int compareTo(FontInformation o2) {
         int a = fontName.compareTo(o2.fontName);

@@ -233,8 +233,7 @@ public class ThumbnailService {
      * @throws IOException
      */
     @WebMethod
-    public String extraxtXmlText(String objectIdentifier, int outputWidth,
-            int outputHeight, String outputFormat, String outputOption, int page)
+    public String extraxtXmlText(String objectIdentifier)
     throws MalformedURLException, IOException {
         URI u = resolve(objectIdentifier);
         File f = cache(u);
@@ -320,7 +319,7 @@ public class ThumbnailService {
     @WebMethod
     public URI resolve(String identifier) throws IOException {
         if (!allowed.contains(identifier))
-            throw new IOException("Access is allowed only to sample URI; install a local copy that will work on any URI. ");
+            throw new IOException("Access is allowed only to a sample URI; install a local copy that will work on any URI. ");
         try {
             return new URI(identifier);
         } catch (URISyntaxException e) {
