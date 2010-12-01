@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://shaman.liv.ac.uk/" xmlns:tns="http://shaman.liv.ac.uk/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="IOException" type="tns:IOException"/>
+
+  <xs:element name="MalformedURLException" type="tns:MalformedURLException"/>
+
+  <xs:element name="extraxtFontInformation" type="tns:extraxtFontInformation"/>
+
+  <xs:element name="extraxtFontInformationResponse" type="tns:extraxtFontInformationResponse"/>
+
+  <xs:element name="extraxtXmlText" type="tns:extraxtXmlText"/>
+
+  <xs:element name="extraxtXmlTextResponse" type="tns:extraxtXmlTextResponse"/>
+
+  <xs:element name="generateSVGThumbnail" type="tns:generateSVGThumbnail"/>
+
+  <xs:element name="generateSVGThumbnailResponse" type="tns:generateSVGThumbnailResponse"/>
+
+  <xs:element name="generateThumbnail" type="tns:generateThumbnail"/>
+
+  <xs:element name="generateThumbnailResponse" type="tns:generateThumbnailResponse"/>
+
+  <xs:element name="getSupportedMimeTypes" type="tns:getSupportedMimeTypes"/>
+
+  <xs:element name="getSupportedMimeTypesResponse" type="tns:getSupportedMimeTypesResponse"/>
+
+  <xs:element name="getSupportedOutputType" type="tns:getSupportedOutputType"/>
+
+  <xs:element name="getSupportedOutputTypeResponse" type="tns:getSupportedOutputTypeResponse"/>
+
+  <xs:element name="resolve" type="tns:resolve"/>
+
+  <xs:element name="resolveResponse" type="tns:resolveResponse"/>
+
+  <xs:complexType name="extraxtFontInformation">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtFontInformationResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:fontInformation" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="fontInformation">
+    <xs:sequence>
+      <xs:element name="fontName" type="xs:string" minOccurs="0"/>
+      <xs:element name="charset" type="xs:string" minOccurs="0"/>
+      <xs:element name="fontType" type="xs:string" minOccurs="0"/>
+      <xs:element name="fontFlags" type="xs:int"/>
+      <xs:element name="isEnbedded" type="xs:boolean"/>
+      <xs:element name="isSubset" type="xs:boolean"/>
+      <xs:element name="isToUnicode" type="xs:boolean"/>
+      <xs:element name="pitchAndFamily" type="xs:string" minOccurs="0"/>
+      <xs:element name="fontFamily" type="xs:string" minOccurs="0"/>
+      <xs:element name="fontStretch" type="xs:string" minOccurs="0"/>
+      <xs:element name="fontWeight" type="xs:float"/>
+      <xs:element name="numGlyph" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="MalformedURLException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="IOException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtXmlText">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg4" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg5" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtXmlTextResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateThumbnail">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg4" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg5" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateThumbnailResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateSVGThumbnail">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateSVGThumbnailResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="resolve">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="resolveResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSupportedOutputType">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getSupportedOutputTypeResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getSupportedMimeTypes">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getSupportedMimeTypesResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
