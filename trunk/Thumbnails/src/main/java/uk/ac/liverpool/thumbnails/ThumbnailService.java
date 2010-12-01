@@ -158,19 +158,15 @@ public class ThumbnailService {
      *            The with of the output image
      * @param outputHeight
      *            The height of the output image
-     * @param outputFormat
-     *            The output format, as indicate by
-     *            {@link #getSupportedOutputType()}
-     * @param outputOption
-     *            Output writing options (as supported by Java ImageIO)
-     * @return a byte[] of the encoded SVG representation.
+     * @param  page Page number to convert
+     * @return The String SVG representation.
      * @throws MalformedURLException
      * @throws IOException
      * @throws ParseException 
      */
     @WebMethod
     public String generateSVGThumbnail(String objectIdentifier, int outputWidth,
-            int outputHeight, String outputFormat, String outputOption, int page)
+            int outputHeight, int page)
     throws MalformedURLException, IOException {
         URI u = resolve(objectIdentifier);
         File f = cache(u);
@@ -194,6 +190,64 @@ public class ThumbnailService {
        return br.toString();
 
     }
+    
+    
+    /**
+     * 
+     * This method will extract the list of fonts used in the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+     * @return FontInformation[]
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    @WebMethod
+    public FontInformation[] extraxtFontInformation(String objectIdentifier)
+    throws MalformedURLException, IOException {
+        URI u = resolve(objectIdentifier);
+        File f = cache(u);
+        String mime = guessFormat(f, u);
+
+        GenericService service = map.get(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+        return service.extractFontList(f.toURI(),f);
+        
+    }
+    /**
+     * 
+     * This method will extract an XML representation of the textual contents of the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+  
+     * @return a String
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    @WebMethod
+    public String extraxtXmlText(String objectIdentifier, int outputWidth,
+            int outputHeight, String outputFormat, String outputOption, int page)
+    throws MalformedURLException, IOException {
+        URI u = resolve(objectIdentifier);
+        File f = cache(u);
+        String mime = guessFormat(f, u);
+
+        GenericService service = map.get(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+
+        return service.extraxtXMLText(f.toURI(),f);
+        
+    }
+    
     
     @WebMethod(exclude = true)
     private File cache(URI u) throws MalformedURLException, IOException {

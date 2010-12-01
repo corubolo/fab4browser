@@ -46,10 +46,12 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.dom.svg.SVGDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.swing.JSVGCanvas;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.impl.Log4JLogger;
@@ -131,28 +133,69 @@ public class PDFService implements GenericService {
     public static void main(String[] args) throws HeadlessException, IOException, URISyntaxException {
         BasicConfigurator.configure();
         Logger.getRootLogger().setLevel(Level.WARN);
-        URI u = new URI("file:///Users/fabio/Desktop/altro%20sw%20papo/OPEN%20TYPE%20VARI/Adobe%20OpenType/Adobe%20Fonts/Adobe%20Open%20Type%20Collection/Kepler%20Bl%20Ext%20It%20Cap-012719OPN/KeplerStdReadme.pdf");
+        URI u = new URI("file:///Users/fabio/Desktop/altro%20sw%20papo/OPEN%20TYPE%20VARI/Adobe%20OpenType/%5Btypeface%20index%5D%20Adobe%20Type%20Collection,%20OTE.pdf");
         //u = new URI("file:///Users/fabio/Downloads/Planets_PC3-D23A_TheConceptOfSignificantProperties.pdf");
         //u = new URI("file:///Users/fabio/Downloads/ModuloApertura.pdf");
 
         // new PDFService().generateSVG(u,null,  800, 800, 1,new FileWriter("test.svg"));
-       // ImageIO.write(new PDFService().generateThumb(u,null,  800, 800, 0), "png",new File("test.png"));
+        // ImageIO.write(new PDFService().generateThumb(u,null,  800, 800, 0), "png",new File("test.png"));
         FontInformation[] fi = new PDFService().extractFontList(u,null);
-       
+
         int i=1;
         for (FontInformation f: fi)     {
             System.out.println(i++);
             printModel(System.out, f);
         }
-        //        JSVGCanvas canvas = new JSVGCanvas();
-        //        JFrame f = new JFrame();
-        //        f.getContentPane().add(canvas);
-        //        canvas.setSVGDocument(document);
-        //        f.pack();
-        //        f.setVisible(true);
+       new PDFService().displaySVG(u, 2);
 
     }
 
+    private void displaySVG(URI u, int i) throws MalformedURLException, IOException {
+        PDDocument doc = getPages(u, null);
+        List pages = doc.getDocumentCatalog().getAllPages();
+        int pagen = doc.getNumberOfPages();
+
+        PDPage page = (PDPage)pages.get( i);
+        PDRectangle mBox = page.findMediaBox();
+        float widthPt = mBox.getWidth();
+        float heightPt = mBox.getHeight();
+        float sx = widthPt / (float) 600;
+        float sy = heightPt/ (float) 800;
+
+
+        // Get a DOMImplementation
+        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+        // Create an instance of org.w3c.dom.Document
+        //   String svgNS = "http://www.w3.org/2000/svg";
+        //        org.w3c.dom.Document document = domImpl.createDocument(svgNS, "svg",
+        //                null);
+        DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
+        String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+        document= (SVGDocument) impl.createDocument(svgNS, "svg", null);
+
+        // Create an instance of the SVG Generator
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        svgGenerator.getGeneratorContext().setComment("Test");
+        svgGenerator.getGeneratorContext().setEmbeddedFontsOn(true);
+
+        // Ask the test to render into the SVG Graphics2D implementation
+
+        Dimension pageDimension = new Dimension( (int)widthPt, (int)heightPt );
+
+
+        svgGenerator.setBackground( new Color( 255, 255, 255, 0 ) );
+        svgGenerator.scale( sx, sy );
+        svgGenerator.setSVGCanvasSize(pageDimension);
+        PageDrawer drawer = new PageDrawer();
+        drawer.drawPage( svgGenerator, page, pageDimension );
+
+        JSVGCanvas canvas = new JSVGCanvas();
+        JFrame f = new JFrame();
+        f.getContentPane().add(canvas);
+        canvas.setSVGDocument(document);
+        f.pack();
+        f.setVisible(true);
+    }
     public static void printModel (PrintStream ps, Object o){
         Field[] fi = o.getClass().getDeclaredFields();
         for (Field f: fi){
@@ -186,7 +229,7 @@ public class PDFService implements GenericService {
             if (c == null || !(c.getObject() instanceof COSDictionary))
                 continue;
             //System.out.println(c.getObject());
-         
+
             COSDictionary fontDictionary = (COSDictionary) c.getObject();
             // System.out.println(dic.getNameAsString(COSName.BASE_FONT));
             //            }
@@ -216,7 +259,7 @@ public class PDFService implements GenericService {
             // get the variables
             FontInformation fi = new FontInformation();
             fi.fontType= fontDictionary.getNameAsString(COSName.SUBTYPE);          
-         
+
             String baseFont= fontDictionary.getNameAsString(COSName.BASE_FONT);
             if (Arrays.binarySearch(standard14, baseFont)>=0)
                 continue;
@@ -254,7 +297,7 @@ public class PDFService implements GenericService {
             fi.fontFlags  = 0;
             if (fi.fontType.equals(COSName.TYPE0) || fi.fontType.equals(COSName.TYPE3) )
                 fi.isEnbedded = true;
-            
+
             if (fontDescriptor != null) {
                 // in Type1 charset indicates font is subsetted
                 if (fontDescriptor.getItem(COSName.CHAR_SET)!=null)
@@ -274,13 +317,13 @@ public class PDFService implements GenericService {
 
         } // for all fonts 
 
-//    } // for all pages
+        //    } // for all pages
         Iterator<FontInformation> it = ret.iterator();
         FontInformation prev = null;
         LinkedList<FontInformation> toDelete = new LinkedList<FontInformation>();
         while (it.hasNext()) {
             FontInformation current = it.next();
-            
+
             if (prev!= null && prev.fontName.equals(current.fontName) && prev.fontType.startsWith("CIDFontType"))
                 toDelete.add(current);
             prev = current;
@@ -288,70 +331,70 @@ public class PDFService implements GenericService {
         ret.removeAll(toDelete);
         FontInformation[] retArray =ret.toArray(new FontInformation[0]);
 
-    return retArray;
-}
+        return retArray;
+    }
 
 
-@Override
-public String extraxtXMLText(URI u, File f) throws MalformedURLException,
-IOException {
-    // TODO Auto-generated method stub
-    return null;
-}
+    @Override
+    public String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    IOException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-private static SVGDocument document;
+    private static SVGDocument document;
 
-@Override
-public void generateSVG(URI u, File f, int w, int h, int pn , Writer out)
-throws MalformedURLException, IOException {
-    PDDocument doc = getPages(u, f);
-    List pages = doc.getDocumentCatalog().getAllPages();
-    int pagen = doc.getNumberOfPages();
-    int i=0;
-    if (pn < pages.size())
-        i = pn;
-    PDPage page = (PDPage)pages.get( i);
-    PDRectangle mBox = page.findMediaBox();
-    float widthPt = mBox.getWidth();
-    float heightPt = mBox.getHeight();
-    float sx = widthPt / (float) w;
-    float sy = heightPt/ (float) h;
-
-
-    // Get a DOMImplementation
-    DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
-    // Create an instance of org.w3c.dom.Document
-    //   String svgNS = "http://www.w3.org/2000/svg";
-    //        org.w3c.dom.Document document = domImpl.createDocument(svgNS, "svg",
-    //                null);
-    DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
-    String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
-    document= (SVGDocument) impl.createDocument(svgNS, "svg", null);
-
-    // Create an instance of the SVG Generator
-    SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-    svgGenerator.getGeneratorContext().setComment("Test");
-    svgGenerator.getGeneratorContext().setEmbeddedFontsOn(true);
-
-    // Ask the test to render into the SVG Graphics2D implementation
-
-    Dimension pageDimension = new Dimension( (int)widthPt, (int)heightPt );
+    @Override
+    public void generateSVG(URI u, File f, int w, int h, int pn , Writer out)
+    throws MalformedURLException, IOException {
+        PDDocument doc = getPages(u, f);
+        List pages = doc.getDocumentCatalog().getAllPages();
+        int pagen = doc.getNumberOfPages();
+        int i=0;
+        if (pn < pages.size())
+            i = pn;
+        PDPage page = (PDPage)pages.get( i);
+        PDRectangle mBox = page.findMediaBox();
+        float widthPt = mBox.getWidth();
+        float heightPt = mBox.getHeight();
+        float sx = widthPt / (float) w;
+        float sy = heightPt/ (float) h;
 
 
-    svgGenerator.setBackground( new Color( 255, 255, 255, 0 ) );
-    svgGenerator.scale( sx, sy );
-    svgGenerator.setSVGCanvasSize(pageDimension);
-    PageDrawer drawer = new PageDrawer();
-    drawer.drawPage( svgGenerator, page, pageDimension );
+        // Get a DOMImplementation
+        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+        // Create an instance of org.w3c.dom.Document
+        //   String svgNS = "http://www.w3.org/2000/svg";
+        //        org.w3c.dom.Document document = domImpl.createDocument(svgNS, "svg",
+        //                null);
+        DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
+        String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
+        document= (SVGDocument) impl.createDocument(svgNS, "svg", null);
 
-    //        Element root = document.getDocumentElement();
-    //        svgGenerator.getRoot(root);
+        // Create an instance of the SVG Generator
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        svgGenerator.getGeneratorContext().setComment("Test");
+        svgGenerator.getGeneratorContext().setEmbeddedFontsOn(true);
 
-    // Finally, stream out SVG to the standard output using UTF-8
-    // character to byte encoding
-    boolean useCSS = true;              // we want to use CSS style attribute
-    svgGenerator.stream(out, useCSS, false);
+        // Ask the test to render into the SVG Graphics2D implementation
 
-    return;
-}
+        Dimension pageDimension = new Dimension( (int)widthPt, (int)heightPt );
+
+
+        svgGenerator.setBackground( new Color( 255, 255, 255, 0 ) );
+        svgGenerator.scale( sx, sy );
+        svgGenerator.setSVGCanvasSize(pageDimension);
+        PageDrawer drawer = new PageDrawer();
+        drawer.drawPage( svgGenerator, page, pageDimension );
+
+        //        Element root = document.getDocumentElement();
+        //        svgGenerator.getRoot(root);
+
+        // Finally, stream out SVG to the standard output using UTF-8
+        // character to byte encoding
+        boolean useCSS = true;              // we want to use CSS style attribute
+        svgGenerator.stream(out, useCSS, false);
+
+        return;
+    }
 }
