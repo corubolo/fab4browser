@@ -1,23 +1,24 @@
 
 package uk.ac.liverpool.shaman.thumbnailserviceclient;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for guessFormatResponse complex type.
+ * <p>Java class for generateThumbnailFromDataResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="guessFormatResponse">
+ * &lt;complexType name="generateThumbnailFromDataResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="return" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -27,23 +28,23 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "guessFormatResponse", propOrder = {
+@XmlType(name = "generateThumbnailFromDataResponse", propOrder = {
     "_return"
 })
-public class GuessFormatResponse {
+public class GenerateThumbnailFromDataResponse {
 
-    @XmlElement(name = "return")
-    protected String _return;
+    @XmlElementRef(name = "return", type = JAXBElement.class)
+    protected JAXBElement<byte[]> _return;
 
     /**
      * Gets the value of the return property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
      *     
      */
-    public String getReturn() {
+    public JAXBElement<byte[]> getReturn() {
         return _return;
     }
 
@@ -52,11 +53,11 @@ public class GuessFormatResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
      *     
      */
-    public void setReturn(String value) {
-        this._return = value;
+    public void setReturn(JAXBElement<byte[]> value) {
+        this._return = ((JAXBElement<byte[]> ) value);
     }
 
 }

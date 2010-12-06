@@ -51,8 +51,104 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns byte[]
-     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "generateThumbnailFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.GenerateThumbnailFromData")
+    @ResponseWrapper(localName = "generateThumbnailFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.GenerateThumbnailFromDataResponse")
+    public byte[] generateThumbnailFromData(
+        @WebParam(name = "arg0", targetNamespace = "")
+        byte[] arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        int arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        int arg2,
+        @WebParam(name = "arg3", targetNamespace = "")
+        String arg3,
+        @WebParam(name = "arg4", targetNamespace = "")
+        String arg4,
+        @WebParam(name = "arg5", targetNamespace = "")
+        int arg5)
+        throws IOException_Exception, MalformedURLException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "generateSVGThumbnailFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.GenerateSVGThumbnailFromData")
+    @ResponseWrapper(localName = "generateSVGThumbnailFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.GenerateSVGThumbnailFromDataResponse")
+    public String generateSVGThumbnailFromData(
+        @WebParam(name = "arg0", targetNamespace = "")
+        byte[] arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        int arg1,
+        @WebParam(name = "arg2", targetNamespace = "")
+        int arg2,
+        @WebParam(name = "arg3", targetNamespace = "")
+        int arg3)
+        throws IOException_Exception, MalformedURLException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.util.List<uk.ac.liverpool.shaman.thumbnailserviceclient.FontInformation>
+     * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "extraxtFontInformationFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformationFromData")
+    @ResponseWrapper(localName = "extraxtFontInformationFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformationFromDataResponse")
+    public List<FontInformation> extraxtFontInformationFromData(
+        @WebParam(name = "arg0", targetNamespace = "")
+        byte[] arg0)
+        throws IOException_Exception, MalformedURLException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "extraxtXmlTextFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextFromData")
+    @ResponseWrapper(localName = "extraxtXmlTextFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextFromDataResponse")
+    public String extraxtXmlTextFromData(
+        @WebParam(name = "arg0", targetNamespace = "")
+        byte[] arg0)
+        throws IOException_Exception, MalformedURLException_Exception
+    ;
+
+    /**
+     * 
+     * @param arg5
+     * @param arg4
+     * @param arg3
+     * @param arg2
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns byte[]
+     * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -82,8 +178,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -106,8 +202,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.util.List<uk.ac.liverpool.shaman.thumbnailserviceclient.FontInformation>
-     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -121,16 +217,11 @@ public interface ThumbnailService {
 
     /**
      * 
-     * @param arg5
-     * @param arg4
-     * @param arg3
-     * @param arg2
-     * @param arg1
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws MalformedURLException_Exception
      * @throws IOException_Exception
+     * @throws MalformedURLException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -138,17 +229,7 @@ public interface ThumbnailService {
     @ResponseWrapper(localName = "extraxtXmlTextResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextResponse")
     public String extraxtXmlText(
         @WebParam(name = "arg0", targetNamespace = "")
-        String arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        int arg1,
-        @WebParam(name = "arg2", targetNamespace = "")
-        int arg2,
-        @WebParam(name = "arg3", targetNamespace = "")
-        String arg3,
-        @WebParam(name = "arg4", targetNamespace = "")
-        String arg4,
-        @WebParam(name = "arg5", targetNamespace = "")
-        int arg5)
+        String arg0)
         throws IOException_Exception, MalformedURLException_Exception
     ;
 
