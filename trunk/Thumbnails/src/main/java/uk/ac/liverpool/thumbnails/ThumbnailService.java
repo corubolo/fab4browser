@@ -83,7 +83,7 @@ public class ThumbnailService {
     public static void main(String[] args) throws MalformedURLException,
     IOException {
         System.out.println("Starting Server");
-        String address = "http://localhost:9090/ThumbnailClient";
+        String address = "http://localhost:8080/ThumbnailService";
         javax.xml.ws.Endpoint.publish(address,
                 new ThumbnailService());
 
@@ -93,7 +93,161 @@ public class ThumbnailService {
 
     public ThumbnailService() {
     }
+    
+    
 
+    /**
+     * 
+     * This method will generate a thumbnail image of the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+     * @param outputWidth
+     *            The with of the output image
+     * @param outputHeight
+     *            The height of the output image
+     * @param outputFormat
+     *            The output format, as indicate by
+     *            {@link #getSupportedOutputType()}
+     * @param outputOption
+     *            Output writing options (as supported by Java ImageIO)
+     * @return a byte[] of the encoded image representation.
+     * @throws MalformedURLException
+     * @throws IOException
+     * @throws ParseException 
+     */
+    @WebMethod
+    public byte[] generateThumbnailFromData(byte[] data, int outputWidth,
+            int outputHeight, String outputFormat, String outputOption, int page)
+    throws MalformedURLException, IOException {
+        //URI u = resolve(objectIdentifier);
+        File f = copyToTemp(data, "thservice", "dat");
+        String mime = guessFormat(f);
+
+        BufferedImage bi = null;
+        GenericService service = map.get(mime);
+        System.out.println(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+        bi = service.generateThumb(f.toURI(),f, outputWidth, outputHeight, page);
+        if (bi != null) {
+            try {
+                byte[] b = saveImage(bi, outputFormat, outputOption);
+                return b;
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                return new byte[0];
+            }
+        } else
+            return new byte[0];
+
+    }
+    
+    
+    
+    /**
+     * 
+     * This method will generate a SVG representation of the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+     * @param outputWidth
+     *            The with of the output image
+     * @param outputHeight
+     *            The height of the output image
+     * @param  page Page number to convert
+     * @return The String SVG representation.
+     * @throws MalformedURLException
+     * @throws IOException
+     * @throws ParseException 
+     */
+    @WebMethod
+    public String generateSVGThumbnailFromData(byte[] data, int outputWidth,
+            int outputHeight, int page)
+    throws MalformedURLException, IOException {
+        File f = copyToTemp(data, "thservice", "dat");
+        String mime = guessFormat(f);
+
+
+        GenericService service = map.get(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+        File createTempFile = File.createTempFile("tttt", ".svg");
+        FileWriter fw = new FileWriter(createTempFile);
+        service.generateSVG(f.toURI(),f, outputWidth, outputHeight, page, fw);
+        fw.close();
+        BufferedReader br = new BufferedReader(new FileReader(createTempFile));
+        StringBuffer sb = new StringBuffer();
+        char[] buf = new char[10000];
+        int cc;
+        while ((cc = br.read(buf))!=-1) {
+            sb.append(buf, 0, cc);
+        }
+        
+       return br.toString();
+
+    }
+    
+    
+    /**
+     * 
+     * This method will extract the list of fonts used in the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+     * @return FontInformation[]
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    @WebMethod
+    public FontInformation[] extraxtFontInformationFromData(byte[] data)
+    throws MalformedURLException, IOException {
+        File f = copyToTemp(data, "thservice", "dat");
+        String mime = guessFormat(f);
+
+        GenericService service = map.get(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+        return service.extractFontList(f.toURI(),f);
+        
+    }
+    /**
+     * 
+     * This method will extract an XML representation of the textual contents of the object indicated by
+     * objectIdentifier (Currently a simple URI). Currently supported formats
+     * can be obtained by calling the {@link #getSupportedMimeTypes()}
+     * 
+     * 
+     * @param objectIdentifier
+     *            The Object identifier; currently, only URI are supported
+  
+     * @return a String
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    @WebMethod
+    public String extraxtXmlTextFromData(byte[] data)
+    throws MalformedURLException, IOException {
+        File f = copyToTemp(data, "thservice", "dat");
+        String mime = guessFormat(f);
+
+        GenericService service = map.get(mime);
+        if (service == null)
+            throw new IOException("Unsupported document type");
+
+        return service.extraxtXMLText(f.toURI(),f);
+        
+    }
     /**
      * 
      * This method will generate a thumbnail image of the object indicated by
@@ -247,7 +401,6 @@ public class ThumbnailService {
         
     }
     
-    
     @WebMethod(exclude = true)
     private File cache(URI u) throws MalformedURLException, IOException {
         File f = cacheF .get(u);
@@ -267,12 +420,33 @@ public class ThumbnailService {
         } catch (Exception x){
             f = File.createTempFile(st, null);
         }
+        f.deleteOnExit();
         FileOutputStream os = new FileOutputStream(f);
         byte[] buf = new byte[16 * 1024];
         int i;
         while ((i = is.read(buf)) != -1)
             os.write(buf, 0, i);
         is.close();
+        os.close();
+        return f;
+
+    }
+    
+    @WebMethod(exclude = true)
+    public static File copyToTemp(byte[] data, String st, String en)
+    throws IOException {
+        if (en == null || en.length()<3 || en.indexOf("/")!=-1 ||  en.indexOf("\\")!=-1)
+            en = null;
+        File f;
+        try {
+            f= File.createTempFile(st, en);
+        } catch (Exception x){
+            f = File.createTempFile(st, null);
+        }
+        f.deleteOnExit();
+        FileOutputStream os = new FileOutputStream(f);
+        os.write(data, 0, data.length);
+     
         os.close();
         return f;
 
@@ -288,6 +462,35 @@ public class ThumbnailService {
         return ba;
     }
 
+    
+    @WebMethod(exclude = true)
+    public String guessFormat(File f) throws IOException {
+
+        FileMagic file1 = new FileMagic("--mime-type", "-b", f.getAbsolutePath());
+        StringWriter out = new StringWriter();
+        file1.setOutput(out);
+        file1.execute();
+        String mime = out.toString().trim();
+        //String us = u.toString().toLowerCase();
+//        if (us.endsWith("jt"))
+//            return JTService.JT_MIME;
+//        if (mime.contains("application/octet-stream")){
+//            if (us.endsWith("ppt"))
+//                return PPTService.PPT_MIME;
+//            if (us.endsWith("pdf"))
+//                return PDFService.PDF_MIME;
+        
+        return mime;
+        //        String us = u.toString().toLowerCase();
+        //        if (us.endsWith("jt"))
+        //            return JT_MIME;
+        //        if (us.endsWith("ppt"))
+        //            return PPT_MIME;
+        //        if (us.endsWith("pdf"))
+        //            return PDF_MIME;
+        //        return null;
+    }
+    
     @WebMethod(exclude = true)
     public String guessFormat(File f, URI u) throws IOException {
 
