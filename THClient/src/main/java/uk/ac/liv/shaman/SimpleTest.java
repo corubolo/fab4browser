@@ -1,5 +1,8 @@
 package uk.ac.liv.shaman;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -27,18 +30,26 @@ public class SimpleTest {
                         // "http://bodoni.lib.liv.ac.uk:8080/Thumbnails-0.0.1-SNAPSHOT/Thumbnails"),
                         new QName("http://shaman.liv.ac.uk/", "ThumbnailServiceService"));
         FileOutputStream f = new FileOutputStream("out.png");
-        String arg0 = "http://www.ctan.org/tex-archive/info/lshort/english/lshort.pdf";
-        f.write(s.getThumbnailServicePort().generateThumbnail(
-                arg0, 300, 600,
-                "png", "", 1));
+        //String arg0 = "http://www.ctan.org/tex-archive/info/lshort/english/lshort.pdf";
+//        f.write(s.getThumbnailServicePort().generateThumbnail(
+//                arg0, 300, 600,
+//                "png", "", 1));
+        File source = new File("/Users/fabio/Downloads/994886489.pdf");
+        DataInputStream di = new DataInputStream(new FileInputStream(source));
+       byte[] data = new byte[(int)source.length()];
+        di.readFully(data);
+        System.out.println(data.length);
+        f.write(s.getThumbnailServicePort().generateThumbnailFromData(
+                data, 300, 600,
+                "png", "", 0));
         List<String> ss = s.getThumbnailServicePort().getSupportedOutputType();
         ss = s.getThumbnailServicePort().getSupportedMimeTypes();
 
-        System.out.println(s.getThumbnailServicePort().extraxtXmlText(
-                arg0, 300, 600,
-                "png", "", 1));
-        List<FontInformation> fi =   s.getThumbnailServicePort().extraxtFontInformation(
-                arg0);
+//        System.out.println(s.getThumbnailServicePort().extraxtXmlText(
+//                arg0, 300, 600,
+//                "png", "", 1));
+        List<FontInformation> fi =   s.getThumbnailServicePort().extraxtFontInformationFromData(
+                data);
         for (FontInformation fs: fi){
             printModel(System.out, fs);
         }

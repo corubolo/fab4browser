@@ -7,17 +7,33 @@
 
   <xs:element name="extraxtFontInformation" type="tns:extraxtFontInformation"/>
 
+  <xs:element name="extraxtFontInformationFromData" type="tns:extraxtFontInformationFromData"/>
+
+  <xs:element name="extraxtFontInformationFromDataResponse" type="tns:extraxtFontInformationFromDataResponse"/>
+
   <xs:element name="extraxtFontInformationResponse" type="tns:extraxtFontInformationResponse"/>
 
   <xs:element name="extraxtXmlText" type="tns:extraxtXmlText"/>
+
+  <xs:element name="extraxtXmlTextFromData" type="tns:extraxtXmlTextFromData"/>
+
+  <xs:element name="extraxtXmlTextFromDataResponse" type="tns:extraxtXmlTextFromDataResponse"/>
 
   <xs:element name="extraxtXmlTextResponse" type="tns:extraxtXmlTextResponse"/>
 
   <xs:element name="generateSVGThumbnail" type="tns:generateSVGThumbnail"/>
 
+  <xs:element name="generateSVGThumbnailFromData" type="tns:generateSVGThumbnailFromData"/>
+
+  <xs:element name="generateSVGThumbnailFromDataResponse" type="tns:generateSVGThumbnailFromDataResponse"/>
+
   <xs:element name="generateSVGThumbnailResponse" type="tns:generateSVGThumbnailResponse"/>
 
   <xs:element name="generateThumbnail" type="tns:generateThumbnail"/>
+
+  <xs:element name="generateThumbnailFromData" type="tns:generateThumbnailFromData"/>
+
+  <xs:element name="generateThumbnailFromDataResponse" type="tns:generateThumbnailFromDataResponse"/>
 
   <xs:element name="generateThumbnailResponse" type="tns:generateThumbnailResponse"/>
 
@@ -77,11 +93,6 @@
   <xs:complexType name="extraxtXmlText">
     <xs:sequence>
       <xs:element name="arg0" type="xs:string" minOccurs="0"/>
-      <xs:element name="arg1" type="xs:int"/>
-      <xs:element name="arg2" type="xs:int"/>
-      <xs:element name="arg3" type="xs:string" minOccurs="0"/>
-      <xs:element name="arg4" type="xs:string" minOccurs="0"/>
-      <xs:element name="arg5" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -103,6 +114,50 @@
   </xs:complexType>
 
   <xs:complexType name="generateThumbnailResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateSVGThumbnailFromData">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateSVGThumbnailFromDataResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtFontInformationFromData">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtFontInformationFromDataResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:fontInformation" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateThumbnailFromData">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+      <xs:element name="arg1" type="xs:int"/>
+      <xs:element name="arg2" type="xs:int"/>
+      <xs:element name="arg3" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg4" type="xs:string" minOccurs="0"/>
+      <xs:element name="arg5" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="generateThumbnailFromDataResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:base64Binary" nillable="true" minOccurs="0"/>
     </xs:sequence>
@@ -152,6 +207,18 @@
   <xs:complexType name="getSupportedMimeTypesResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtXmlTextFromData">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:base64Binary" nillable="true" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="extraxtXmlTextFromDataResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

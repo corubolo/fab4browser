@@ -15,14 +15,38 @@
   <message name="IOException">
     <part name="fault" element="tns:IOException"/>
   </message>
+  <message name="generateThumbnailFromData">
+    <part name="parameters" element="tns:generateThumbnailFromData"/>
+  </message>
+  <message name="generateThumbnailFromDataResponse">
+    <part name="parameters" element="tns:generateThumbnailFromDataResponse"/>
+  </message>
+  <message name="MalformedURLException">
+    <part name="fault" element="tns:MalformedURLException"/>
+  </message>
+  <message name="generateSVGThumbnailFromData">
+    <part name="parameters" element="tns:generateSVGThumbnailFromData"/>
+  </message>
+  <message name="generateSVGThumbnailFromDataResponse">
+    <part name="parameters" element="tns:generateSVGThumbnailFromDataResponse"/>
+  </message>
+  <message name="extraxtFontInformationFromData">
+    <part name="parameters" element="tns:extraxtFontInformationFromData"/>
+  </message>
+  <message name="extraxtFontInformationFromDataResponse">
+    <part name="parameters" element="tns:extraxtFontInformationFromDataResponse"/>
+  </message>
+  <message name="extraxtXmlTextFromData">
+    <part name="parameters" element="tns:extraxtXmlTextFromData"/>
+  </message>
+  <message name="extraxtXmlTextFromDataResponse">
+    <part name="parameters" element="tns:extraxtXmlTextFromDataResponse"/>
+  </message>
   <message name="generateThumbnail">
     <part name="parameters" element="tns:generateThumbnail"/>
   </message>
   <message name="generateThumbnailResponse">
     <part name="parameters" element="tns:generateThumbnailResponse"/>
-  </message>
-  <message name="MalformedURLException">
-    <part name="fault" element="tns:MalformedURLException"/>
   </message>
   <message name="generateSVGThumbnail">
     <part name="parameters" element="tns:generateSVGThumbnail"/>
@@ -58,6 +82,30 @@
     <operation name="resolve">
       <input message="tns:resolve"/>
       <output message="tns:resolveResponse"/>
+      <fault message="tns:IOException" name="IOException"/>
+    </operation>
+    <operation name="generateThumbnailFromData">
+      <input message="tns:generateThumbnailFromData"/>
+      <output message="tns:generateThumbnailFromDataResponse"/>
+      <fault message="tns:MalformedURLException" name="MalformedURLException"/>
+      <fault message="tns:IOException" name="IOException"/>
+    </operation>
+    <operation name="generateSVGThumbnailFromData">
+      <input message="tns:generateSVGThumbnailFromData"/>
+      <output message="tns:generateSVGThumbnailFromDataResponse"/>
+      <fault message="tns:MalformedURLException" name="MalformedURLException"/>
+      <fault message="tns:IOException" name="IOException"/>
+    </operation>
+    <operation name="extraxtFontInformationFromData">
+      <input message="tns:extraxtFontInformationFromData"/>
+      <output message="tns:extraxtFontInformationFromDataResponse"/>
+      <fault message="tns:MalformedURLException" name="MalformedURLException"/>
+      <fault message="tns:IOException" name="IOException"/>
+    </operation>
+    <operation name="extraxtXmlTextFromData">
+      <input message="tns:extraxtXmlTextFromData"/>
+      <output message="tns:extraxtXmlTextFromDataResponse"/>
+      <fault message="tns:MalformedURLException" name="MalformedURLException"/>
       <fault message="tns:IOException" name="IOException"/>
     </operation>
     <operation name="generateThumbnail">
@@ -103,6 +151,66 @@
       <output>
         <soap:body use="literal"/>
       </output>
+      <fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="generateThumbnailFromData">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="MalformedURLException">
+        <soap:fault name="MalformedURLException" use="literal"/>
+      </fault>
+      <fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="generateSVGThumbnailFromData">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="MalformedURLException">
+        <soap:fault name="MalformedURLException" use="literal"/>
+      </fault>
+      <fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="extraxtFontInformationFromData">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="MalformedURLException">
+        <soap:fault name="MalformedURLException" use="literal"/>
+      </fault>
+      <fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="extraxtXmlTextFromData">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="MalformedURLException">
+        <soap:fault name="MalformedURLException" use="literal"/>
+      </fault>
       <fault name="IOException">
         <soap:fault name="IOException" use="literal"/>
       </fault>
