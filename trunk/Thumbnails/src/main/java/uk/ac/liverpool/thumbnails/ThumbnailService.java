@@ -68,14 +68,15 @@ public class ThumbnailService {
     }
 
     private static GenericService[] services = new GenericService[]{
-        new JTService(), new PDFService(), new PPTService(),  
+        new JTService(), new PDFService(), new PPTService(),  new ImageIOService()
     };
 
 
     public static Map<String, GenericService> map = new HashMap<String, GenericService>();
     static { 
         for (GenericService s: services) {
-            map.put(s.getSupportedMime(), s);
+            for (String m:s.getSupportedMimes())
+                map.put(m, s);
         }
     }
 

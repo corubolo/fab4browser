@@ -124,9 +124,9 @@ public class PDFService implements GenericService {
 
     static final String PDF_MIME = "application/pdf";
     @Override
-    public String getSupportedMime() {
+    public String[] getSupportedMimes() {
 
-        return PDF_MIME;
+        return new String[]{PDF_MIME};
     }
 
 
