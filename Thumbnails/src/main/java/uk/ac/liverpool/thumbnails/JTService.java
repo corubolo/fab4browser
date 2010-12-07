@@ -152,8 +152,8 @@ public class JTService implements GenericService{
     }
 
     @Override
-    public String getSupportedMime() {
-        return JT_MIME;
+    public String[] getSupportedMimes() {
+        return new String[]{JT_MIME};
     }
 
     @Override

@@ -45,7 +45,7 @@ public interface GenericService {
      */
     public BufferedImage generateThumb(URI u, File f, int w, int h, int page) throws MalformedURLException, IOException;
     
-    public String getSupportedMime();
+    public String[] getSupportedMimes();
     
     public  FontInformation[] extractFontList(URI u, File fff) throws MalformedURLException, IOException;
     

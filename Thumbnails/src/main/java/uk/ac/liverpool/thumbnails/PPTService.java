@@ -218,8 +218,8 @@ public class PPTService implements GenericService {
     }
 
     @Override
-    public String getSupportedMime() {
-        return PPT_MIME;
+    public String[] getSupportedMimes() {
+        return new String[]{PPT_MIME};
     }
 
 
