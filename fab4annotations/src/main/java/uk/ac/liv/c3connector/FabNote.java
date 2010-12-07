@@ -673,6 +673,11 @@ public class FabNote extends Behavior {
 		menu.setValid(true);*/
 		
 
+		///SAM
+		//only for rest server add the positive/negative/... 
+		if(DistributedPersonalAnnos.currentServer == Servers.REST){
+		
+			
 		createUI("label", "-------------------", /*new SemanticEvent(getBrowser(), 
 				FabNote.MSG_SHOW, null //win_
 				, this, null)*/
@@ -745,6 +750,9 @@ public class FabNote extends Behavior {
 				infoBox.setState(true);
 		}
 		
+		
+		}///
+		
 		CLGeneral gsR = new CLGeneral();
 		gsR.setForeground(Colors.getColor(getAttr("foreground"), Color.BLACK));
 		gsR.setBackground(Colors.getColor(getAttr("background"), Color.CYAN));
@@ -806,9 +814,11 @@ public class FabNote extends Behavior {
 		HashMap<String,String> relatedText = PDF.getRelatedTextSnapshot(docrootcontent, note_x, note_y, zl,10);
 		
 		String textsnapshot = relatedText.get("lines");
-		putAttr("textsnapshot",textsnapshot);
-		putAttr("relatedSection1", relatedText.get("section1"));
-		putAttr("relatedSection2", relatedText.get("section2"));
+		if(textsnapshot != null && textsnapshot.length() != 0 ){
+			putAttr("textsnapshot",textsnapshot);
+			putAttr("relatedSection1", relatedText.get("section1"));
+			putAttr("relatedSection2", relatedText.get("section2"));
+		}
 		
 		if (callout) {
 			///SAM:
@@ -899,13 +909,15 @@ public class FabNote extends Behavior {
 		if (csb.length()==0)
 			csb.append("<br/>");
 		///SAM
-		else if(csb.length() > ("--------".length() + "<br/>".length()))
-			if(csb.indexOf("--------") >= "<br/>".length())
-				csb.delete(csb.indexOf("--------")-("<br/>".length()), csb.length());
-			else
+		else if(DistributedPersonalAnnos.currentServer == Servers.REST){
+			if(csb.length() > ("--------".length() + "<br/>".length()))
+				if(csb.indexOf("--------") >= "<br/>".length())
+					csb.delete(csb.indexOf("--------")-("<br/>".length()), csb.length());
+				else
+					csb.delete(csb.indexOf("--------"), csb.length());
+			else if(csb.length() > ("--------".length() ))
 				csb.delete(csb.indexOf("--------"), csb.length());
-		else if(csb.length() > ("--------".length() ))
-			csb.delete(csb.indexOf("--------"), csb.length());
+		}
 		///
 		//System.out.println("00!!!!!");
 		return csb;

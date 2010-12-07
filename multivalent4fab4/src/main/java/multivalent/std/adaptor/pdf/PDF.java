@@ -2306,7 +2306,7 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 		double sizeofline = 305 * (zoom/1.25); // ??! anyway to compute? (this considered with: 320 for long lines, head to head, -15 for first paragraph lines
 		double distanceBetweenlines = 15 * (zoom/1.25); // ??! anyway to compute?		
 		
-		String textsnapshot = "<html> <title> Snapshot of annotated section </title> <body> ";
+		String textsnapshot = "";//"<html> <title> Snapshot of annotated section </title> <body> ";
 		
 		String doctype = null; 
 		
@@ -2321,7 +2321,7 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 		}
 		
 		
-		if( doctype.equals("pdf")){
+		if( doctype != null && doctype.equals("pdf")){
 			INode text = (INode) rootcontent.findBFS("text");
 			if( text != null){
 //				Node line = text.getPrevNode(); //last line! (DFS)
@@ -2457,7 +2457,8 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 						if(allsamesize && firstleafsizeofline > preTextSize+err){							
 							thisline = "<h3>"+thisline+"</h3>";
 						}
-						textsnapshot += thisline +"<br>";
+//						textsnapshot += thisline +"<br>";
+						textsnapshot += thisline +"\n";
 //						textsnapshot += "\n";
 						linescount ++;
 					}
@@ -2474,7 +2475,7 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				
 			}
 		}
-		textsnapshot += "</body> </html>";
+//		textsnapshot += "</body> </html>";
 		System.out.println("\n"+textsnapshot+"\n\n\n");
 		
 		info.put("lines", textsnapshot);
