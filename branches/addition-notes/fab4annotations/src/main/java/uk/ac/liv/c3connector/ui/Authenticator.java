@@ -53,6 +53,9 @@ public class Authenticator extends javax.swing.JDialog{
 
 		if (Fab4utils.getJavaVersion()>=1.5f)
 			setAlwaysOnTop(true);
+		
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	/** This method is called from within the constructor to
@@ -726,6 +729,7 @@ public class Authenticator extends javax.swing.JDialog{
 				String msg = "Sorry, there is a problem with server. Please try later.";
 				JOptionPane.showMessageDialog(this, msg, "Try later...", JOptionPane.INFORMATION_MESSAGE);
 				Authenticator.running = false;
+				Authenticator.CANCEL = true;
 				dispose();
 			}
 			

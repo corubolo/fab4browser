@@ -68,6 +68,9 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 
 		if (Fab4utils.getJavaVersion()>=1.5f)
 			setAlwaysOnTop(true);
+		
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	/** This method is called from within the constructor to

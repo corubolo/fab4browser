@@ -182,11 +182,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-//		"http://localhost:8888/publishService"; 
-		"http://hypatia.cs.ualberta.ca:8888/publishService";
+		"http://localhost:8888/publishService"; 
+//		"http://hypatia.cs.ualberta.ca:8888/publishService";
 	private static String RESTsearch = 
-//		"http://localhost:8888/searchService"; 
-		"http://hypatia.cs.ualberta.ca:8888/searchService";
+		"http://localhost:8888/searchService"; 
+//		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
@@ -1190,8 +1190,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		Document doc = (Document) getBrowser().getRoot().findBFS("content");
 		
 		///SAM: before reloading...
-		if(currentServer == Servers.REST )
-			askForDocumentInfo(doc.uri.toString(),doc);
+		//if(currentServer == Servers.REST )
+			//askForDocumentInfo(doc.uri.toString(),doc);
 		///
 		
 		getBrowser().event(new SemanticEvent(this, Document.MSG_RELOAD, doc));
@@ -1510,6 +1510,15 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		Layer personal = mvDocument.getLayer(Layer.PERSONAL);
 		personal.clearBehaviors();		
 		
+		///SAM
+//		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		if(currentServer == Servers.REST ){
+			boolean aut = authenticate();
+			if( aut )
+				askForDocumentInfo(mvDocument.getURI().toString(), mvDocument);
+		}
+		///
+		
 		loadThread = new Thread(new Runnable() {
 			public void run() {
 				List<FabAnnotation> annoList;
@@ -1754,12 +1763,6 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		Layer personal = doc.getLayer(Layer.PERSONAL);
 		
 		///SAM
-//		Document doc = (Document) getBrowser().getRoot().findBFS("content");
-		if(currentServer == Servers.REST )
-			askForDocumentInfo(doc.getURI().toString(), doc);
-		///
-		
-		///SAM
 		if((fa.getBehaviour() instanceof RateResource) || (fa.getBehaviour() instanceof TagResource) )
 			return;
 		///
@@ -1825,7 +1828,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					///SAM
 					else if(currentServer == Servers.REST )
 						fabNote.setTitle("("
-								+ fa.getAnn().getAuthor() + ")");
+//								+ fa.getAnn().getAuthor() + ")");
+								+ fa.getAnn().getUserid() + ")"); //for the anonymization needs of the experiment
 					///
 				}
 				fabNote.setLampshade(true);
@@ -3004,9 +3008,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		try{
 			Authenticator.running = true;
 			Authenticator au = new Authenticator(this, Fab4.getMVFrame(getBrowser()), true, Authenticator.LOGIN);
-			au.setAlwaysOnTop(true);
+			/*au.setAlwaysOnTop(true);
 			au.setLocationRelativeTo(null);
-			au.setVisible(true);
+			au.setVisible(true);*/
 			//wait();
 			
 			if( Authenticator.CANCEL ){
@@ -3038,16 +3042,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		return ret;
 	}
 	
-	private static Integer addPaperInfo(URI uri, Document content){
+	private static Integer addPaperInfo(String uri, Document content){
 		HashMap<String,String> paperInfo = PDF.getPaperInfoAsaPublication(content);
-		if(paperInfo == null || !paperInfo.containsKey("title") || paperInfo.get("title") == null || paperInfo.get("title").length() == 0)
-			return -1;
-		if(ras != null)
-			return ras.addAnnotatedResource(paperInfo, uri.toString());
-		else{
+		
+		if(ras == null){
 			try {
-				ras = generateRemote();
-				return ras.addAnnotatedResource(paperInfo, uri.toString());
+				ras = generateRemote();			
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -3056,10 +3056,23 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				e.printStackTrace();
 			}
 		}
-		return -1;		
+		if( ras == null ){
+			return -1;
+		}
+		
+		if(paperInfo == null || !paperInfo.containsKey("title") || paperInfo.get("title") == null || paperInfo.get("title").length() == 0){
+			int id = requestBibOrUrl(uri);
+			if( id != -1 )
+				return id;
+			else
+				return ras.addAnnotatedResource((String)null, uri);
+		}
+		else
+			return ras.addAnnotatedResource(paperInfo, uri);
+		
 	}
 	
-	private static Integer requestBibOrUrl(URI oldURi){
+	private static Integer requestBibOrUrl(String oldURi){
 			
 //		HashMap<URI,Integer> info = new HashMap<URI, Integer>();
 		
@@ -3080,8 +3093,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				while( Authenticator.running );
 //				if(!Authenticator.CANCEL){
 					DocumentInfoRequester docR = new DocumentInfoRequester(/*this, Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
-					docR.setLocationRelativeTo(null);
-					docR.setVisible(true);
+//					docR.setLocationRelativeTo(null);
+//					docR.setVisible(true);
 //				}
 			}
 			
@@ -3147,11 +3160,22 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		else
 			return las.authenticated(username, pass);
 			*/
+		if( ras == null ){
+			try {
+				ras = generateRemote();			
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if( ras != null )
 			return ras.authenticated(username, pass);
 		else{
 			HashMap<String,String> ret = new HashMap<String, String>();
-			ret.put("3", "");
+			ret.put("state", "3");
 			return ret;
 		}
 	}
@@ -3170,7 +3194,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 * @param url
 	 * @return resourceId if ok, otherwise a negative number
 	 */
-	public static int addNewResource(String bib, String url){
+	private static int addNewResource(String bib, String url){
 		if(ras != null)
 			return ras.addAnnotatedResource(bib, url);
 		else{
@@ -3188,7 +3212,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		return -1;
 	}
 	
-	public static int updateResourceBib(String url, String doi, String keywords){
+	private static int updateResourceBib(String url, String doi, String keywords){
 		if(ras != null)
 			return ras.updateResourceBib(url, doi, keywords);
 		else{
@@ -3226,9 +3250,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					resourceId = info.get(k);
 				}
 				uri = newUrl.toString(); //FIXME, why no setter?
-*/				
+*/				URI temp = new URI(uri); // to check correctness of the url
 //				Integer resourceId = requestBibOrUrl(new URI(uri),doc);
-				Integer resourceId = addPaperInfo(new URI(uri),doc);
+				Integer resourceId = addPaperInfo(uri,doc);
 				//even if resourceId==-1, because we don't want to bother user
 				bibForDocument.put(uri,resourceId);
 			} catch (URISyntaxException e) {
