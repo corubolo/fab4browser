@@ -296,14 +296,14 @@ public class PDFService implements GenericService {
             } 
             fi.fontFlags  = 0;
             if (fi.fontType.equals(COSName.TYPE0) || fi.fontType.equals(COSName.TYPE3) )
-                fi.isEnbedded = true;
+                fi.isEmbedded = true;
 
             if (fontDescriptor != null) {
                 // in Type1 charset indicates font is subsetted
                 if (fontDescriptor.getItem(COSName.CHAR_SET)!=null)
                     fi.isSubset  = true;
                 if (fontDescriptor.getItem(COSName.FONT_FILE) != null ||fontDescriptor.getItem(COSName.FONT_FILE3) != null || fontDescriptor.getItem(COSName.FONT_FILE2) != null )
-                    fi.isEnbedded = true;
+                    fi.isEmbedded = true;
                 fi.fontFlags = fontDescriptor.getInt(COSName.getPDFName("Flags"));
                 fi.fontFamily  = fontDescriptor.getString(COSName.FONT_FAMILY);
                 fi.fontStretch = fontDescriptor.getString(COSName.FONT_STRETCH);
@@ -336,7 +336,7 @@ public class PDFService implements GenericService {
 
 
     @Override
-    public String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    public String extractXMLText(URI u, File f) throws MalformedURLException,
     IOException {
         // TODO Auto-generated method stub
         return null;
