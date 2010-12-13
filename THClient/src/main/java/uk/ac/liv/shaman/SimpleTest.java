@@ -34,7 +34,7 @@ public class SimpleTest {
 //        f.write(s.getThumbnailServicePort().generateThumbnail(
 //                arg0, 300, 600,
 //                "png", "", 1));
-        File source = new File("/Users/fabio/Downloads/994886489.pdf");
+        File source = new File("/Users/fabio/Downloads/1--976069938.pdf");
         DataInputStream di = new DataInputStream(new FileInputStream(source));
        byte[] data = new byte[(int)source.length()];
         di.readFully(data);
@@ -48,8 +48,10 @@ public class SimpleTest {
 //        System.out.println(s.getThumbnailServicePort().extraxtXmlText(
 //                arg0, 300, 600,
 //                "png", "", 1));
-        List<FontInformation> fi =   s.getThumbnailServicePort().extraxtFontInformationFromData(
+        List<FontInformation> fi =   s.getThumbnailServicePort().extractFontInformationFromData(
                 data);
+        
+        
         for (FontInformation fs: fi){
             printModel(System.out, fs);
         }

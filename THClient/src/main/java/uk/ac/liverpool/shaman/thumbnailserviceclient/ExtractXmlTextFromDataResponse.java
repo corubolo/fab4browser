@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for extraxtXmlTextResponse complex type.
+ * <p>Java class for extractXmlTextFromDataResponse complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="extraxtXmlTextResponse">
+ * &lt;complexType name="extractXmlTextFromDataResponse">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "extraxtXmlTextResponse", propOrder = {
+@XmlType(name = "extractXmlTextFromDataResponse", propOrder = {
     "_return"
 })
-public class ExtraxtXmlTextResponse {
+public class ExtractXmlTextFromDataResponse {
 
     @XmlElement(name = "return")
     protected String _return;

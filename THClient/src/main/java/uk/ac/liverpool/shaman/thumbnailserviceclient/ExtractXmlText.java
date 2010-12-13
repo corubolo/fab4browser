@@ -1,24 +1,22 @@
 
 package uk.ac.liverpool.shaman.thumbnailserviceclient;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for extraxtXmlTextFromData complex type.
+ * <p>Java class for extractXmlText complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="extraxtXmlTextFromData">
+ * &lt;complexType name="extractXmlText">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}base64Binary" minOccurs="0"/>
+ *         &lt;element name="arg0" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -28,23 +26,22 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "extraxtXmlTextFromData", propOrder = {
+@XmlType(name = "extractXmlText", propOrder = {
     "arg0"
 })
-public class ExtraxtXmlTextFromData {
+public class ExtractXmlText {
 
-    @XmlElementRef(name = "arg0", type = JAXBElement.class)
-    protected JAXBElement<byte[]> arg0;
+    protected String arg0;
 
     /**
      * Gets the value of the arg0 property.
      * 
      * @return
      *     possible object is
-     *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
+     *     {@link String }
      *     
      */
-    public JAXBElement<byte[]> getArg0() {
+    public String getArg0() {
         return arg0;
     }
 
@@ -53,11 +50,11 @@ public class ExtraxtXmlTextFromData {
      * 
      * @param value
      *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link byte[]}{@code >}
+     *     {@link String }
      *     
      */
-    public void setArg0(JAXBElement<byte[]> value) {
-        this.arg0 = ((JAXBElement<byte[]> ) value);
+    public void setArg0(String value) {
+        this.arg0 = value;
     }
 
 }

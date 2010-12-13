@@ -24,17 +24,19 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _ExtraxtXmlTextFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtXmlTextFromDataResponse");
-    private final static QName _ExtraxtFontInformationFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtFontInformationFromDataResponse");
+    private final static QName _ExtractXmlTextFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "extractXmlTextFromData");
     private final static QName _GetSupportedMimeTypes_QNAME = new QName("http://shaman.liv.ac.uk/", "getSupportedMimeTypes");
     private final static QName _GetSupportedOutputType_QNAME = new QName("http://shaman.liv.ac.uk/", "getSupportedOutputType");
-    private final static QName _ExtraxtXmlTextResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtXmlTextResponse");
+    private final static QName _ExtractXmlTextResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extractXmlTextResponse");
     private final static QName _GenerateSVGThumbnailFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "generateSVGThumbnailFromDataResponse");
     private final static QName _GenerateSVGThumbnail_QNAME = new QName("http://shaman.liv.ac.uk/", "generateSVGThumbnail");
+    private final static QName _ExtractFontInformationFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "extractFontInformationFromData");
     private final static QName _GenerateSVGThumbnailFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "generateSVGThumbnailFromData");
-    private final static QName _ExtraxtFontInformation_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtFontInformation");
-    private final static QName _ExtraxtXmlTextFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtXmlTextFromData");
-    private final static QName _ExtraxtFontInformationResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtFontInformationResponse");
+    private final static QName _ExtractFontInformation_QNAME = new QName("http://shaman.liv.ac.uk/", "extractFontInformation");
+    private final static QName _ExtractXmlText_QNAME = new QName("http://shaman.liv.ac.uk/", "extractXmlText");
+    private final static QName _ExtractFontInformationResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extractFontInformationResponse");
+    private final static QName _ExtractXmlTextFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extractXmlTextFromDataResponse");
+    private final static QName _ExtractFontInformationFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "extractFontInformationFromDataResponse");
     private final static QName _GenerateThumbnailFromDataResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "generateThumbnailFromDataResponse");
     private final static QName _GetSupportedOutputTypeResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "getSupportedOutputTypeResponse");
     private final static QName _MalformedURLException_QNAME = new QName("http://shaman.liv.ac.uk/", "MalformedURLException");
@@ -42,10 +44,8 @@ public class ObjectFactory {
     private final static QName _Resolve_QNAME = new QName("http://shaman.liv.ac.uk/", "resolve");
     private final static QName _GenerateThumbnail_QNAME = new QName("http://shaman.liv.ac.uk/", "generateThumbnail");
     private final static QName _IOException_QNAME = new QName("http://shaman.liv.ac.uk/", "IOException");
-    private final static QName _ExtraxtXmlText_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtXmlText");
     private final static QName _GenerateThumbnailResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "generateThumbnailResponse");
     private final static QName _GenerateThumbnailFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "generateThumbnailFromData");
-    private final static QName _ExtraxtFontInformationFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "extraxtFontInformationFromData");
     private final static QName _GetSupportedMimeTypesResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "getSupportedMimeTypesResponse");
     private final static QName _GenerateSVGThumbnailResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "generateSVGThumbnailResponse");
     private final static QName _GenerateSVGThumbnailFromDataArg0_QNAME = new QName("", "arg0");
@@ -59,67 +59,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GenerateThumbnail }
+     * Create an instance of {@link ExtractXmlTextFromDataResponse }
      * 
      */
-    public GenerateThumbnail createGenerateThumbnail() {
-        return new GenerateThumbnail();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedMimeTypes }
-     * 
-     */
-    public GetSupportedMimeTypes createGetSupportedMimeTypes() {
-        return new GetSupportedMimeTypes();
-    }
-
-    /**
-     * Create an instance of {@link GenerateSVGThumbnailFromData }
-     * 
-     */
-    public GenerateSVGThumbnailFromData createGenerateSVGThumbnailFromData() {
-        return new GenerateSVGThumbnailFromData();
-    }
-
-    /**
-     * Create an instance of {@link GenerateThumbnailFromDataResponse }
-     * 
-     */
-    public GenerateThumbnailFromDataResponse createGenerateThumbnailFromDataResponse() {
-        return new GenerateThumbnailFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link IOException }
-     * 
-     */
-    public IOException createIOException() {
-        return new IOException();
-    }
-
-    /**
-     * Create an instance of {@link MalformedURLException }
-     * 
-     */
-    public MalformedURLException createMalformedURLException() {
-        return new MalformedURLException();
-    }
-
-    /**
-     * Create an instance of {@link FontInformation }
-     * 
-     */
-    public FontInformation createFontInformation() {
-        return new FontInformation();
-    }
-
-    /**
-     * Create an instance of {@link GenerateThumbnailFromData }
-     * 
-     */
-    public GenerateThumbnailFromData createGenerateThumbnailFromData() {
-        return new GenerateThumbnailFromData();
+    public ExtractXmlTextFromDataResponse createExtractXmlTextFromDataResponse() {
+        return new ExtractXmlTextFromDataResponse();
     }
 
     /**
@@ -131,99 +75,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ExtraxtFontInformationFromData }
+     * Create an instance of {@link GenerateThumbnail }
      * 
      */
-    public ExtraxtFontInformationFromData createExtraxtFontInformationFromData() {
-        return new ExtraxtFontInformationFromData();
+    public GenerateThumbnail createGenerateThumbnail() {
+        return new GenerateThumbnail();
     }
 
     /**
-     * Create an instance of {@link GenerateSVGThumbnailResponse }
+     * Create an instance of {@link ExtractXmlText }
      * 
      */
-    public GenerateSVGThumbnailResponse createGenerateSVGThumbnailResponse() {
-        return new GenerateSVGThumbnailResponse();
+    public ExtractXmlText createExtractXmlText() {
+        return new ExtractXmlText();
     }
 
     /**
-     * Create an instance of {@link GetSupportedMimeTypesResponse }
+     * Create an instance of {@link ExtractFontInformationFromDataResponse }
      * 
      */
-    public GetSupportedMimeTypesResponse createGetSupportedMimeTypesResponse() {
-        return new GetSupportedMimeTypesResponse();
+    public ExtractFontInformationFromDataResponse createExtractFontInformationFromDataResponse() {
+        return new ExtractFontInformationFromDataResponse();
     }
 
     /**
-     * Create an instance of {@link GenerateSVGThumbnailFromDataResponse }
+     * Create an instance of {@link GenerateThumbnailFromData }
      * 
      */
-    public GenerateSVGThumbnailFromDataResponse createGenerateSVGThumbnailFromDataResponse() {
-        return new GenerateSVGThumbnailFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtFontInformationFromDataResponse }
-     * 
-     */
-    public ExtraxtFontInformationFromDataResponse createExtraxtFontInformationFromDataResponse() {
-        return new ExtraxtFontInformationFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link GenerateSVGThumbnail }
-     * 
-     */
-    public GenerateSVGThumbnail createGenerateSVGThumbnail() {
-        return new GenerateSVGThumbnail();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtXmlTextFromDataResponse }
-     * 
-     */
-    public ExtraxtXmlTextFromDataResponse createExtraxtXmlTextFromDataResponse() {
-        return new ExtraxtXmlTextFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link Resolve }
-     * 
-     */
-    public Resolve createResolve() {
-        return new Resolve();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtXmlTextFromData }
-     * 
-     */
-    public ExtraxtXmlTextFromData createExtraxtXmlTextFromData() {
-        return new ExtraxtXmlTextFromData();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtXmlTextResponse }
-     * 
-     */
-    public ExtraxtXmlTextResponse createExtraxtXmlTextResponse() {
-        return new ExtraxtXmlTextResponse();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtFontInformation }
-     * 
-     */
-    public ExtraxtFontInformation createExtraxtFontInformation() {
-        return new ExtraxtFontInformation();
-    }
-
-    /**
-     * Create an instance of {@link ExtraxtXmlText }
-     * 
-     */
-    public ExtraxtXmlText createExtraxtXmlText() {
-        return new ExtraxtXmlText();
+    public GenerateThumbnailFromData createGenerateThumbnailFromData() {
+        return new GenerateThumbnailFromData();
     }
 
     /**
@@ -235,11 +115,67 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ResolveResponse }
+     * Create an instance of {@link ExtractFontInformationFromData }
      * 
      */
-    public ResolveResponse createResolveResponse() {
-        return new ResolveResponse();
+    public ExtractFontInformationFromData createExtractFontInformationFromData() {
+        return new ExtractFontInformationFromData();
+    }
+
+    /**
+     * Create an instance of {@link GenerateSVGThumbnail }
+     * 
+     */
+    public GenerateSVGThumbnail createGenerateSVGThumbnail() {
+        return new GenerateSVGThumbnail();
+    }
+
+    /**
+     * Create an instance of {@link FontInformation }
+     * 
+     */
+    public FontInformation createFontInformation() {
+        return new FontInformation();
+    }
+
+    /**
+     * Create an instance of {@link GenerateSVGThumbnailFromDataResponse }
+     * 
+     */
+    public GenerateSVGThumbnailFromDataResponse createGenerateSVGThumbnailFromDataResponse() {
+        return new GenerateSVGThumbnailFromDataResponse();
+    }
+
+    /**
+     * Create an instance of {@link ExtractFontInformation }
+     * 
+     */
+    public ExtractFontInformation createExtractFontInformation() {
+        return new ExtractFontInformation();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedMimeTypes }
+     * 
+     */
+    public GetSupportedMimeTypes createGetSupportedMimeTypes() {
+        return new GetSupportedMimeTypes();
+    }
+
+    /**
+     * Create an instance of {@link Resolve }
+     * 
+     */
+    public Resolve createResolve() {
+        return new Resolve();
+    }
+
+    /**
+     * Create an instance of {@link MalformedURLException }
+     * 
+     */
+    public MalformedURLException createMalformedURLException() {
+        return new MalformedURLException();
     }
 
     /**
@@ -251,29 +187,84 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ExtraxtFontInformationResponse }
+     * Create an instance of {@link IOException }
      * 
      */
-    public ExtraxtFontInformationResponse createExtraxtFontInformationResponse() {
-        return new ExtraxtFontInformationResponse();
+    public IOException createIOException() {
+        return new IOException();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtXmlTextFromDataResponse }{@code >}}
+     * Create an instance of {@link GenerateSVGThumbnailResponse }
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtXmlTextFromDataResponse")
-    public JAXBElement<ExtraxtXmlTextFromDataResponse> createExtraxtXmlTextFromDataResponse(ExtraxtXmlTextFromDataResponse value) {
-        return new JAXBElement<ExtraxtXmlTextFromDataResponse>(_ExtraxtXmlTextFromDataResponse_QNAME, ExtraxtXmlTextFromDataResponse.class, null, value);
+    public GenerateSVGThumbnailResponse createGenerateSVGThumbnailResponse() {
+        return new GenerateSVGThumbnailResponse();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtFontInformationFromDataResponse }{@code >}}
+     * Create an instance of {@link GenerateSVGThumbnailFromData }
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtFontInformationFromDataResponse")
-    public JAXBElement<ExtraxtFontInformationFromDataResponse> createExtraxtFontInformationFromDataResponse(ExtraxtFontInformationFromDataResponse value) {
-        return new JAXBElement<ExtraxtFontInformationFromDataResponse>(_ExtraxtFontInformationFromDataResponse_QNAME, ExtraxtFontInformationFromDataResponse.class, null, value);
+    public GenerateSVGThumbnailFromData createGenerateSVGThumbnailFromData() {
+        return new GenerateSVGThumbnailFromData();
+    }
+
+    /**
+     * Create an instance of {@link ExtractXmlTextFromData }
+     * 
+     */
+    public ExtractXmlTextFromData createExtractXmlTextFromData() {
+        return new ExtractXmlTextFromData();
+    }
+
+    /**
+     * Create an instance of {@link GenerateThumbnailFromDataResponse }
+     * 
+     */
+    public GenerateThumbnailFromDataResponse createGenerateThumbnailFromDataResponse() {
+        return new GenerateThumbnailFromDataResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedMimeTypesResponse }
+     * 
+     */
+    public GetSupportedMimeTypesResponse createGetSupportedMimeTypesResponse() {
+        return new GetSupportedMimeTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link ExtractXmlTextResponse }
+     * 
+     */
+    public ExtractXmlTextResponse createExtractXmlTextResponse() {
+        return new ExtractXmlTextResponse();
+    }
+
+    /**
+     * Create an instance of {@link ExtractFontInformationResponse }
+     * 
+     */
+    public ExtractFontInformationResponse createExtractFontInformationResponse() {
+        return new ExtractFontInformationResponse();
+    }
+
+    /**
+     * Create an instance of {@link ResolveResponse }
+     * 
+     */
+    public ResolveResponse createResolveResponse() {
+        return new ResolveResponse();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractXmlTextFromData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractXmlTextFromData")
+    public JAXBElement<ExtractXmlTextFromData> createExtractXmlTextFromData(ExtractXmlTextFromData value) {
+        return new JAXBElement<ExtractXmlTextFromData>(_ExtractXmlTextFromData_QNAME, ExtractXmlTextFromData.class, null, value);
     }
 
     /**
@@ -295,12 +286,12 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtXmlTextResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractXmlTextResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtXmlTextResponse")
-    public JAXBElement<ExtraxtXmlTextResponse> createExtraxtXmlTextResponse(ExtraxtXmlTextResponse value) {
-        return new JAXBElement<ExtraxtXmlTextResponse>(_ExtraxtXmlTextResponse_QNAME, ExtraxtXmlTextResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractXmlTextResponse")
+    public JAXBElement<ExtractXmlTextResponse> createExtractXmlTextResponse(ExtractXmlTextResponse value) {
+        return new JAXBElement<ExtractXmlTextResponse>(_ExtractXmlTextResponse_QNAME, ExtractXmlTextResponse.class, null, value);
     }
 
     /**
@@ -322,6 +313,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractFontInformationFromData }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractFontInformationFromData")
+    public JAXBElement<ExtractFontInformationFromData> createExtractFontInformationFromData(ExtractFontInformationFromData value) {
+        return new JAXBElement<ExtractFontInformationFromData>(_ExtractFontInformationFromData_QNAME, ExtractFontInformationFromData.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GenerateSVGThumbnailFromData }{@code >}}
      * 
      */
@@ -331,30 +331,48 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtFontInformation }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractFontInformation }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtFontInformation")
-    public JAXBElement<ExtraxtFontInformation> createExtraxtFontInformation(ExtraxtFontInformation value) {
-        return new JAXBElement<ExtraxtFontInformation>(_ExtraxtFontInformation_QNAME, ExtraxtFontInformation.class, null, value);
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractFontInformation")
+    public JAXBElement<ExtractFontInformation> createExtractFontInformation(ExtractFontInformation value) {
+        return new JAXBElement<ExtractFontInformation>(_ExtractFontInformation_QNAME, ExtractFontInformation.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtXmlTextFromData }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractXmlText }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtXmlTextFromData")
-    public JAXBElement<ExtraxtXmlTextFromData> createExtraxtXmlTextFromData(ExtraxtXmlTextFromData value) {
-        return new JAXBElement<ExtraxtXmlTextFromData>(_ExtraxtXmlTextFromData_QNAME, ExtraxtXmlTextFromData.class, null, value);
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractXmlText")
+    public JAXBElement<ExtractXmlText> createExtractXmlText(ExtractXmlText value) {
+        return new JAXBElement<ExtractXmlText>(_ExtractXmlText_QNAME, ExtractXmlText.class, null, value);
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtFontInformationResponse }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractFontInformationResponse }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtFontInformationResponse")
-    public JAXBElement<ExtraxtFontInformationResponse> createExtraxtFontInformationResponse(ExtraxtFontInformationResponse value) {
-        return new JAXBElement<ExtraxtFontInformationResponse>(_ExtraxtFontInformationResponse_QNAME, ExtraxtFontInformationResponse.class, null, value);
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractFontInformationResponse")
+    public JAXBElement<ExtractFontInformationResponse> createExtractFontInformationResponse(ExtractFontInformationResponse value) {
+        return new JAXBElement<ExtractFontInformationResponse>(_ExtractFontInformationResponse_QNAME, ExtractFontInformationResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractXmlTextFromDataResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractXmlTextFromDataResponse")
+    public JAXBElement<ExtractXmlTextFromDataResponse> createExtractXmlTextFromDataResponse(ExtractXmlTextFromDataResponse value) {
+        return new JAXBElement<ExtractXmlTextFromDataResponse>(_ExtractXmlTextFromDataResponse_QNAME, ExtractXmlTextFromDataResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ExtractFontInformationFromDataResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extractFontInformationFromDataResponse")
+    public JAXBElement<ExtractFontInformationFromDataResponse> createExtractFontInformationFromDataResponse(ExtractFontInformationFromDataResponse value) {
+        return new JAXBElement<ExtractFontInformationFromDataResponse>(_ExtractFontInformationFromDataResponse_QNAME, ExtractFontInformationFromDataResponse.class, null, value);
     }
 
     /**
@@ -421,15 +439,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtXmlText }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtXmlText")
-    public JAXBElement<ExtraxtXmlText> createExtraxtXmlText(ExtraxtXmlText value) {
-        return new JAXBElement<ExtraxtXmlText>(_ExtraxtXmlText_QNAME, ExtraxtXmlText.class, null, value);
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link GenerateThumbnailResponse }{@code >}}
      * 
      */
@@ -445,15 +454,6 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "generateThumbnailFromData")
     public JAXBElement<GenerateThumbnailFromData> createGenerateThumbnailFromData(GenerateThumbnailFromData value) {
         return new JAXBElement<GenerateThumbnailFromData>(_GenerateThumbnailFromData_QNAME, GenerateThumbnailFromData.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link ExtraxtFontInformationFromData }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://shaman.liv.ac.uk/", name = "extraxtFontInformationFromData")
-    public JAXBElement<ExtraxtFontInformationFromData> createExtraxtFontInformationFromData(ExtraxtFontInformationFromData value) {
-        return new JAXBElement<ExtraxtFontInformationFromData>(_ExtraxtFontInformationFromData_QNAME, ExtraxtFontInformationFromData.class, null, value);
     }
 
     /**
@@ -487,9 +487,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "", name = "arg0", scope = ExtraxtXmlTextFromData.class)
-    public JAXBElement<byte[]> createExtraxtXmlTextFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtraxtXmlTextFromData.class, ((byte[]) value));
+    @XmlElementDecl(namespace = "", name = "arg0", scope = ExtractXmlTextFromData.class)
+    public JAXBElement<byte[]> createExtractXmlTextFromDataArg0(byte[] value) {
+        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtractXmlTextFromData.class, ((byte[]) value));
     }
 
     /**
@@ -505,15 +505,6 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "", name = "return", scope = GenerateThumbnailResponse.class)
-    public JAXBElement<byte[]> createGenerateThumbnailResponseReturn(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateThumbnailFromDataResponseReturn_QNAME, byte[].class, GenerateThumbnailResponse.class, ((byte[]) value));
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
-     * 
-     */
     @XmlElementDecl(namespace = "", name = "arg0", scope = GenerateThumbnailFromData.class)
     public JAXBElement<byte[]> createGenerateThumbnailFromDataArg0(byte[] value) {
         return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, GenerateThumbnailFromData.class, ((byte[]) value));
@@ -523,9 +514,18 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "", name = "arg0", scope = ExtraxtFontInformationFromData.class)
-    public JAXBElement<byte[]> createExtraxtFontInformationFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtraxtFontInformationFromData.class, ((byte[]) value));
+    @XmlElementDecl(namespace = "", name = "return", scope = GenerateThumbnailResponse.class)
+    public JAXBElement<byte[]> createGenerateThumbnailResponseReturn(byte[] value) {
+        return new JAXBElement<byte[]>(_GenerateThumbnailFromDataResponseReturn_QNAME, byte[].class, GenerateThumbnailResponse.class, ((byte[]) value));
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "arg0", scope = ExtractFontInformationFromData.class)
+    public JAXBElement<byte[]> createExtractFontInformationFromDataArg0(byte[] value) {
+        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtractFontInformationFromData.class, ((byte[]) value));
     }
 
 }

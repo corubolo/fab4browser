@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="charset" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fontType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="fontFlags" type="{http://www.w3.org/2001/XMLSchema}int"/>
- *         &lt;element name="isEnbedded" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element name="isEmbedded" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="isSubset" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="isToUnicode" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
  *         &lt;element name="pitchAndFamily" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
     "charset",
     "fontType",
     "fontFlags",
-    "isEnbedded",
+    "isEmbedded",
     "isSubset",
     "isToUnicode",
     "pitchAndFamily",
@@ -57,7 +57,7 @@ public class FontInformation {
     protected String charset;
     protected String fontType;
     protected int fontFlags;
-    protected boolean isEnbedded;
+    protected boolean isEmbedded;
     protected boolean isSubset;
     protected boolean isToUnicode;
     protected String pitchAndFamily;
@@ -155,19 +155,19 @@ public class FontInformation {
     }
 
     /**
-     * Gets the value of the isEnbedded property.
+     * Gets the value of the isEmbedded property.
      * 
      */
-    public boolean isIsEnbedded() {
-        return isEnbedded;
+    public boolean isIsEmbedded() {
+        return isEmbedded;
     }
 
     /**
-     * Sets the value of the isEnbedded property.
+     * Sets the value of the isEmbedded property.
      * 
      */
-    public void setIsEnbedded(boolean value) {
-        this.isEnbedded = value;
+    public void setIsEmbedded(boolean value) {
+        this.isEmbedded = value;
     }
 
     /**
