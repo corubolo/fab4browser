@@ -51,8 +51,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns byte[]
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -82,8 +82,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -106,14 +106,14 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.util.List<uk.ac.liverpool.shaman.thumbnailserviceclient.FontInformation>
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "extraxtFontInformationFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformationFromData")
-    @ResponseWrapper(localName = "extraxtFontInformationFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformationFromDataResponse")
-    public List<FontInformation> extraxtFontInformationFromData(
+    @RequestWrapper(localName = "extractFontInformationFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractFontInformationFromData")
+    @ResponseWrapper(localName = "extractFontInformationFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractFontInformationFromDataResponse")
+    public List<FontInformation> extractFontInformationFromData(
         @WebParam(name = "arg0", targetNamespace = "")
         byte[] arg0)
         throws IOException_Exception, MalformedURLException_Exception
@@ -124,14 +124,14 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "extraxtXmlTextFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextFromData")
-    @ResponseWrapper(localName = "extraxtXmlTextFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextFromDataResponse")
-    public String extraxtXmlTextFromData(
+    @RequestWrapper(localName = "extractXmlTextFromData", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractXmlTextFromData")
+    @ResponseWrapper(localName = "extractXmlTextFromDataResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractXmlTextFromDataResponse")
+    public String extractXmlTextFromData(
         @WebParam(name = "arg0", targetNamespace = "")
         byte[] arg0)
         throws IOException_Exception, MalformedURLException_Exception
@@ -147,8 +147,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns byte[]
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -178,8 +178,8 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -202,14 +202,14 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.util.List<uk.ac.liverpool.shaman.thumbnailserviceclient.FontInformation>
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "extraxtFontInformation", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformation")
-    @ResponseWrapper(localName = "extraxtFontInformationResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtFontInformationResponse")
-    public List<FontInformation> extraxtFontInformation(
+    @RequestWrapper(localName = "extractFontInformation", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractFontInformation")
+    @ResponseWrapper(localName = "extractFontInformationResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractFontInformationResponse")
+    public List<FontInformation> extractFontInformation(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0)
         throws IOException_Exception, MalformedURLException_Exception
@@ -220,14 +220,14 @@ public interface ThumbnailService {
      * @param arg0
      * @return
      *     returns java.lang.String
-     * @throws IOException_Exception
      * @throws MalformedURLException_Exception
+     * @throws IOException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "extraxtXmlText", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlText")
-    @ResponseWrapper(localName = "extraxtXmlTextResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtraxtXmlTextResponse")
-    public String extraxtXmlText(
+    @RequestWrapper(localName = "extractXmlText", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractXmlText")
+    @ResponseWrapper(localName = "extractXmlTextResponse", targetNamespace = "http://shaman.liv.ac.uk/", className = "uk.ac.liverpool.shaman.thumbnailserviceclient.ExtractXmlTextResponse")
+    public String extractXmlText(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0)
         throws IOException_Exception, MalformedURLException_Exception

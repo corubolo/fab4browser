@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for extraxtFontInformationFromData complex type.
+ * <p>Java class for extractXmlTextFromData complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="extraxtFontInformationFromData">
+ * &lt;complexType name="extractXmlTextFromData">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "extraxtFontInformationFromData", propOrder = {
+@XmlType(name = "extractXmlTextFromData", propOrder = {
     "arg0"
 })
-public class ExtraxtFontInformationFromData {
+public class ExtractXmlTextFromData {
 
     @XmlElementRef(name = "arg0", type = JAXBElement.class)
     protected JAXBElement<byte[]> arg0;
