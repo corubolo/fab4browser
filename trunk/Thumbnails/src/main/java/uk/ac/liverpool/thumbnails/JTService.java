@@ -163,7 +163,7 @@ public class JTService implements GenericService{
     }
 
     @Override
-    public String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    public String extractXMLText(URI u, File f) throws MalformedURLException,
             IOException {
         return null;
     }

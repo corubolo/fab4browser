@@ -211,11 +211,11 @@ public class ThumbnailService {
      * @throws IOException
      */
     @WebMethod
-    public FontInformation[] extraxtFontInformationFromData(byte[] data)
+    public FontInformation[] extractFontInformationFromData(byte[] data)
     throws MalformedURLException, IOException {
         File f = copyToTemp(data, "thservice", "dat");
         String mime = guessFormat(f);
-
+        System.out.println(mime);
         GenericService service = map.get(mime);
         if (service == null)
             throw new IOException("Unsupported document type");
@@ -237,7 +237,7 @@ public class ThumbnailService {
      * @throws IOException
      */
     @WebMethod
-    public String extraxtXmlTextFromData(byte[] data)
+    public String extractXmlTextFromData(byte[] data)
     throws MalformedURLException, IOException {
         File f = copyToTemp(data, "thservice", "dat");
         String mime = guessFormat(f);
@@ -246,7 +246,7 @@ public class ThumbnailService {
         if (service == null)
             throw new IOException("Unsupported document type");
 
-        return service.extraxtXMLText(f.toURI(),f);
+        return service.extractXMLText(f.toURI(),f);
         
     }
     /**
@@ -361,7 +361,7 @@ public class ThumbnailService {
      * @throws IOException
      */
     @WebMethod
-    public FontInformation[] extraxtFontInformation(String objectIdentifier)
+    public FontInformation[] extractFontInformation(String objectIdentifier)
     throws MalformedURLException, IOException {
         URI u = resolve(objectIdentifier);
         File f = cache(u);
@@ -388,7 +388,7 @@ public class ThumbnailService {
      * @throws IOException
      */
     @WebMethod
-    public String extraxtXmlText(String objectIdentifier)
+    public String extractXmlText(String objectIdentifier)
     throws MalformedURLException, IOException {
         URI u = resolve(objectIdentifier);
         File f = cache(u);
@@ -398,7 +398,7 @@ public class ThumbnailService {
         if (service == null)
             throw new IOException("Unsupported document type");
 
-        return service.extraxtXMLText(f.toURI(),f);
+        return service.extractXMLText(f.toURI(),f);
         
     }
     

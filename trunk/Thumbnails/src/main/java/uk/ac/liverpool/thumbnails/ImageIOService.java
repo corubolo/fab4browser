@@ -42,7 +42,7 @@ public class ImageIOService implements GenericService {
         return null;
     }
 
-    public  String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    public  String extractXMLText(URI u, File f) throws MalformedURLException,
     IOException {
 
         return null;

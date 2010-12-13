@@ -49,7 +49,7 @@ public interface GenericService {
     
     public  FontInformation[] extractFontList(URI u, File fff) throws MalformedURLException, IOException;
     
-    public  String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    public  String extractXMLText(URI u, File f) throws MalformedURLException,
     IOException ;
     
     public void generateSVG(URI u, File f, int w, int h, int page, Writer out) throws MalformedURLException, IOException;

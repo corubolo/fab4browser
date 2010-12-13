@@ -41,7 +41,7 @@ public class FontInformation implements Comparable<FontInformation> {
     public String charset;
     public String fontType;
     public int fontFlags;
-    public boolean isEnbedded;
+    public boolean isEmbedded;
     public boolean isSubset;
     public boolean isToUnicode;
     public  String pitchAndFamily;

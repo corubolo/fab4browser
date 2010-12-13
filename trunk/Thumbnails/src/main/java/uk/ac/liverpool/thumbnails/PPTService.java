@@ -70,7 +70,7 @@ public class PPTService implements GenericService {
         return ll.toArray(new FontInformation[0]);
     }
     
-    public  String extraxtXMLText(URI u, File f) throws MalformedURLException,
+    public  String extractXMLText(URI u, File f) throws MalformedURLException,
             IOException {
        
 
