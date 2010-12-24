@@ -3008,6 +3008,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		try{
 			Authenticator.running = true;
 			Authenticator au = new Authenticator(this, Fab4.getMVFrame(getBrowser()), true, Authenticator.LOGIN);
+			au.setVisible(true);
 			/*au.setAlwaysOnTop(true);
 			au.setLocationRelativeTo(null);
 			au.setVisible(true);*/
@@ -3148,6 +3149,12 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	///
 	
 	///SAM
+	/**
+	 * Asks server to authenticate this user
+	 * @param username, password
+	 * @return HashMap<String,String> where key: state, values is: 0: ok, 1: wrong pass, 2:no such user, 3: exception
+	 *  exactly as taken from the server
+	 */
 	public HashMap<String,String> isAuthenticated(String username, String pass){
 		/*if( DistributedPersonalAnnos.copyToPub )
 			return ras.authenticated(username, pass);
@@ -3180,13 +3187,45 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 	}
 	
+	/**
+	 * Request to add a new user
+	 * @param username
+	 * @param passw
+	 * @param email
+	 * @param name
+	 * @param des
+	 * @param aff
+	 * @return status code: 0: ok, return 1: username exists, return 2: email already taken, 3: exception
+	 *  exactly as taken from the server (unless remote server is not available: returns 3)
+	 */
 	public int createNewUser(String username, String passw, String email, String name, String des, String aff){
-		if( was != null )
+		
+		//assumption: private annos don't need user being added. so, here we assume only ras
+		/*if( was != null )
 			return was.createNewUser(username, passw, email, name, des, aff);		
-		else if( PersonalAnnos.useRemoteServer )
-			return ras.createNewUser(username, passw, email, name, des, aff);
-		else
-			return las.createNewUser(username, passw, email, name, des, aff);
+		else if( PersonalAnnos.useRemoteServer ){*/
+			if( ras == null ){
+				try {
+					ras = generateRemote();			
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if( ras != null )
+				return ras.createNewUser(username, passw, email, name, des, aff);
+			else return 3;
+		/*}
+		else{ 
+			if( las == null )
+				las = createLocalAs();
+			if (las != null )
+				return las.createNewUser(username, passw, email, name, des, aff);
+		}
+		return 3;*/
 	}
 	
 	/**
