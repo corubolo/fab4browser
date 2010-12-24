@@ -199,6 +199,12 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return 0; //ok
 	}
 	
+	/**
+	 * Asks server to authenticate the given user
+	 * @param username, password
+	 * @return HashMap<String,String> where key: state, values is: 0: ok, 1: wrong pass, 2:no such user, 3: exception
+	 *  exactly as taken from the server
+	 */
 	public HashMap<String, String> authenticated(String username, String pass) {
 		HashMap<String,String> ret = new HashMap<String, String>();
 		
@@ -222,6 +228,10 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return ret;		
 	}	
 	
+	/**
+	 * @return status code: 0: ok, return 1: username exists, return 2: email already taken, 3: exception
+	 *  exactly as taken from the server
+	 */
 	public int createNewUser(String username, String pass, String email,
 			String name, String des, String aff) {
 		List<JAXBBean> reqArr = wrapRequest("username", username, "password", pass, "name", name);

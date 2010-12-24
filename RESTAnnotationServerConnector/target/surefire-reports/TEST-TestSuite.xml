@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="1.152" errors="0" skipped="0" tests="1" name="TestSuite">
+<testsuite failures="0" time="0.476" errors="0" skipped="0" tests="1" name="TestSuite">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files (x86)\Java\jdk1.6.0_20\jre\bin"/>
@@ -19,7 +19,7 @@
     <property name="basedir" value="C:\Users\samaneh\workspace\fab4browserpackage-0.99-N\RESTAnnotationServerConnector"/>
     <property name="java.endorsed.dirs" value="C:\Program Files (x86)\Java\jdk1.6.0_20\jre\lib\endorsed"/>
     <property name="os.arch" value="x86"/>
-    <property name="surefire.real.class.path" value="C:\Users\samaneh\AppData\Local\Temp\surefirebooter8916693021505770937.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\samaneh\AppData\Local\Temp\surefirebooter8907828055928471732.jar"/>
     <property name="java.io.tmpdir" value="C:\Users\samaneh\AppData\Local\Temp\"/>
     <property name="line.separator" value="
 "/>

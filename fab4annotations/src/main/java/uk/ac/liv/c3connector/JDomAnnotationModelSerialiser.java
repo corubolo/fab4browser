@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -92,7 +93,13 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 		ar.addContent(new Element("specific_id").addContent(s.documentTextDigest));
 		r.addContent(ar);
 		SAXBuilder b = new SAXBuilder();
+		
+		///SAM
+		//remove invalid encoding 0x2  (replace it with space: 0x20):
+		s.annotationBody = replaceInvalidChars(s.annotationBody);
+		///
 		try {
+			
 			Document ab = b.build(new StringReader(s.annotationBody));
 			r.addContent(new Element("xml_body").addContent(ab.getRootElement().detach()));
 		} catch (JDOMException e) {
@@ -144,6 +151,78 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 	public boolean canParse(String annotation) {
 		return true;
 
+	}
+	
+	///SAM
+	/**
+	 * remove invalid encoding 0x2  (replace it with space: 0x20):
+	 * @param string: the string in which you want to replace the invalid chars
+	 * @return the string which is the result of replacing invalid chars in the input parameter (string)
+	 */
+	private String replaceInvalidChars(String string){
+		/*
+		String invalidChar = "\u0002";		
+		byte[] invalidBytes = invalidChar.getBytes();		
+		
+		String space = "\u0020";
+		byte[] spaceBytes = space.getBytes();
+		*/
+		
+		/*byte[] dontKnows = "?".getBytes();
+		HashMap<Byte,Byte> corrections = new HashMap<Byte,Byte>();		
+		corrections.put(invalidBytes[0],dontKnows[0]);
+		corrections.put("\u001A".getBytes()[0],"fi".getBytes()[0]);*/
+		
+		char[] charArr = string.toCharArray();
+		for( int i = 0 ; i < charArr.length ; i++ ){
+			if((byte)charArr[i] <= "\u001B".getBytes()[0]
+			          || (byte)charArr[i] >= "\u007F".getBytes()[0]){ //totally invalid
+				if(charArr[i] == '\n' || charArr[i] == '\t' || charArr[i] == '\r')
+					continue;
+				//I know this correction:
+				if((byte)charArr[i] == "\u001A".getBytes()[0]){
+					string = string.substring(0,i)+"fi"+string.substring(i+1,string.length());				
+					i++; //one char is added to total size ("fi" instead of one char)
+				}
+				else{
+					string = string.substring(0,i)+"_"+string.substring(i+1,string.length());					
+				}
+			}
+			//different space values
+			else if((byte)charArr[i] <= "\u001F".getBytes()[0]
+			           && (byte)charArr[i] > "\u001B".getBytes()[0]){
+				string = string.substring(0,i)+" "+string.substring(i+1,string.length());				
+			}
+			else
+				continue;
+			charArr = string.toCharArray();
+		}
+		/*
+		byte[] stringBytes = string.getBytes();
+		for(int i = 0; i < stringBytes.length ; i++ ){
+			if(stringBytes[i] == invalidBytes[0] )
+				stringBytes[i] = spaceBytes[0];
+		}
+		return new String(stringBytes);*/
+		return string;
+	}
+	
+	public static void main(String[] args) {
+		
+		String invalidChar = "\u0002";
+		System.out.println("a"+invalidChar+"b");
+		byte[] invalidBytes = invalidChar.getBytes();
+		System.out.println("length:"+invalidBytes.length);
+		String space = "\u0020";
+		byte[] spaceBytes = space.getBytes();
+		System.out.println("a"+space+"b");
+		String test = "\u0009";
+		System.out.println(test);
+		System.out.println(test.getBytes()[0]);
+		char a = test.toCharArray()[0];
+		System.out.println((byte)a);
+//		System.out.println("\u0001");
+		System.out.println("length:"+test.getBytes().length);
 	}
 
 }

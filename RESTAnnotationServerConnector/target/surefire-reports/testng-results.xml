@@ -6,7 +6,7 @@
     </groups>
     <test name="Command line test">
       <class name="ca.ualberta.cs.RESTServerConnector.AppTest">
-        <test-method status="PASS" signature="testApp()" name="testApp on instance testApp(ca.ualberta.cs.RESTServerConnector.AppTest)" duration-ms="3" started-at="2010-10-08T20:39:37Z" finished-at="2010-10-08T20:39:37Z">
+        <test-method status="PASS" signature="testApp()" name="testApp on instance testApp(ca.ualberta.cs.RESTServerConnector.AppTest)" duration-ms="2" started-at="2010-12-23T15:52:02Z" finished-at="2010-12-23T15:52:02Z">
         </test-method>
       </class>
     </test>

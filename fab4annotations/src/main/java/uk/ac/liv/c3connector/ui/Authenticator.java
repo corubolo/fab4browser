@@ -55,7 +55,7 @@ public class Authenticator extends javax.swing.JDialog{
 			setAlwaysOnTop(true);
 		
 		setLocationRelativeTo(null);
-		setVisible(true);
+//		setVisible(true);
 	}
 
 	/** This method is called from within the constructor to
@@ -781,6 +781,7 @@ public class Authenticator extends javax.swing.JDialog{
 				
 				Authenticator.running = false;
 				da.savePrefs();
+				setVisible(false);
 				dispose();
 				//da.notify();
 				break;
@@ -807,8 +808,7 @@ public class Authenticator extends javax.swing.JDialog{
 			//setVisible(false);			
 			//new Authenticator(da, myparent, mymodal, Authenticator.SIGNUP).setVisible(true);
 		}
-						
-		//authenticate, check username, display appropriate msgs, create user
+								
 		
 		Arrays.fill(pas,'0');
 		Arrays.fill(cpas,'0');
