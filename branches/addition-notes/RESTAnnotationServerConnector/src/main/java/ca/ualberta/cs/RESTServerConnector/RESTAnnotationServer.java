@@ -310,6 +310,9 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return annos;
 	}
 
+	/**
+	 * @return String, '0' if no bib available , otherwise 'ab': a and b can be 0 or 1. a: 0 means no DOI in DB, 1: DOI available. b: talks about existence of keywords
+	 */
 	public String urlLacksBibDoiKeywords(String url) {
 		if(url.startsWith("file:/"))
 			url = DistributedPersonalAnnos.userid + ":" + url;

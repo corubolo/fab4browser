@@ -162,7 +162,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	///SAM
 	private static final String annotationResourceURI = 
 //		"http://localhost:8888/annotationResource"; 
-		"http://hypatia.cs.ualberta.ca:8888/annotationResource"; 
+//		"http://hypatia.cs.ualberta.ca:8888/annotationResource";
+		"http://hypatia.cs.ualberta.ca:8880/annotationResource";
 		// 
 		//"http://shaman.cheshire3.org/services/annotations/";
 
@@ -177,16 +178,18 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	/** Default search service URL */
 	public static String searchServiceURL = 
 //		"http://localhost:8888/searchService"; 
-		"http://hypatia.cs.ualberta.ca:8888/searchService";
+		"http://hypatia.cs.ualberta.ca:8888/searchService"; 
 		// 
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-		"http://localhost:8888/publishService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/publishService";
+//		"http://localhost:8888/publishService";
+//		"http://hypatia.cs.ualberta.ca:8880/publishService";
+		"http://hypatia.cs.ualberta.ca:8888/publishService";
 	private static String RESTsearch = 
-		"http://localhost:8888/searchService"; 
-//		"http://hypatia.cs.ualberta.ca:8888/searchService";
+//		"http://localhost:8888/searchService";
+//		"http://hypatia.cs.ualberta.ca:8880/searchService";
+		"http://hypatia.cs.ualberta.ca:8888/searchService";
 	///
 	
 
@@ -1512,7 +1515,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		
 		///SAM
 //		Document doc = (Document) getBrowser().getRoot().findBFS("content");
-		if(currentServer == Servers.REST ){
+		if(currentServer == Servers.REST && useRemoteServer){
 			boolean aut = authenticate();
 			if( aut )
 				askForDocumentInfo(mvDocument.getURI().toString(), mvDocument);
@@ -2999,6 +3002,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 	///SAM
 	private boolean authenticate(){
+		//PersonalAnnos.useRemoteServer = true;
 		String msg = "Swiching to private annotations. Sorry, the server is not responding!";
 		boolean ret = true;
 		
@@ -3020,8 +3024,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				msg = "Going to public zone canceled.. Returning to private annotations.";
 			}
 			
-		}catch(Exception e){			
+		}catch(Exception e){
+			System.out.println("******** caught:");
 			e.printStackTrace();
+			System.out.println("********");
 			ret = false;
 		}
 		
@@ -3043,7 +3049,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		return ret;
 	}
 	
-	private static Integer addPaperInfo(String uri, Document content){
+	private Integer addPaperInfo(String uri, Document content){
 		HashMap<String,String> paperInfo = PDF.getPaperInfoAsaPublication(content);
 		
 		if(ras == null){
@@ -3061,11 +3067,15 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			return -1;
 		}
 		
+		if(paperInfo != null && paperInfo.containsKey("loading")){
+			return -2;
+		}
+		
 		if(paperInfo == null || !paperInfo.containsKey("title") || paperInfo.get("title") == null || paperInfo.get("title").length() == 0){
-			int id = requestBibOrUrl(uri);
-			if( id != -1 )
+			/*int id = requestBibOrUrl(uri);
+			if( id > 0 )
 				return id;
-			else
+			else*/
 				return ras.addAnnotatedResource((String)null, uri);
 		}
 		else
@@ -3073,36 +3083,49 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		
 	}
 	
-	private static Integer requestBibOrUrl(String oldURi){
+	/**
+	 * 
+	 * @param oldURi
+	 * @return resourceId if a resource (with some bibtex information) is added or updated, 
+	 * 			-1 if any problem happens while adding/updating, 
+	 * 			-2 if no updates in bibtex needed
+	 */
+	/*public Integer requestBibOrUrl(String uri){
 			
 //		HashMap<URI,Integer> info = new HashMap<URI, Integer>();
 		
 		Integer resourceId = -1;
-		String uri = oldURi.toString();
+		if( uri == null ){
+			Document doc =(Document) getBrowser().getRoot().findBFS("content");
+			uri = doc.getURI().toString();
+		}
+//		String uri = oldURi.toString();
 //		String newUrl = uri;
 		String bibtex = null;
 		String doi = null;
 		String keywords = null;
-		String needed = "0";		
+		String needed = "0";	
 		
-		try{			
-			/*if(ras == null)
-				setWasToLocalOrRemote();*/
+		try{		
+			if(ras == null)
+				setWasToLocalOrRemote();
 			if(ras != null)
 				needed = ras.urlLacksBibDoiKeywords(uri);
 			if(!needed.equals("11")){
 				while( Authenticator.running );
 //				if(!Authenticator.CANCEL){
-					DocumentInfoRequester docR = new DocumentInfoRequester(/*this, Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
+					DocumentInfoRequester docR = new DocumentInfoRequester(this, Fab4.getMVFrame(getBrowser()) null, true, uri,needed);
 //					docR.setLocationRelativeTo(null);
 //					docR.setVisible(true);
 //				}
 			}
+			else
+				return -2; //nothing needed!
 			
-			/*if(DocumentInfoRequester.newUrl != null){
+			if(DocumentInfoRequester.newUrl != null){
 				newUrl = DocumentInfoRequester.newUrl;
 				DocumentInfoRequester.newUrl = null;
-			}*/
+			}
 			if(DocumentInfoRequester.bibtex != null){
 				bibtex = DocumentInfoRequester.bibtex;
 				DocumentInfoRequester.bibtex = null;
@@ -3121,14 +3144,14 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		
 		
 		if(needed.equals("0"))
-			resourceId = addNewResource(bibtex, /*newUrl*/ uri);
+			resourceId = addNewResource(bibtex, newUrl uri);
 		else if(doi != null || keywords != null)
 			resourceId = updateResourceBib(uri,doi,keywords);
 		
 		}catch(Exception e){			
 			e.printStackTrace();		
 		}
-		/*URI newURi = oldURi;
+		URI newURi = oldURi;
 		try {
 			newURi = new URI(newUrl);
 		} catch (URISyntaxException e) {
@@ -3141,10 +3164,16 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 		
 		info.put(newURi, resourceId);
-		return info;*/
+		return info;
 		return resourceId;
 	}
-	
+	*/
+	public static String askIfUrlLacksBibDoiKeywords(String uri){
+		String needed = "0";
+		if(ras != null)
+			needed = ras.urlLacksBibDoiKeywords(uri);
+		return needed;
+	}
 	
 	///
 	
@@ -3233,7 +3262,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 * @param url
 	 * @return resourceId if ok, otherwise a negative number
 	 */
-	private static int addNewResource(String bib, String url){
+	/*public static int addNewResource(String bib, String url){
 		if(ras != null)
 			return ras.addAnnotatedResource(bib, url);
 		else{
@@ -3249,9 +3278,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			}
 		}
 		return -1;
-	}
+	}*/
 	
-	private static int updateResourceBib(String url, String doi, String keywords){
+	/*public static int updateResourceBib(String url, String doi, String keywords){
 		if(ras != null)
 			return ras.updateResourceBib(url, doi, keywords);
 		else{
@@ -3267,9 +3296,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			}
 		}
 			return -1;
-	}
+	}*/
 	
-	public static void askForDocumentInfo(String uri, Document doc){
+	public void askForDocumentInfo(String uri, Document doc){
 		
 		///SAM
 		int pn = doc.getAttr(Document.ATTR_PAGE) != null ? Integer
@@ -3293,7 +3322,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 //				Integer resourceId = requestBibOrUrl(new URI(uri),doc);
 				Integer resourceId = addPaperInfo(uri,doc);
 				//even if resourceId==-1, because we don't want to bother user
-				bibForDocument.put(uri,resourceId);
+				if(resourceId != -2) //if not loading
+					bibForDocument.put(uri,resourceId);
+				//else, try again later
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

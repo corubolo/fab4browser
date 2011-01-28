@@ -4,6 +4,7 @@ package uk.ac.liv.c3connector.ui;
 ///SAM: using StartupWizard's code
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,8 +15,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -35,18 +38,20 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 	public static String BibNeededOrDOIkeywords; 
 //	DistributedPersonalAnnos da;	
 //	public static String newUrl;
-	public static String bibtex;
+//	public static String bibtex;
 	public static String doi;
 	public static String keywords;
+	public static String title;
+	public static String authors;
 	
-	String defaultBib = "Copy and paste an available BibTex citation or try the following fields: \n" +
+	/*String defaultBib = //"Copy and paste an available BibTex citation or try the following fields: \n" +
 	"@bibtype{someid,\n" +
 	"title = { }, \n" +
 	"authors = { }, \n" +
 	"DOI = { }, \n" +
 	"keywords = { }, \n" +
 	"..." +
-	"}";
+	"}";*/
 	
 	//private static final long serialVersionUID = 6532313365019485552L;
 	
@@ -55,7 +60,7 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 //		this.da = da;
 		
 		if(needed.equals("0"))
-			askForBibAndUrl(/*uri*/);	
+			askForDOIorKeywords(true, true, true);
 		else{
 			boolean askDoi = true;
 			boolean askKeys = true;
@@ -63,7 +68,8 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 				askDoi = false;
 			if(needed.endsWith("1"))
 				askKeys = false;
-			askForDOIorKeywords(askDoi, askKeys);
+			askForDOIorKeywords(askDoi, askDoi, false); //TODO: I have manually made keywords asked only if doi is also asked, 
+								//but actually, I should not check for keywords in the database.
 		}
 
 		if (Fab4utils.getJavaVersion()>=1.5f)
@@ -80,7 +86,7 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 	 */
 	// <editor-fold defaultstate="collapsed" desc=" Generated Code ">
 	
-	private void askForBibAndUrl(/*String uri*/){
+	/*private void askForBibAndUrl(String uri){
 		
 		jPanel1 = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
@@ -91,12 +97,12 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 		
 //		jText_url = new javax.swing.JTextField();
 		
-		/*jText_url.setText(uri);*/
+		jText_url.setText(uri);
 		
 		jText_bibtex = new javax.swing.JTextArea(defaultBib,10,40);
 		JScrollPane scrol = new JScrollPane(jText_bibtex);
-		/*Dimension minimumSize = new Dimension(100, 20) ;
-		scrol.setMinimumSize(minimumSize);*/
+		Dimension minimumSize = new Dimension(100, 20) ;
+		scrol.setMinimumSize(minimumSize);
 //		scrol.setSize(40, 20);
 		
 		jLabel5 = new javax.swing.JLabel();
@@ -123,12 +129,12 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 			}
 		});
 		
-		/*jText_url.addFocusListener(new java.awt.event.FocusAdapter() {
+		jText_url.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
 			public void focusLost(java.awt.event.FocusEvent evt) {
 				focus();
 			}
-		});*/
+		});
 				
 		jText12.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
@@ -141,9 +147,9 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 			@Override
 			public void keyPressed(KeyEvent e) {focus();}});
 		
-		/*jText_url.addKeyListener(new java.awt.event.KeyAdapter() {
+		jText_url.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {focus();}});*/
+			public void keyPressed(KeyEvent e) {focus();}});
 				
 		
 		jText12.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -191,18 +197,18 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 																		.add(jButton1_ok)
 																		)
 																		.add(jText12, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-																		/*.add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField3_email, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField3_email, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		.add(jTextField10_org, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-																		*/
 																		
-																		.add(org.jdesktop.layout.GroupLayout.TRAILING, /*jText_bibtex*/ scrol, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		
+																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jText_bibtex scrol, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 //																		.add(jText_url, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-																		/*.add(org.jdesktop.layout.GroupLayout.TRAILING, jPass_cpass, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jPass_cpass, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		
 																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField11_name, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		
 																		.add(jTextField_aff, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
-																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField_des, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)*/
+																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jTextField_des, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		)
 																		
 																		
@@ -216,12 +222,12 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 						.add(22, 22, 22)
 						
 						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-								.add(/*jText_bibtex*/ scrol, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
+								.add(jText_bibtex scrol, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
 								.add(jLabel_bibtex))
 								.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-						/*.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
 								.add(jText_url, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
-								.add(jLabel_url))*/
+								.add(jLabel_url))
 								.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)																			
 												
 												.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -269,26 +275,30 @@ public class DocumentInfoRequester extends javax.swing.JDialog{
 //		setSize(200, 50);
 		pack();
 
-	}
+	}*/
 	
 
-private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
+private void askForDOIorKeywords(boolean askDOI, boolean askKeys, final boolean askBib){
 	
-	if(!askDOI && !askKeys){
+	/*if(!askDOI && !askKeys){
 		dispose();
 		return;
-	}
+	}*/
 	
 		jPanel1_2 = new javax.swing.JPanel();
 		jLabel1_2 = new javax.swing.JLabel();
 		
 		jLabel_keys_2 = new javax.swing.JLabel();
 		jLabel_doi_2 = new javax.swing.JLabel();
-		
+		jLabel_title_2 = new JLabel();
+		jLabel_authors_2 = new JLabel();
 		
 		jText_doi_2 = new javax.swing.JTextField();
 		
-		jText_keys_2 = new javax.swing.JTextArea(8,5);
+		jText_keys_2 = new javax.swing.JTextArea(6,5);
+		jText_keys_2.setBorder(BorderFactory.createLineBorder(Color.gray));
+		jText_authors_2 = new JTextField();
+		jText_title_2 = new JTextField();
 		
 		jLabel5_2 = new javax.swing.JLabel();
 		jText12_2 = new javax.swing.JTextField();
@@ -299,7 +309,13 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		jLabel1_2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		
-		jLabel1_2.setText("Please help us collect public annotations and information about this resource with providing:");		
+		if(!askBib && !askKeys && !askDOI)
+			jLabel1_2.setText("<html><h3>Thank you! We already have all citation information for this resource!!</h3></html>");
+		else
+			jLabel1_2.setText("Please help us collect public annotations and information about this resource with providing:");		
+		
+		jLabel_title_2.setText("Title:");
+		jLabel_authors_2.setText("Authors: (e.g. F. Last, F. Last, and F. Last)");
 		
 		jLabel_keys_2.setText("Keywords: (Separate keywords with ';')");
 		
@@ -309,42 +325,70 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 		jText_keys_2.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
 			public void focusLost(java.awt.event.FocusEvent evt) {
-				focus();
+				focus(askBib);
+			}
+		});
+		
+		jText_title_2.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				focus(askBib);
+			}
+		});
+		
+		jText_authors_2.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				focus(askBib);
 			}
 		});
 		
 		jText_doi_2.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
 			public void focusLost(java.awt.event.FocusEvent evt) {
-				focus();
+				focus(askBib);
 			}
 		});
 				
 		jText12_2.addFocusListener(new java.awt.event.FocusAdapter() {
 			@Override
 			public void focusLost(java.awt.event.FocusEvent evt) {
-				focus();
+				focus(askBib);
 			}
 		});
 		
 		jText_keys_2.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {focus();}});
+			public void keyPressed(KeyEvent e) {focus(askBib);}});
+		
+		jText_title_2.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {focus(askBib);}});
+		
+		jText_authors_2.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {focus(askBib);}});
 		
 		jText_doi_2.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {focus();}});
+			public void keyPressed(KeyEvent e) {focus(askBib);}});
 				
 		
 		jText12_2.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {focus();}});
+			public void keyPressed(KeyEvent e) {focus(askBib);}});
 
 		jLabel5_2.setText("User identifier:");
 		jLabel5_2.setVisible(false);
 		jText12_2.setVisible(false);
 		
-		jButton1_ok_2.setText("Done");
+		if(!askBib && !askKeys && !askDOI){
+			jButton1_ok_2.setText("Ok");
+			jButton1_ok_2.setVisible(false);
+		}
+		else
+			jButton1_ok_2.setText("Done");
+		
 		jButton1_ok_2.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1_ok_ActionPerformed_2(evt);
@@ -354,7 +398,11 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 		
 		
 		//jButton2_later.setText("later");
-		jButton2_cancel_2.setText("Not now");
+		if(!askBib && !askKeys && !askDOI){
+			jButton2_cancel_2.setText("Ok");
+		}
+		else
+			jButton2_cancel_2.setText("Not now");
 
 		org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1_2);
 		jPanel1_2.setLayout(jPanel1Layout);
@@ -364,7 +412,9 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 				.add(jPanel1Layout.createSequentialGroup()
 						.addContainerGap()
 						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)								
-														
+									
+									.add(jLabel_title_2)
+									.add(jLabel_authors_2)
 									.add(jLabel_keys_2)
 									.add(jLabel_doi_2)
 									
@@ -382,7 +432,9 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 																		)
 																		.add(jText12_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		
-																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jText_keys_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		.add(org.jdesktop.layout.GroupLayout.TRAILING, jText_title_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		.add(jText_authors_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+																		.add(jText_keys_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
 																		.add(jText_doi_2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)																		
 																		)
 																		
@@ -395,6 +447,15 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 						.add(jLabel1_2)
 						.add(22, 22, 22)
 						
+						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+								.add(jText_title_2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
+								.add(jLabel_title_2))
+								.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+								.add(jText_authors_2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
+								.add(jLabel_authors_2))
+								.addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+								
 						.add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
 								.add(jText_keys_2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)								
 								.add(jLabel_keys_2))
@@ -454,6 +515,13 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 			jText_keys_2.setVisible(false);
 		}
 		
+		if(!askBib){
+			jLabel_title_2.setVisible(false);
+			jText_title_2.setVisible(false);
+			jLabel_authors_2.setVisible(false);
+			jText_authors_2.setVisible(false);
+		}
+				
 		setTitle("Resource details...");
 		pack();
 
@@ -468,16 +536,24 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 	}
 	
 	
-	void focus() {		
-		if(jButton1_ok != null)
-			jButton1_ok.setEnabled(true);
-		else
+	void focus(boolean askBib) {	
+		
+		if(!askBib){ //if title not requested
 			jButton1_ok_2.setEnabled(true);
+		}
+		else{
+			if (jText_title_2.getText().length() >0 &&
+				jText_authors_2.getText().length() >0)
+				jButton1_ok_2.setEnabled(true);
+			else 
+				jButton1_ok_2.setEnabled(false);
+		
+		}
 	}
 
 	
 	
-	void jButton1_ok_ActionPerformed(java.awt.event.ActionEvent evt) {
+	/*void jButton1_ok_ActionPerformed(java.awt.event.ActionEvent evt) {
 		
 //		String url = jText_url.getText();
 		String bib = jText_bibtex.getText();
@@ -485,12 +561,12 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 		if( !bib.equals(defaultBib) ){
 			bibtex = bib;
 		}
-		/*if( url != null && !url.equals(""))
-			newUrl = url;*/
+		if( url != null && !url.equals(""))
+			newUrl = url;
 		
 		dispose();
 		
-	}
+	}*/
 	
 	void jButton1_ok_ActionPerformed_2(java.awt.event.ActionEvent evt) {
 		
@@ -502,6 +578,22 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 		if(keywords !=null && keywords.equals(""))
 			keywords = null;
 				
+		title = jText_title_2.getText();
+		if(title != null && title.equals(""))
+			title = null;
+		
+		authors = jText_authors_2.getText();
+		if(authors != null && authors.equals(""))
+			authors = null;
+		
+		
+		JOptionPane
+		.showMessageDialog(
+				this,
+				"Please choose 'save public' after clicking ok to complete saving your citation info",
+				"Sorry for the inconvenience!",
+				JOptionPane.INFORMATION_MESSAGE);
+		
 		dispose();
 		
 	}
@@ -510,8 +602,8 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 	// Variables declaration - do not modify	
 	
 	///ask for bib:
-	private javax.swing.JButton jButton1_ok;	
-	private javax.swing.JButton jButton2_cancel;
+//	private javax.swing.JButton jButton1_ok;	
+//	private javax.swing.JButton jButton2_cancel;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JPanel jPanel1;
@@ -531,8 +623,12 @@ private void askForDOIorKeywords(boolean askDOI, boolean askKeys){
 //	private javax.swing.JButton jLogButtonSignUp;
 	private javax.swing.JLabel jLabel_keys_2;
 	private javax.swing.JLabel jLabel_doi_2;
+	private JLabel jLabel_title_2;
+	private JLabel jLabel_authors_2;
 	private javax.swing.JTextArea jText_keys_2;
 	private JTextField jText_doi_2;
+	private JTextField jText_title_2;
+	private JTextField jText_authors_2;
 
 	// End of variables declaration			
 

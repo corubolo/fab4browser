@@ -893,6 +893,9 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         //if private
         ap.rateResource.setEnabled(PersonalAnnos.useRemoteServer);
     	ap.tag.setEnabled(PersonalAnnos.useRemoteServer);
+    	ap.citeInfo.setEnabled(PersonalAnnos.useRemoteServer);
+    	mtagThis.setEnabled(PersonalAnnos.useRemoteServer);
+    	mshowTags.setEnabled(PersonalAnnos.useRemoteServer);
         
     	/*try {
 			Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");			
@@ -1709,10 +1712,25 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             tm.setMnemonic(java.awt.event.KeyEvent.VK_D);
             tm.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                	///SAM changed it
+                    //open("http://code.google.com/p/fab4browser/");
+                	open("http://hypatia.cs.ualberta.ca/ucospf10/wiki/index.php/Main_Page");
+                	///
+                }
+            });
+            mhelp.add(tm);
+            
+            ///SAM,
+            tm = new JMenuItem("Fab4browser home page");
+            tm.setMnemonic(java.awt.event.KeyEvent.VK_D);
+            tm.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     open("http://code.google.com/p/fab4browser/");
                 }
             });
             mhelp.add(tm);
+            ///
+            
             tm = new JMenuItem("Multivalent home page");
             tm.setMnemonic(java.awt.event.KeyEvent.VK_M);
             tm.addActionListener(new ActionListener() {
@@ -2542,8 +2560,12 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             // Handle webstart breaking the system: URLs
             try {
                 Class.forName("javax.jnlp.BasicService");
+                
+                ///SAM changed homepage:
                 Fab4.mv.putPreference("homepage",
-                "http://bodoni.lib.liv.ac.uk/fab4/About.html");
+                //"http://bodoni.lib.liv.ac.uk/fab4/About.html");
+                		"http://hypatia.cs.ualberta.ca/CoRAL/exp1/");
+                ///
                 Fab4.JAVA_WS = true;
             } catch (ClassNotFoundException e) {
                 Fab4.JAVA_WS = false;
