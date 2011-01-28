@@ -2522,6 +2522,11 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				doctype = "html";			
 			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
 				doctype = "pdf";
+			else if((rootcontent = docrootcontent.findBFS("Loading..."/*,null,null,2*/)) != null){
+				info.put("loading", "true");
+				return info;
+			}
+				
 			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
 				doctype = null;*/
 		}

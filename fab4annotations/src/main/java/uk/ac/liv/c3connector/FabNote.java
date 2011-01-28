@@ -159,7 +159,7 @@ public class FabNote extends Behavior {
 	
 	int tw,th;
 
-	private String title = DistributedPersonalAnnos.author;
+	private String title = DistributedPersonalAnnos.userid;
 
 	public Node getContent() { return win_; }
 

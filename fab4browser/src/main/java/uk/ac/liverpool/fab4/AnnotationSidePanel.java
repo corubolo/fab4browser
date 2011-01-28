@@ -80,6 +80,7 @@ public class AnnotationSidePanel extends JPanel {
 	///SAM
 	JButton rateResource;
 	JButton tag;
+	JButton citeInfo; 
 	///
 	
 	JButton bShowAnno;
@@ -479,7 +480,7 @@ class AnnoToolBar extends JToolBar {
 					Class disAnnos;
 					try {
 						/*disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");
-					
+						
 						//Class parameterTypes = Class.forName("java.lang.String");
 						disAnnos.getDeclaredMethod("tagThisUrl" ).invoke(disAnnos.newInstance());
 					*/	
@@ -488,7 +489,6 @@ class AnnoToolBar extends JToolBar {
 						Behavior.getInstance("Tag",
 								"uk.ac.liv.c3connector.TagResource", null, hh, f
 								.getCurDoc().getLayer(Layer.PERSONAL));
-						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -497,6 +497,36 @@ class AnnoToolBar extends JToolBar {
 			});
 			asp.tag.setFont(nf);
 			add(asp.tag);
+			
+			asp.citeInfo = new JButton("Citation", FabIcons.getIcons().NOTE_ICO_CALL);
+			asp.citeInfo.setToolTipText("Provide citation info");
+			asp.citeInfo.addActionListener(new ActionListener() {
+				@SuppressWarnings("unchecked")
+				public void actionPerformed(ActionEvent e) {
+//					Class disAnnos;
+					try {						
+						HashMap hh = new HashMap<String, Object>(1);
+						Layer layer = f.getCurDoc().getLayer(Layer.PERSONAL);
+						Behavior beh = layer.getBehavior("bibtex");
+						/*if( beh != null){
+							beh.restore(null, beh.getAttributes(), layer);
+						}
+						else*/{
+//						hh.put("callout", "");
+							Behavior.getInstance("bibtex",
+								"uk.ac.liv.c3connector.CitationInfoNote", null, hh, f
+								.getCurDoc().getLayer(Layer.PERSONAL));
+						}
+						f.updateAnnoIcon();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
+			asp.citeInfo.setFont(nf);
+			add(asp.citeInfo);
+//			asp.citeInfo.setEnabled(false);
 
 		} catch (Exception edd) {
 		}

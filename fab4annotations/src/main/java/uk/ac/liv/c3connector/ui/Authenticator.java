@@ -349,8 +349,8 @@ public class Authenticator extends javax.swing.JDialog{
 		//jLabel_aff.setText("Affiliation:");
 		jLabel_des.setText("A brief description:");
 		
-		jTextField10_org.setText(DistributedPersonalAnnos.organisation);
-		jTextField11_name.setText(DistributedPersonalAnnos.author);
+//		jTextField10_org.setText(DistributedPersonalAnnos.organisation);
+//		jTextField11_name.setText(DistributedPersonalAnnos.author);
 		jTextField3_email.setText(DistributedPersonalAnnos.email);
 		jTextField_username.setText(DistributedPersonalAnnos.userid);
 
@@ -668,10 +668,16 @@ public class Authenticator extends javax.swing.JDialog{
 		
 		setVisible(false);
 		//setEnabled(false);
+		try{
 		Authenticator au = new Authenticator(da, myparent, mymodal, Authenticator.SIGNUP);
-		au.setAlwaysOnTop(true);
-		au.setLocationRelativeTo(null);
+		au.setAlwaysOnTop(true);		
 		au.setVisible(true);
+		au.setLocationRelativeTo(null);
+		}catch(Exception e){
+			System.out.println("****** caught:");
+			e.printStackTrace();
+			System.out.println("******");
+		}
 		dispose();
 		//signUp();
 	}
