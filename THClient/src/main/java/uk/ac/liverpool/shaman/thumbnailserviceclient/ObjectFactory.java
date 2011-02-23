@@ -48,7 +48,7 @@ public class ObjectFactory {
     private final static QName _GenerateThumbnailFromData_QNAME = new QName("http://shaman.liv.ac.uk/", "generateThumbnailFromData");
     private final static QName _GetSupportedMimeTypesResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "getSupportedMimeTypesResponse");
     private final static QName _GenerateSVGThumbnailResponse_QNAME = new QName("http://shaman.liv.ac.uk/", "generateSVGThumbnailResponse");
-    private final static QName _GenerateSVGThumbnailFromDataArg0_QNAME = new QName("", "arg0");
+    private final static QName _ExtractXmlTextFromDataArg0_QNAME = new QName("", "arg0");
     private final static QName _GenerateThumbnailFromDataResponseReturn_QNAME = new QName("", "return");
 
     /**
@@ -56,118 +56,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link ExtractXmlTextFromDataResponse }
-     * 
-     */
-    public ExtractXmlTextFromDataResponse createExtractXmlTextFromDataResponse() {
-        return new ExtractXmlTextFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedOutputTypeResponse }
-     * 
-     */
-    public GetSupportedOutputTypeResponse createGetSupportedOutputTypeResponse() {
-        return new GetSupportedOutputTypeResponse();
-    }
-
-    /**
-     * Create an instance of {@link GenerateThumbnail }
-     * 
-     */
-    public GenerateThumbnail createGenerateThumbnail() {
-        return new GenerateThumbnail();
-    }
-
-    /**
-     * Create an instance of {@link ExtractXmlText }
-     * 
-     */
-    public ExtractXmlText createExtractXmlText() {
-        return new ExtractXmlText();
-    }
-
-    /**
-     * Create an instance of {@link ExtractFontInformationFromDataResponse }
-     * 
-     */
-    public ExtractFontInformationFromDataResponse createExtractFontInformationFromDataResponse() {
-        return new ExtractFontInformationFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link GenerateThumbnailFromData }
-     * 
-     */
-    public GenerateThumbnailFromData createGenerateThumbnailFromData() {
-        return new GenerateThumbnailFromData();
-    }
-
-    /**
-     * Create an instance of {@link GenerateThumbnailResponse }
-     * 
-     */
-    public GenerateThumbnailResponse createGenerateThumbnailResponse() {
-        return new GenerateThumbnailResponse();
-    }
-
-    /**
-     * Create an instance of {@link ExtractFontInformationFromData }
-     * 
-     */
-    public ExtractFontInformationFromData createExtractFontInformationFromData() {
-        return new ExtractFontInformationFromData();
-    }
-
-    /**
-     * Create an instance of {@link GenerateSVGThumbnail }
-     * 
-     */
-    public GenerateSVGThumbnail createGenerateSVGThumbnail() {
-        return new GenerateSVGThumbnail();
-    }
-
-    /**
-     * Create an instance of {@link FontInformation }
-     * 
-     */
-    public FontInformation createFontInformation() {
-        return new FontInformation();
-    }
-
-    /**
-     * Create an instance of {@link GenerateSVGThumbnailFromDataResponse }
-     * 
-     */
-    public GenerateSVGThumbnailFromDataResponse createGenerateSVGThumbnailFromDataResponse() {
-        return new GenerateSVGThumbnailFromDataResponse();
-    }
-
-    /**
-     * Create an instance of {@link ExtractFontInformation }
-     * 
-     */
-    public ExtractFontInformation createExtractFontInformation() {
-        return new ExtractFontInformation();
-    }
-
-    /**
-     * Create an instance of {@link GetSupportedMimeTypes }
-     * 
-     */
-    public GetSupportedMimeTypes createGetSupportedMimeTypes() {
-        return new GetSupportedMimeTypes();
-    }
-
-    /**
-     * Create an instance of {@link Resolve }
-     * 
-     */
-    public Resolve createResolve() {
-        return new Resolve();
     }
 
     /**
@@ -179,11 +67,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedOutputType }
+     * Create an instance of {@link ExtractXmlText }
      * 
      */
-    public GetSupportedOutputType createGetSupportedOutputType() {
-        return new GetSupportedOutputType();
+    public ExtractXmlText createExtractXmlText() {
+        return new ExtractXmlText();
+    }
+
+    /**
+     * Create an instance of {@link GenerateSVGThumbnail }
+     * 
+     */
+    public GenerateSVGThumbnail createGenerateSVGThumbnail() {
+        return new GenerateSVGThumbnail();
+    }
+
+    /**
+     * Create an instance of {@link ExtractFontInformationFromDataResponse }
+     * 
+     */
+    public ExtractFontInformationFromDataResponse createExtractFontInformationFromDataResponse() {
+        return new ExtractFontInformationFromDataResponse();
+    }
+
+    /**
+     * Create an instance of {@link ResolveResponse }
+     * 
+     */
+    public ResolveResponse createResolveResponse() {
+        return new ResolveResponse();
     }
 
     /**
@@ -195,11 +107,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GenerateSVGThumbnailResponse }
+     * Create an instance of {@link GenerateThumbnailResponse }
      * 
      */
-    public GenerateSVGThumbnailResponse createGenerateSVGThumbnailResponse() {
-        return new GenerateSVGThumbnailResponse();
+    public GenerateThumbnailResponse createGenerateThumbnailResponse() {
+        return new GenerateThumbnailResponse();
+    }
+
+    /**
+     * Create an instance of {@link FontInformation }
+     * 
+     */
+    public FontInformation createFontInformation() {
+        return new FontInformation();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedMimeTypesResponse }
+     * 
+     */
+    public GetSupportedMimeTypesResponse createGetSupportedMimeTypesResponse() {
+        return new GetSupportedMimeTypesResponse();
+    }
+
+    /**
+     * Create an instance of {@link GenerateThumbnailFromData }
+     * 
+     */
+    public GenerateThumbnailFromData createGenerateThumbnailFromData() {
+        return new GenerateThumbnailFromData();
+    }
+
+    /**
+     * Create an instance of {@link ExtractFontInformationFromData }
+     * 
+     */
+    public ExtractFontInformationFromData createExtractFontInformationFromData() {
+        return new ExtractFontInformationFromData();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedOutputType }
+     * 
+     */
+    public GetSupportedOutputType createGetSupportedOutputType() {
+        return new GetSupportedOutputType();
     }
 
     /**
@@ -208,6 +160,30 @@ public class ObjectFactory {
      */
     public GenerateSVGThumbnailFromData createGenerateSVGThumbnailFromData() {
         return new GenerateSVGThumbnailFromData();
+    }
+
+    /**
+     * Create an instance of {@link ExtractXmlTextResponse }
+     * 
+     */
+    public ExtractXmlTextResponse createExtractXmlTextResponse() {
+        return new ExtractXmlTextResponse();
+    }
+
+    /**
+     * Create an instance of {@link ExtractFontInformation }
+     * 
+     */
+    public ExtractFontInformation createExtractFontInformation() {
+        return new ExtractFontInformation();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedOutputTypeResponse }
+     * 
+     */
+    public GetSupportedOutputTypeResponse createGetSupportedOutputTypeResponse() {
+        return new GetSupportedOutputTypeResponse();
     }
 
     /**
@@ -227,19 +203,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetSupportedMimeTypesResponse }
+     * Create an instance of {@link GenerateSVGThumbnailResponse }
      * 
      */
-    public GetSupportedMimeTypesResponse createGetSupportedMimeTypesResponse() {
-        return new GetSupportedMimeTypesResponse();
+    public GenerateSVGThumbnailResponse createGenerateSVGThumbnailResponse() {
+        return new GenerateSVGThumbnailResponse();
     }
 
     /**
-     * Create an instance of {@link ExtractXmlTextResponse }
+     * Create an instance of {@link GenerateSVGThumbnailFromDataResponse }
      * 
      */
-    public ExtractXmlTextResponse createExtractXmlTextResponse() {
-        return new ExtractXmlTextResponse();
+    public GenerateSVGThumbnailFromDataResponse createGenerateSVGThumbnailFromDataResponse() {
+        return new GenerateSVGThumbnailFromDataResponse();
+    }
+
+    /**
+     * Create an instance of {@link Resolve }
+     * 
+     */
+    public Resolve createResolve() {
+        return new Resolve();
+    }
+
+    /**
+     * Create an instance of {@link GetSupportedMimeTypes }
+     * 
+     */
+    public GetSupportedMimeTypes createGetSupportedMimeTypes() {
+        return new GetSupportedMimeTypes();
+    }
+
+    /**
+     * Create an instance of {@link GenerateThumbnail }
+     * 
+     */
+    public GenerateThumbnail createGenerateThumbnail() {
+        return new GenerateThumbnail();
     }
 
     /**
@@ -251,11 +251,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ResolveResponse }
+     * Create an instance of {@link ExtractXmlTextFromDataResponse }
      * 
      */
-    public ResolveResponse createResolveResponse() {
-        return new ResolveResponse();
+    public ExtractXmlTextFromDataResponse createExtractXmlTextFromDataResponse() {
+        return new ExtractXmlTextFromDataResponse();
     }
 
     /**
@@ -478,18 +478,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "", name = "arg0", scope = GenerateSVGThumbnailFromData.class)
-    public JAXBElement<byte[]> createGenerateSVGThumbnailFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, GenerateSVGThumbnailFromData.class, ((byte[]) value));
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
-     * 
-     */
     @XmlElementDecl(namespace = "", name = "arg0", scope = ExtractXmlTextFromData.class)
     public JAXBElement<byte[]> createExtractXmlTextFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtractXmlTextFromData.class, ((byte[]) value));
+        return new JAXBElement<byte[]>(_ExtractXmlTextFromDataArg0_QNAME, byte[].class, ExtractXmlTextFromData.class, ((byte[]) value));
     }
 
     /**
@@ -507,7 +498,16 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "arg0", scope = GenerateThumbnailFromData.class)
     public JAXBElement<byte[]> createGenerateThumbnailFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, GenerateThumbnailFromData.class, ((byte[]) value));
+        return new JAXBElement<byte[]>(_ExtractXmlTextFromDataArg0_QNAME, byte[].class, GenerateThumbnailFromData.class, ((byte[]) value));
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "", name = "arg0", scope = GenerateSVGThumbnailFromData.class)
+    public JAXBElement<byte[]> createGenerateSVGThumbnailFromDataArg0(byte[] value) {
+        return new JAXBElement<byte[]>(_ExtractXmlTextFromDataArg0_QNAME, byte[].class, GenerateSVGThumbnailFromData.class, ((byte[]) value));
     }
 
     /**
@@ -525,7 +525,7 @@ public class ObjectFactory {
      */
     @XmlElementDecl(namespace = "", name = "arg0", scope = ExtractFontInformationFromData.class)
     public JAXBElement<byte[]> createExtractFontInformationFromDataArg0(byte[] value) {
-        return new JAXBElement<byte[]>(_GenerateSVGThumbnailFromDataArg0_QNAME, byte[].class, ExtractFontInformationFromData.class, ((byte[]) value));
+        return new JAXBElement<byte[]>(_ExtractXmlTextFromDataArg0_QNAME, byte[].class, ExtractFontInformationFromData.class, ((byte[]) value));
     }
 
 }

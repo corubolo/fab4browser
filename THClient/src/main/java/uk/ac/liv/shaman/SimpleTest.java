@@ -26,7 +26,7 @@ public class SimpleTest {
     IOException_Exception, MalformedURLException_Exception {
         ThumbnailServiceService s = new ThumbnailServiceService(
                 new URL(
-                        "http://localhost:8080/Thumbnails/Thumbnails"),
+                        "http://bodoni.lib.liv.ac.uk:8080/Thumbnails-0.35-SNAPSHOT/Thumbnails"),
                         // "http://bodoni.lib.liv.ac.uk:8080/Thumbnails-0.0.1-SNAPSHOT/Thumbnails"),
                         new QName("http://shaman.liv.ac.uk/", "ThumbnailServiceService"));
         FileOutputStream f = new FileOutputStream("out.png");
