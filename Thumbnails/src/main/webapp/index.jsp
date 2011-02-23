@@ -25,9 +25,9 @@ function submit() {
 
 <form name="jt_form" method="get">
 <p><select name="file_uri" size="9" onchange="submit()">
-	<option>http://media.ugs.com/teamcenter/jtfiles/conrod.jt</option>
-	<option>http://media.ugs.com/teamcenter/jtfiles/butterflyvalve.jt</option>
-	<option>http://media.ugs.com/teamcenter/jtfiles/bnc.jt</option>
+	<option>http://bodoni.lib.liv.ac.uk/conrod.jt</option>
+	<option>http://bodoni.lib.liv.ac.uk/butterflyvalve.jt</option>
+	<option>http://bodoni.lib.liv.ac.uk/bnc.jt</option>
 	<option>http://www.schoolhistory.co.uk/year7links/1066/battlehastings.ppt</option>
 	<option>http://www.xfront.com/REST-full.ppt</option>
 	<option>http://java.sun.com/docs/books/jls/download/langspec-3.0.pdf</option>
