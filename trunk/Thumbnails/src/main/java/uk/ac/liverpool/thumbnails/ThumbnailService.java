@@ -55,9 +55,9 @@ public class ThumbnailService {
 
     private static final Set<String> allowed = new HashSet<String>();
     static {
-        allowed.add("http://media.ugs.com/teamcenter/jtfiles/conrod.jt");
-        allowed.add( "http://media.ugs.com/teamcenter/jtfiles/butterflyvalve.jt");
-        allowed.add(  "http://media.ugs.com/teamcenter/jtfiles/bnc.jt");
+        allowed.add("http://bodoni.lib.liv.ac.uk/conrod.jt");
+        allowed.add( "http://bodoni.lib.liv.ac.uk/butterflyvalve.jt");
+        allowed.add(  "http://bodoni.lib.liv.ac.uk/bnc.jt");
         allowed.add( "http://www.schoolhistory.co.uk/year7links/1066/battlehastings.ppt");
         allowed.add( "http://www.xfront.com/REST-full.ppt");
         allowed.add( "http://java.sun.com/docs/books/jls/download/langspec-3.0.pdf");

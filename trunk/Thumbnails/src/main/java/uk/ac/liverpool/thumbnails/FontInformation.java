@@ -22,6 +22,8 @@
  ******************************************************************************/
 package uk.ac.liverpool.thumbnails;
 
+import javax.xml.bind.annotation.XmlType;
+@XmlType
 public class FontInformation implements Comparable<FontInformation> {
 
     @Override
