@@ -224,7 +224,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
         String appId = "uk.ac.uliv.Fab4Browser";
 
-
+        System.setProperty("apple.laf.useScreenMenuBar", "true");
+        System.setProperty("apple.awt.fileDialogForDirectories", "true");
+        System.setProperty("com.apple.eawt.CocoaComponent.CompatibilityMode", "false"); 
+        System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Fab4 browser");
+        
         for (String a : args)
             if (a.compareTo("-single")==0)
                 Fab4.singleInstance = true;
@@ -289,8 +293,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             UIManager.put("List.selectionForeground", Color.WHITE);
             UIManager.put("Table.selectionBackground", MAC_OS_SELECTED_ROW_COLOR);
             UIManager.put("Table.selectionForeground", Color.WHITE);
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("apple.awt.fileDialogForDirectories", "true");
+
         } else
             try {
                 UIManager.setLookAndFeel(lookAndFeel);
@@ -480,7 +483,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
      */
     public Fab4() {
 
-        super();
+        super("Fab4 browser");
 
 
     }
