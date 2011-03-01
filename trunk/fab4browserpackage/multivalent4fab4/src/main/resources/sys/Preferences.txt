@@ -61,9 +61,9 @@ mediaadaptor	class	JavaClass
 mediaadaptor	awp	AppleWorksWordProcessor
 
 # unsupported: do not load
-mediaadaptor	mov	Unsupported
-mediaadaptor	mpg	Unsupported
-mediaadaptor	avi	Unsupported
+# mediaadaptor	mov	Unsupported
+# mediaadaptor	mpg	Unsupported
+# mediaadaptor	avi	Unsupported
 
 
 # add MIME types for ppt, if any
