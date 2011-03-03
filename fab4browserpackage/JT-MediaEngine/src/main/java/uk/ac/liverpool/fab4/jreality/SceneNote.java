@@ -2,19 +2,12 @@ package uk.ac.liverpool.fab4.jreality;
 
 import static de.jreality.shader.CommonAttributes.POLYGON_SHADER;
 import static de.jreality.shader.CommonAttributes.TRANSPARENCY;
-import static de.jreality.shader.CommonAttributes.TRANSPARENCY_ENABLED;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import multivalent.Behavior;
 import multivalent.Document;
@@ -22,32 +15,12 @@ import multivalent.ESISNode;
 import multivalent.Layer;
 import uk.ac.liverpool.fab4.Fab4;
 import de.jreality.geometry.BoundingBoxUtility;
-import de.jreality.geometry.IndexedFaceSetFactory;
 import de.jreality.geometry.IndexedFaceSetUtility;
-import de.jreality.geometry.Primitives;
-import de.jreality.math.Matrix;
-import de.jreality.math.MatrixBuilder;
-
 import de.jreality.scene.Appearance;
 import de.jreality.scene.IndexedFaceSet;
 import de.jreality.scene.SceneGraphComponent;
 import de.jreality.scene.SceneGraphNode;
-import de.jreality.scene.SceneGraphPath;
-import de.jreality.scene.SceneGraphPathObserver;
-import de.jreality.scene.data.Attribute;
-import de.jreality.scene.data.AttributeEntityUtility;
-import de.jreality.scene.data.StorageModel;
-import de.jreality.scene.event.TransformationEvent;
-import de.jreality.scene.event.TransformationListener;
 import de.jreality.shader.CommonAttributes;
-import de.jreality.shader.DefaultGeometryShader;
-import de.jreality.shader.DefaultPolygonShader;
-import de.jreality.shader.DefaultTextShader;
-import de.jreality.shader.ImageData;
-import de.jreality.shader.ShaderUtility;
-import de.jreality.shader.Texture2D;
-import de.jreality.ui.viewerapp.SelectionManagerImpl;
-import de.jreality.ui.viewerapp.SelectionRenderer;
 import de.jreality.util.Rectangle3D;
 import de.jreality.util.SceneGraphUtility;
 
@@ -94,7 +67,7 @@ public class SceneNote extends Behavior
                     return;}
                 location = "";
                 for (SceneGraphNode curr : sw.sgp.toList()) {
-                    location+=curr.getName() + ";";
+                    location+=curr.getName() + "§";
                 }
                 destination = sw.sgp.getLastComponent();
                 theText = JOptionPane.showInputDialog("Note content: ");
@@ -175,8 +148,10 @@ public class SceneNote extends Behavior
         }
     }
 
+    
+    
     private SceneGraphComponent loadPath(SoftViewerLeaf sw) {
-        StringTokenizer st = new StringTokenizer(location, ";");
+        StringTokenizer st = new StringTokenizer(location, "§");
         SceneGraphComponent r = sw.rootNode;
         String nt = st.nextToken();
         while (st.hasMoreTokens()){
