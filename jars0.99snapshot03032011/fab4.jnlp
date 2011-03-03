@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="http://fab4browser.googlecode.com/svn/trunk/jars0.99snapshot03032011/" href="fab4.jnlp">
+  <information>
+    <title>Fab4 Document Browser</title>
+    <vendor>The University of Liverpool</vendor>
+    <description>Fab4 version 0.99 snapshot 03 03 2011</description>
+    <homepage href="http://fab4browser.googlecode.com" />
+  </information>
+  <resources>
+    <j2se version="1.5+" href="http://java.sun.com/products/autodl/j2se" max-heap-size="512m" />
+    <jar href="antlr-2.7.7.jar" />
+    <jar href="ApachePOI-0.99.jar" />
+    <jar href="ApachePOIAdditions-0.99.jar" />
+    <jar href="audioma-0.99.jar" />
+    <jar href="batik-awt-util-1.7.jar" />
+    <jar href="batik-transcoder-1.7.jar" />
+    <jar href="beans-1.0.jar" />
+    <jar href="bsh-2.0b4.jar" />
+    <jar href="cmu_us_kal-1.2.2.jar" />
+    <jar href="cmudict04-1.2.2.jar" />
+    <jar href="cmulex-1.2.2.jar" />
+    <jar href="cmutimelex-1.2.2.jar" />
+    <jar href="colorpicker-1.0.jar" />
+    <jar href="commons-codec-1.2.jar" />
+    <jar href="commons-httpclient-3.0.1.jar" />
+    <jar href="commons-io-1.4.jar" />
+    <jar href="commons-lang-2.4.jar" />
+    <jar href="commons-logging-1.1.1.jar" />
+    <jar href="commons-math-1.2.jar" />
+    <jar href="commons-vfs-1.0.jar" />
+    <jar href="cortado-modified-0.6.jar" />
+    <jar href="DVI-20060102.jar" />
+    <jar href="en_us-1.2.2.jar" />
+    <jar href="fab4annotations-0.99.jar" />
+    <jar href="fab4browser-0.99.jar" />
+    <jar href="fab4browserutility-0.99.jar" />
+    <jar href="fab4rdfannotations-0.99.jar" />
+    <jar href="file-1.0.jar" />
+    <jar href="freehep-graphics-base-2.1.3.jar" />
+    <jar href="freehep-graphics2d-2.1.3.jar" />
+    <jar href="freehep-graphicsio-2.1.3.jar" />
+    <jar href="freehep-graphicsio-emf-2.1.3.jar" />
+    <jar href="freehep-io-2.0.5.jar" />
+    <jar href="freetts-1.2.2.jar" />
+    <jar href="freettsma-0.99.jar" />
+    <jar href="iRODS4Multivalent-0.99.jar" />
+    <jar href="itext-2.1.3.jar" />
+    <jar href="jai_imageio-1.1.jar" />
+    <jar href="janino-2.5.16.jar" />
+    <jar href="jargon-2.2.1.jar" />
+    <jar href="jaxen-1.1.1.jar" />
+    <jar href="jdom-1.1.jar" />
+    <jar href="jlayer-1.0.1.jar" />
+    <jar href="jReality-1.0.jar" />
+    <jar href="jrworkspace-1.0.jar" />
+    <jar href="JT-MediaEngine-0.99.jar" />
+    <jar href="jterm-1.0.jar" />
+    <jar href="JTViewer-0.7.1.jar" />
+    <jar href="junique-0.4.jar" />
+    <jar href="junit-4.5.jar" />
+    <jar href="lljvm-0.2.jar" />
+    <jar href="lljvm_image-0.2.jar" />
+    <jar href="lljvm_image_spi-0.99.jar" />
+    <jar href="log4j-1.2.15.jar" />
+    <jar href="loopy-0.3.jar" />
+    <jar href="lucene-core-2.9.1.jar" />
+    <jar href="metadata-extractor-2.4.0-beta-1.jar" />
+    <jar href="mp3spi-1.9.4.jar" />
+    <jar href="multivalent-20060102bin.jar" />
+    <jar href="multivalent4fab4-0.99.jar" />
+    <jar href="nestedvmlib-20090809.jar" />
+    <jar href="odtMediaAdaptor-0.99.jar" />
+    <jar href="oggmediaadaptor-0.99.jar" />
+    <jar href="PICTDecoder-0.99.jar" />
+    <jar href="pptmediaadaptor-0.99.jar" />
+    <jar href="servlet-api-2.5.jar" />
+    <jar href="simplx-0.8.4.jar" />
+    <jar href="smrj.jar-1.0.jar" />
+    <jar href="sunflow.jar-1.0.jar" />
+    <jar href="svg-salamander-1.0.jar" />
+    <jar href="svgma-0.99.jar" />
+    <jar href="swing-layout-1.0.3.jar" />
+    <jar href="sword-common-fab4-1.1.jar" />
+    <jar href="testng-5.11-jdk15.jar" />
+    <jar href="tritonus_share-0.3.6.jar" />
+    <jar href="xmlMA-0.99.jar" />
+    <jar href="xmlsec-1.4.2.jar" />
+    <jar href="xom-1.1.jar" />
+    <jar href="xpp3_min-1.1.4c.jar" />
+    <jar href="xstream-1.3.1.jar" />
+  </resources>
+  <application-desc main-class="uk.ac.liverpool.fab4.Fab4">
+    <!--argument>-single</argument-->
+    <!--argument>-aserver=http://shaman.cheshire3.org/sword/annotations/</argument-->
+    <!--argument>-asearchserver=http://shaman.cheshire3.org/services/annotations/</argument-->
+    <argument>http://bodoni.lib.liv.ac.uk/fab4/</argument>
+  </application-desc>
+  <security>
+    <all-permissions />
+  </security>
+</jnlp>
+
