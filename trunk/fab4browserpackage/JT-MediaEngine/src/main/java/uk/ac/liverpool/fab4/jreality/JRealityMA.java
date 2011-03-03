@@ -2,8 +2,6 @@ package uk.ac.liverpool.fab4.jreality;
 
 import static de.jreality.shader.CommonAttributes.DIFFUSE_COLOR;
 import static de.jreality.shader.CommonAttributes.POLYGON_SHADER;
-import static de.jreality.shader.CommonAttributes.TRANSPARENCY;
-import static de.jreality.shader.CommonAttributes.TRANSPARENCY_ENABLED;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,13 +9,23 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -30,40 +38,47 @@ import multivalent.StyleSheet;
 import phelps.awt.Colors;
 import uk.ac.liv.jt.segments.JTSceneGraphComponent;
 import uk.ac.liverpool.fab4.Fab4;
+import uk.ac.liverpool.fab4.jreality.Navigator.SelectionEvent;
+import uk.ac.liverpool.fab4.jreality.Navigator.SelectionListener;
 import de.jreality.scene.Appearance;
 import de.jreality.scene.SceneGraphComponent;
-import de.jreality.scene.SceneGraphPath;
-import de.jreality.scene.Viewer;
 import de.jreality.scene.tool.InputSlot;
 import de.jreality.scene.tool.ToolContext;
 import de.jreality.tools.ActionTool;
-import de.jreality.tools.AnimatorTool;
 import de.jreality.ui.treeview.SceneTreeModel;
-import de.jreality.ui.viewerapp.Navigator;
-import de.jreality.ui.viewerapp.Navigator.SelectionEvent;
-import de.jreality.ui.viewerapp.Navigator.SelectionListener;
 import de.jreality.ui.viewerapp.Selection;
+import de.jreality.ui.viewerapp.SelectionManagerImpl;
 
 public class JRealityMA extends MediaAdaptor {
 
     SoftViewerLeaf l;
     Document doc;
     JPanel f;
-    //private SelectionManager selectionManager;
-
-
+    private Navigator n;
+    protected TableCellRenderer cellrender = new CustomTableCellRenderer();
 
     @Override
     public void close() throws IOException {
         super.close();
         if (l != null) {
+
+            n.destroy();
+
+            doc.removeAllChildren();
+            l.dispose();
+
             l.close();
-            JPanel p = (JPanel)getBrowser().getClientProperty(Fab4.PANEL);
+
+            JSplitPane p = (JSplitPane) getBrowser().getClientProperty(
+                    Fab4.PANEL);
             p.remove(f);
+
         }
         l = null;
-        // doc.removeAttr(TimedMedia.TIMEDMEDIA);
+        f = null;
+        n = null;
 
+        System.gc();
     }
 
     @Override
@@ -99,29 +114,23 @@ public class JRealityMA extends MediaAdaptor {
         SceneGraphComponent sgc = null;
         sgc = l.getSGC();
 
-        //selectionManager = SelectionManagerImpl.selectionManagerForViewer(l);
-        //new SelectionRenderer(selectionManager, l).setVisible(true);
         f = new JPanel();
 
-        final Navigator n = new Navigator(l);
+        n = new Navigator(l);
+
+        addGeometryActions(sgc, n, l);
+
         Component c = n.getComponent();
         f.setLayout(new BorderLayout(5, 5));
         f.add(c, BorderLayout.CENTER);
-        addGeometryActions(sgc, n, l);
+        JTree tree = n.getSceneTree();
         if (sgc instanceof JTSceneGraphComponent) {
 
-            TreeSelectionModel tsm = n.getSceneTree().getSelectionModel();
-            // tsm.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-            //
-            // tsm.addTreeSelectionListener(new SelectionListener(){
-            //
-            // public void selectionChanged(SelectionEvent e) {
-            //
-            // Selection currentSelection = e.getSelection();
-            // //currentSelection.getLastElement());
-            // }
-            // });
+            TreeSelectionModel tsm = tree.getSelectionModel();
+
             final JTable list = new JTable();
+
+            JScrollPane scroller = new JScrollPane(list);
             tsm.addTreeSelectionListener(new SelectionListener() {
 
                 @Override
@@ -130,13 +139,17 @@ public class JRealityMA extends MediaAdaptor {
                     final Selection currentSelection = e.getSelection();
                     if (currentSelection != null) {
                         list.setModel(new AbstractTableModel() {
+                            public boolean isCellEditable(int rowIndex,
+                                    int columnIndex) {
+                                return true;
+                            }
 
                             public Object getValueAt(int rowIndex,
                                     int columnIndex) {
                                 if (currentSelection != null)
                                     if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
                                         JTSceneGraphComponent s = (JTSceneGraphComponent) currentSelection
-                                        .getLastComponent();
+                                                .getLastComponent();
                                         if (s != null)
                                             if (s.properties != null)
                                                 if (columnIndex < 2
@@ -147,11 +160,22 @@ public class JRealityMA extends MediaAdaptor {
                                 return null;
                             }
 
+                            public String getColumnName(int column) {
+                                if (currentSelection != null)
+                                    if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
+                                        if (column == 0)
+                                            return "Property";
+                                        else
+                                            return "Value";
+                                    }
+                                return null;
+                            };
+
                             public int getRowCount() {
                                 if (currentSelection != null)
                                     if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
                                         JTSceneGraphComponent s = (JTSceneGraphComponent) currentSelection
-                                        .getLastComponent();
+                                                .getLastComponent();
                                         if (s != null)
                                             if (s.properties != null)
                                                 return s.properties.length;
@@ -163,52 +187,75 @@ public class JRealityMA extends MediaAdaptor {
                             public int getColumnCount() {
                                 if (currentSelection != null)
                                     if (currentSelection.getLastComponent() instanceof JTSceneGraphComponent) {
-                                        // JTSceneGraphComponent s =
-                                        // (JTSceneGraphComponent)
-                                        // n.getSelection().asComponent();
                                         return 2;
                                     }
                                 return 0;
                             }
                         });
-                        // selectionManager.setSelection(currentSelection);
-                    } else
+                        list.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+                        for (int i = 0; i < list.getColumnCount(); i++) {
+                            int vColIndex = i;
+                            DefaultTableColumnModel colModel = (DefaultTableColumnModel) list
+                                    .getColumnModel();
+                            TableColumn col = colModel.getColumn(vColIndex);
+                            int width = 0;
+
+                            // Get width of column header
+                            TableCellRenderer renderer = col
+                                    .getHeaderRenderer();
+
+                            if (renderer == null) {
+                                renderer = list.getTableHeader()
+                                        .getDefaultRenderer();
+                            }
+
+                            Component comp = renderer
+                                    .getTableCellRendererComponent(list,
+                                            col.getHeaderValue(), false, false,
+                                            0, 0);
+
+                            width = comp.getPreferredSize().width;
+
+                            // Get maximum width of column data
+                            for (int r = 0; r < list.getRowCount(); r++) {
+                                renderer = list.getCellRenderer(r, vColIndex);
+                                comp = renderer.getTableCellRendererComponent(
+                                        list, list.getValueAt(r, vColIndex),
+                                        false, false, r, vColIndex);
+                                width = Math.max(width,
+                                        comp.getPreferredSize().width);
+                            }
+
+                            // Add margin
+                            width += 2 * 5;
+
+                            // Set the width
+                            col.setPreferredWidth(width);
+                        }
+                        ((DefaultTableCellRenderer) list.getTableHeader()
+                                .getDefaultRenderer())
+                                .setHorizontalAlignment(SwingConstants.LEFT);
+                        list.getTableHeader().setReorderingAllowed(false);
+                       // SelectionManagerImpl.selectionManagerForViewer(l).setSelection(currentSelection);
+
+                    } else {
                         list.setModel(null);
+                        list.setFillsViewportHeight(false);
+                    }
                 }
             });
-            list.setAutoResizeMode(list.AUTO_RESIZE_ALL_COLUMNS);
-            f.add(list, BorderLayout.SOUTH);
-        }
-        JPanel p = (JPanel)getBrowser().getClientProperty(Fab4.PANEL);
-        p.add(f, BorderLayout.WEST);
-        // JTree sceneTree = new JTree();
-        // SceneTreeModel treeModel = new SceneTreeModel(rootNode);
-        //
-        // sceneTree.setModel(treeModel);
-        //
-        // // sceneTree.setAnchorSelectionPath(new
-        // TreePath(treeModel.convertSelection(null)));
-        // sceneTree.setCellRenderer(new JTreeRenderer());
-        // sceneTree.getInputMap().put(KeyStroke.getKeyStroke("ENTER"),
-        // "toggle"); //collaps/expand nodes with ENTER
-        //
-        // TreeSelectionModel tsm = sceneTree.getSelectionModel();
-        // tsm.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-        //
-        // tsm.addTreeSelectionListener(new SelectionListener(){
-        //
-        // public void selectionChanged(SelectionEvent e) {
-        //
-        // Selection currentSelection = e.getSelection();
-        // //currentSelection.getLastElement());
-        // }
-        // });
-        // f.getContentPane().add(sceneTree);
+            list.setCellSelectionEnabled(true);
+            f.add(scroller, BorderLayout.SOUTH);
 
+        }
         f.validate();
         f.doLayout();
 
-
+        JSplitPane p = (JSplitPane) getBrowser().getClientProperty(Fab4.PANEL);
+        p.setLeftComponent(f);
+        tree.setToggleClickCount(1);
+        System.gc();
         return parent;
     }
 
@@ -217,46 +264,49 @@ public class JRealityMA extends MediaAdaptor {
 
         List<SceneGraphComponent> l = geometryNode.getChildComponents();
         for (SceneGraphComponent s : l) {
-            if (s.getName().startsWith("PartNodeElement")) {
+            if (s.getName().contains("PNE")) {
                 ActionTool at = new ActionTool(InputSlot.MIDDLE_BUTTON);
                 at.addActionListener(new ActionListener() {
-
 
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource() instanceof ToolContext) {
                             ToolContext tc = (ToolContext) e.getSource();
-                            v.sgp = tc
-                            .getRootToToolComponent();
+                            v.sgp = tc.getRootToToolComponent();
                             // System.out.println(sgp);
+                            if (n != null) {
+                                TreePath p = new TreePath(((SceneTreeModel) n
+                                        .getSceneTree().getModel())
+                                        .convertSceneGraphPath(v.sgp));
+                                n.getTreeSelectionModel().setSelectionPath(p);
+                                n.getSceneTree().scrollPathToVisible(p);
+                            }
+                            // v.selectionManager.setSelection(new
+                            // Selection(v.sgp));
 
-                            TreePath p = new TreePath(((SceneTreeModel) n
-                                    .getSceneTree().getModel())
-                                    .convertSceneGraphPath(v.sgp));
-                            n.getTreeSelectionModel().setSelectionPath(p);
-                            n.getSceneTree().scrollPathToVisible(p);
-
-                            v.selectionManager.setSelection(new Selection(v.sgp));
-
-
-
-                            Appearance app = v.sgp.getLastComponent().getAppearance();
+                            Appearance app = v.sgp.getLastComponent()
+                                    .getAppearance();
                             Color selectionColor = Color.white;
-                            if (v.lastcomp!=null ){
+                            if (v.lastcomp != null) {
                                 v.lastcomp.setAppearance(v.lastapp);
-                                //                                if (v.lastapp!=null)
-                                //                                    v.lastapp.setAttribute(TRANSPARENCY_ENABLED, false);
+                                // if (v.lastapp!=null)
+                                // v.lastapp.setAttribute(TRANSPARENCY_ENABLED,
+                                // false);
                             }
                             v.lastcomp = v.sgp.getLastComponent();
-                            v.lastapp =  v.sgp.getLastComponent().getAppearance();
-                            if (app == null){
+                            v.lastapp = v.sgp.getLastComponent()
+                                    .getAppearance();
+                            if (app == null) {
                                 app = new Appearance("Select");
                             }
-                            app.setAttribute(POLYGON_SHADER+"."+DIFFUSE_COLOR, selectionColor);
+                            app.setAttribute(POLYGON_SHADER + "."
+                                    + DIFFUSE_COLOR, selectionColor);
                             v.lastcomp.setAppearance(app);
 
-                            //                            app.setAttribute(TRANSPARENCY_ENABLED, true);
-                            //                           app.setAttribute(POLYGON_SHADER+"."+TRANSPARENCY, .4);
-                            //  selectionManager.setSelection(new Selection(sgp));
+                            // app.setAttribute(TRANSPARENCY_ENABLED, true);
+                            // app.setAttribute(POLYGON_SHADER+"."+TRANSPARENCY,
+                            // .4);
+                            // selectionManager.setSelection(new
+                            // Selection(sgp));
 
                         }
                     }
@@ -268,4 +318,27 @@ public class JRealityMA extends MediaAdaptor {
         }
     }
 
+    public class CustomTableCellRenderer extends DefaultTableCellRenderer {
+        public Component getTableCellRendererComponent(JTable table,
+                Object obj, boolean isSelected, boolean hasFocus, int row,
+                int column) {
+            Component cell = super.getTableCellRendererComponent(table, obj,
+                    isSelected, hasFocus, row, column);
+            if (obj instanceof String) {
+                String s = (String) obj;
+                cell = new JLabel(s);
+            }
+            if (isSelected) {
+
+            } else {
+                if (row % 2 == 0) {
+                    cell.setBackground(Color.white);
+                } else {
+                    cell.setBackground(Color.lightGray);
+                }
+
+            }
+            return cell;
+        }
+    }
 }

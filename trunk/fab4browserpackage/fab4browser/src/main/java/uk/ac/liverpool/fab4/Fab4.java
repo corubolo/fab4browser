@@ -902,7 +902,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             a = testo.substring(0, 18) + "...";
         else
             a = testo;
-        ptabs.setTitleAt(ptabs.indexOfComponent(bb.getParent().getParent()), a);
+        ptabs.setTitleAt(ptabs.indexOfComponent(bb.getParent().getParent().getParent()), a);
         Icon ii = null;
         if (doc.uri != null)
             if (doc.getURI().getScheme() != null)
@@ -939,7 +939,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             ii = FabIcons.getIcons().ICOIMA;
         else if (ii == null)
             ii = FabIcons.getIcons().ICOURL;
-        ptabs.setIconAt(ptabs.indexOfComponent(bb.getParent().getParent()), ii);
+        ptabs.setIconAt(ptabs.indexOfComponent(bb.getParent().getParent().getParent()), ii);
         // Address bar
         if (bb == getCurBr()) {
             topButtonBar.address.setText(doc.getURI().toString());
@@ -2102,9 +2102,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         JPanel innerPanel = new JPanel(new BorderLayout(0, 0));
 
         totalFrameBrowsers++;
-
+        //JPanel auxPanel= new JPanel(new BorderLayout(0, 0));
+        JSplitPane splitp2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitp2.setRightComponent(innerPanel);
         Browser theBrowser = Fab4.mv.getBrowser("name" + Fab4.contin++, "Fab4", false);
-        theBrowser.putClientProperty(PANEL, innerPanel);
+        theBrowser.putClientProperty(PANEL, splitp2);
         br.add(theBrowser);
         theBrowser.setOpaque(true);
         innerPanel.add(theBrowser, BorderLayout.CENTER);
@@ -2127,7 +2129,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             annoPanel = null;
         }
         splitp = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, annoPanel,
-                innerPanel);
+                splitp2);
         splitp.setContinuousLayout(true);
         splitp.setOneTouchExpandable(false);
         splitp.setOpaque(true);

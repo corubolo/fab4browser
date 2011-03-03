@@ -19,6 +19,8 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Level;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import phelps.lang.Integers;
@@ -29,9 +31,11 @@ import uk.ac.liverpool.fab4.Fab4;
 
 import multivalent.Behavior;
 import multivalent.Context;
+import multivalent.Document;
 import multivalent.INode;
 import multivalent.Leaf;
 import multivalent.SemanticEvent;
+import multivalent.node.LeafUnicode;
 import multivalent.std.adaptor.HTML;
 import de.jreality.math.MatrixBuilder;
 import de.jreality.reader.Readers;
@@ -118,16 +122,18 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     public SceneGraphComponent lastcomp;
 
     public SceneGraphComponent rootNode;
-    
+
     public SceneGraphPath sgp;
 
-    private SelectionRenderer selectionRenderer;
+    private boolean outOfMem;
 
-    public SelectionManager selectionManager;
-    
-    
+//    private SelectionRenderer selectionRenderer;
+
+ //  public SelectionManager selectionManager;
+
+
     public SoftViewerLeaf(String name, Map<String, Object> attr, INode parent)
-            throws URISyntaxException {
+    throws URISyntaxException {
 
         super(name, attr, parent);
         if (reg == false) {
@@ -149,16 +155,16 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
             public int getWidth() {return bbox.width;};
             public int getHeight() {return bbox.height;};
         };
-//        for (Entry a : attr.entrySet()) {
-//            System.out.println(a.getKey() + "  =  " + a.getValue());
-//        }
+        //        for (Entry a : attr.entrySet()) {
+        //            System.out.println(a.getKey() + "  =  " + a.getValue());
+        //        }
         if (attr.get("uri") instanceof String)
             uri = new URI((String) attr.get("uri"));
         else if (attr.get("uri") instanceof URI)
             uri = ((URI) attr.get("uri"));
         else if (attr.get("uri") == null) {
             System.out.println("NULL URI???");
-           // uri = new URI((String) attr.get("src"));
+            // uri = new URI((String) attr.get("src"));
         }
         if (uri!=null ) {
             try {
@@ -170,6 +176,8 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            } catch (OutOfMemoryError e ) {
+                outOfMemory(); 
             }
 
         }
@@ -230,14 +238,14 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         // rt.forceRender();
         // render();
         CameraUtility.encompass(this);
-         Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).threednote.setVisible(true);
-         selectionManager = SelectionManagerImpl.selectionManagerForViewer(this);
-         // a utility class which handles highlighting the selected component
-             selectionRenderer = new SelectionRenderer(selectionManager, this);
-             selectionRenderer.setVisible(true);
+        Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).threednote.setVisible(true);
+        //selectionManager = SelectionManagerImpl.selectionManagerForViewer(this);
+//        // a utility class which handles highlighting the selected component
+//        selectionRenderer = new SelectionRenderer(selectionManager, this);
+//        selectionRenderer.setVisible(true);
     }
 
-    
+
 
     /*
      * (non-Javadoc)
@@ -270,16 +278,16 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         return root;
     }
 
-    
-    
-    public void render() {
-       // System.out.println("render sync");
 
-         if ((lazy && isRendering)) {
-         //avoid deadlock
-             System.out.println("LL");
-         return;
-         }
+
+    public void render() {
+        // System.out.println("render sync");
+
+        if ((lazy && isRendering)) {
+            //avoid deadlock
+            System.out.println("LL");
+            return;
+        }
         renderImpl(getSize(), false);
         paintImmediately();
     }
@@ -297,22 +305,42 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
 
     public boolean formatNode(int width, int height, Context cx) {
         if (fixedw == 0 && fixedh==0){
-        int w1 = width - 5;
-        int h1 = height - 5;
-        bbox.setSize(w1, h1);
-        System.out.println("format" + bbox);
-        imageValid = false;
-        return true;// super.formatNode(w1, h1, cx);
+            int w1 = width - 5;
+            int h1 = height - 5;
+            bbox.setSize(w1, h1);
+            System.out.println("format" + bbox);
+            imageValid = false;
+            return true;// super.formatNode(w1, h1, cx);
         } else 
             return false;
     }
 
     public boolean paintNodeContent(Context cx, int start, int end) {
-
+        if (outOfMem)
+            return false;
         Graphics2D g = cx.g;
-
+        try {
         paint(g);
+        } catch (OutOfMemoryError e ) {
+            outOfMemory(); 
+            return false;
+        }
+
         return super.paintNodeContent(cx, start, end);
+    }
+
+
+
+    private void outOfMemory() {
+        outOfMem = true;
+        
+        getBrowser().event(new SemanticEvent(getBrowser(), Document.MSG_OPEN, Fab4.mv.getPreference("homepage", null)));
+        
+        System.gc();
+        JOptionPane.showMessageDialog(null, "Out of Memory, try to increase the memory by starting the program with the -Xmx512m option");
+
+        //getDocument().removeAllChildren();
+       // new LeafUnicode("Out of Memory, to load this model, try to increase the memory by starting the program with the -Xmx512m option", null, this.getDocument());
     }
 
     public void paint(Graphics g) {
@@ -331,7 +359,7 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
             } else if (!upToDate)
                 synchronized (renderAsyncLock) {
                     renderAsyncLock.notify();
-                   render();
+                    render();
                 }
         }
 
@@ -351,15 +379,15 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     private int metric;
 
     public void run() {
-//       
+        //       
     }
-    
-    
+
+
     private void loadNew() {
         if (uri!=null ) {
             try {
                 this.setSgc(Readers.read(new Input(uri.toURL())));
-                
+
                 CameraUtility.encompass(this);
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -419,7 +447,7 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         return background;
     }
 
-    
+
     public boolean eventBeforeAfter(AWTEvent e, Point rel) {
         if (e instanceof SemanticEvent) {
             SemanticEvent se = (SemanticEvent) e;
@@ -434,7 +462,7 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
         return super.eventBeforeAfter(e, rel);
     }
 
-   
+
 
     public void setBackground(Color c) {
         backgroundExplicitlySet = c != null;
@@ -563,30 +591,41 @@ public class SoftViewerLeaf extends Leaf implements Runnable, Viewer {
     }
 
     public void close() {
-        
+
+       // selectionRenderer.dispose();
+        try {
         Fab4.getMVFrame(getBrowser()).annoPanels.get(getBrowser()).threednote.setVisible(false);
-        rt.removeSceneGraphComponent(root);
+        if (root!=null)
+            rt.removeSceneGraphComponent(root);
         rt.removeViewer(this);
+        setSceneRoot(null);
+        setCameraPath(null);
+        setAuxiliaryRoot(null);
         ToolSystem toolSystem = ToolSystem.toolSystemForViewer(this);
+        SelectionManagerImpl.disposeForViewer(this);
         toolSystem.dispose();
+        } catch (Exception x) {
+            x.printStackTrace();
+        }
         cameraPath = null;
         auxiliaryRoot = null;
         root = null;
         bgImage = null;
         renderer = null;
+        
     }
 
 
-public void setSgc(SceneGraphComponent sgc) {
-    if (this.sgc!=null)
-        geometryNode.removeChild(this.sgc);
-    geometryNode.addChild(sgc);
-    this.sgc = sgc;
-}
+    public void setSgc(SceneGraphComponent sgc) {
+        if (this.sgc!=null)
+            geometryNode.removeChild(this.sgc);
+        geometryNode.addChild(sgc);
+        this.sgc = sgc;
+    }
     public SceneGraphComponent getSGC() {
         // TODO Auto-generated method stub
         return sgc;
     }
 
-  
+
 }
