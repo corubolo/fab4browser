@@ -93,7 +93,7 @@
     <!--argument>-single</argument-->
     <!--argument>-aserver=http://shaman.cheshire3.org/sword/annotations/</argument-->
     <!--argument>-asearchserver=http://shaman.cheshire3.org/services/annotations/</argument-->
-    <argument>http://bodoni.lib.liv.ac.uk/fab4/</argument>
+    <argument>http://code.google.com/p/fab4browser/</argument>
   </application-desc>
   <security>
     <all-permissions />
