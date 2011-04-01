@@ -261,7 +261,8 @@ public class JRealityMA extends MediaAdaptor {
 
     private void addGeometryActions(SceneGraphComponent geometryNode,
             final Navigator n, final SoftViewerLeaf v) {
-
+        if (geometryNode== null)
+            return;
         List<SceneGraphComponent> l = geometryNode.getChildComponents();
         for (SceneGraphComponent s : l) {
             if (s.getName().contains("PNE")) {

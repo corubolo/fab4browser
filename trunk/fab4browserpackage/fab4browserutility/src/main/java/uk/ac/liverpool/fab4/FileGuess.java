@@ -62,7 +62,7 @@ public class FileGuess {
 	 * here!!
 	 */
 	private static String[] mimeTypes = new String[] { "application/pdf",
-		"image/png", "image/gif", "office",
+		"image/png", "image/gif", "application/vnd.ms-powerpoint", 
 		"application/postscript", "application/vnd.x-doc",
 		"application/zip", "application/x-dvi", "image/jpeg", /* "font/truetype" */};
 	/**
