@@ -21,6 +21,11 @@ import org.apache.poi.ddf.EscherProperties;
 import org.apache.poi.hslf.model.autoshape.AutoShapeDefinition;
 import org.apache.poi.hslf.model.autoshape.AutoShapeParser;
 
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.geom.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -381,6 +386,75 @@ public final class AutoShapes {
 
         shapes[ShapeTypes.StraightConnector1] = new ShapeOutline(){
             public java.awt.Shape getOutline(Shape shape){
+                Path2D p = new Path2D.Float();
+                p.moveTo(0, 0);
+                p.lineTo( 21600, 21600);
+                
+                float width = (float) SimpleShape.DEFAULT_LINE_WIDTH;
+                if (shape instanceof SimpleShape) {
+
+                    SimpleShape r = (SimpleShape) shape;
+                    width = (float) r.getLineWidth();
+                }
+               
+                Rectangle anchor = shape.getAnchor();
+                p.setWindingRule(p.WIND_NON_ZERO);
+                
+//                if (shape.getEscherProperty(EscherProperties.LINESTYLE__LINEENDARROWHEAD)>0)
+//                    p.append(drawArrowFlat(
+//                            0, 0,  21600, 21600,width,
+//                            5, 5), false);
+//                if (shape.getEscherProperty(EscherProperties.LINESTYLE__LINESTARTARROWHEAD)>0)
+//                    p.append(drawArrowFlat(
+//                             21600, 21600,0, 0, width, 
+//                            5, 5), false);
+//                System.out.println(drawArrowFlat(
+//                             21600, 21600,0, 0, width, 
+//                            5, 5));
+                return p;
+            }
+        };
+        shapes[ShapeTypes.BentConnector3] = new ShapeOutline(){
+            public java.awt.Shape getOutline(Shape shape){
+                Path2D p = new Path2D.Float();
+                int k = shape
+                .getEscherProperty(
+                        (short) (EscherProperties.GEOMETRY__ADJUSTVALUE ), 10750);
+                p.moveTo(0, 0);
+                p.lineTo(k, 0);
+                p.lineTo( k, 21600);
+                
+                p.lineTo( 21600, 21600);
+//                Rectangle anchor = shape.getAnchor();
+//                
+//                float width = (float) SimpleShape.DEFAULT_LINE_WIDTH;
+//                if (shape instanceof SimpleShape) {
+//
+//                    SimpleShape r = (SimpleShape) shape;
+//                    width = (float) r.getLineWidth();
+//                }
+//
+//                if (shape.getEscherProperty(EscherProperties.LINESTYLE__LINEENDARROWHEAD)>0)
+//                    p.append(drawArrowFlat(
+//                            (int) anchor.getX()+  k,  (int) anchor.getY() +21600, (int) anchor.getX()+   21600,  (int) anchor.getX()+  21600 , width,
+//                           5, 5), false);
+//                if (shape.getEscherProperty(EscherProperties.LINESTYLE__LINESTARTARROWHEAD)>0)
+//                    p.append(drawArrowFlat(
+//                            0, 0,  k,
+//                             0,width,
+//                            5, 5), false);
+//                  
+//                
+                return p;
+            }
+        };
+        
+        
+       
+        
+        shapes[ShapeTypes.CurvedConnector3] = new ShapeOutline(){
+            public java.awt.Shape getOutline(Shape shape){
+                
                 return new Line2D.Float(0, 0, 21600, 21600);
             }
         };
@@ -405,5 +479,33 @@ public final class AutoShapes {
 
             }
         } catch (Exception e){}
+    }
+    private static int yCor(int len, double dir) {
+        return (int) (len * Math.cos(dir));
+    }
+
+    private static int xCor(int len, double dir) {
+        return (int) (len * Math.sin(dir));
+    }
+
+    
+    public static final Polygon drawArrowFlat (int xCenter, int yCenter,
+            int x, int y, float stroke, int i1, int i2) {
+        double aDir = Math.atan2(xCenter - x, yCenter - y);
+ 
+        Polygon tmpPoly = new Polygon();
+        if (i1 == 0) {
+            i1 = 8 + (int) (stroke);
+            i2 = 6 + (int) stroke;
+        } else {
+            i1 *= stroke + 1;
+            i2 *= stroke + 1;
+        }
+        tmpPoly.addPoint(x, y);
+        tmpPoly.addPoint(x + xCor(i1, aDir + .5), y + yCor(i1, aDir + .5));
+        //  tmpPoly.addPoint(x + xCor(i2, aDir), y + yCor(i2, aDir));
+        tmpPoly.addPoint(x + xCor(i1, aDir - .5), y + yCor(i1, aDir - .5));
+        tmpPoly.addPoint(x, y);
+        return tmpPoly;
     }
 }

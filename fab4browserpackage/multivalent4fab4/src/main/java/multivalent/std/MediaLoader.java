@@ -561,8 +561,9 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         file1.setOutput(out);
         file1.execute();
         String mime2 = out.toString().trim();
-        System.out.println("FileGuess returns: " + mime + " file command: " + mime2);
         is.close();
+        if (mime2.contains("application/octet-stream"))
+            mime2 = null;
         return mime2;
 
 
@@ -571,6 +572,7 @@ public class MediaLoader extends Behavior /* implements Runnable */{
     public static String computeMd5Uni(URI uri2, Cache c) throws IOException {
         InputUni iu = InputUni.getInstance(uri2, null, c);
         InputStream in = iu.getInputStream();
+
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -579,10 +581,13 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         byte[] b = new byte[1024];
         int a,d=0;
         String mime = null;
+        boolean first = true;
         while ((a = in.read(b)) != -1) {
             d+=a;
-            if (mime == null && a > FileGuess.minBytes)
+            if (first && mime == null && a > FileGuess.minBytes){
                 mime = FileGuess.guess(b, uri2.getPath());
+                first = false;
+                }
             // streaming files tend to be rather large
             if (isStreaming(mime) && d > 1024* 1024) 
                 break;
@@ -593,6 +598,17 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         MD5Cache.put(uri2, digest);
         in.close();
         iu.close();
+        if (iu.getSource() instanceof File && mime == null) {
+            File f = (File) iu.getSource();
+            FileMagic file1 = new FileMagic("--mime", "-b", f.getAbsolutePath());
+            StringWriter out = new StringWriter();
+            file1.setOutput(out);
+            file1.execute();
+            mime = out.toString().trim();
+            if (mime.contains("application/octet-stream"))
+                mime = null;
+        } 
+        
         return mime;
     }
 

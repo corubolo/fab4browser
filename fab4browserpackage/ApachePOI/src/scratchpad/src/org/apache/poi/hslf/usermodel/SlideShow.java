@@ -420,6 +420,7 @@ public final class SlideShow {
 			Notes notes = null;
 			// Slide.SlideAtom.notesId references the corresponding notes slide.
 			// 0 if slide has no notes.
+			if (slidesRecords[i]!=null) {
 			int noteId = slidesRecords[i].getSlideAtom().getNotesID();
 			if (noteId != 0) {
 				Integer notesPos = (Integer) slideIdToNotes.get(Integer.valueOf(noteId));
@@ -428,7 +429,7 @@ public final class SlideShow {
 				else
 					logger.log(POILogger.ERROR, "Notes not found for noteId=" + noteId);
 			}
-
+			}
 			// Now, build our slide
 			_slides[i] = new Slide(slidesRecords[i], notes, sas, slideIdentifier, (i + 1));
 			_slides[i].setSlideShow(this);
