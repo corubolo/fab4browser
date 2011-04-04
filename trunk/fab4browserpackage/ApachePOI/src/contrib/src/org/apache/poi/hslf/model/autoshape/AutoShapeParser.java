@@ -464,6 +464,7 @@ public class AutoShapeParser {
             case 'n':
                 c = paths.charAt(++i);
                 if (c == 'f') {
+                    path.setWindingRule(path.WIND_NON_ZERO);
                     // nofill
                 } else if (c == 's') {
                     nostroke = true;
