@@ -65,6 +65,7 @@ public class PPTService implements GenericService {
            ff.fontName = f.getFontName();
            ff.fontType = ""+ f.getFontType();
            ff.pitchAndFamily = ""+ f.getPitchAndFamily();
+           ll.add(ff);
 
         }
         return ll.toArray(new FontInformation[0]);

@@ -83,10 +83,25 @@ public class ThumbnailService {
     @WebMethod(exclude = true)
     public static void main(String[] args) throws MalformedURLException,
     IOException {
-        System.out.println("Starting Server");
-        String address = "http://localhost:8080/ThumbnailService";
-        javax.xml.ws.Endpoint.publish(address,
-                new ThumbnailService());
+        //        System.out.println("Starting Server");
+        //        String address = "http://localhost:8080/ThumbnailService";
+        //        javax.xml.ws.Endpoint.publish(address,
+        //                new ThumbnailService());
+
+        String[] testUris= new String[]{"http://www.ctan.org/tex-archive/info/lshort/english/lshort.pdf",
+                "http://www.schoolhistory.co.uk/year7links/1066/battlehastings.ppt"};
+
+        ThumbnailService ts = new ThumbnailService();
+        for (String test:testUris) {
+            FontInformation[] fi = ts.extractFontInformation(test);
+            System.out.println("\nFonts in " + test);
+            for (FontInformation f:fi){
+                System.out.print(f.fontName +" - ");
+                System.out.print(f.fontType+" - ");
+                System.out.println(f.charset+" - ");
+            } 
+            
+        }
 
     }
 
@@ -94,8 +109,8 @@ public class ThumbnailService {
 
     public ThumbnailService() {
     }
-    
-    
+
+
 
     /**
      * 
@@ -147,9 +162,9 @@ public class ThumbnailService {
             return new byte[0];
 
     }
-    
-    
-    
+
+
+
     /**
      * 
      * This method will generate a SVG representation of the object indicated by
@@ -191,12 +206,12 @@ public class ThumbnailService {
         while ((cc = br.read(buf))!=-1) {
             sb.append(buf, 0, cc);
         }
-        
-       return br.toString();
+
+        return br.toString();
 
     }
-    
-    
+
+
     /**
      * 
      * This method will extract the list of fonts used in the object indicated by
@@ -220,7 +235,7 @@ public class ThumbnailService {
         if (service == null)
             throw new IOException("Unsupported document type");
         return service.extractFontList(f.toURI(),f);
-        
+
     }
     /**
      * 
@@ -231,7 +246,7 @@ public class ThumbnailService {
      * 
      * @param objectIdentifier
      *            The Object identifier; currently, only URI are supported
-  
+
      * @return a String
      * @throws MalformedURLException
      * @throws IOException
@@ -247,7 +262,7 @@ public class ThumbnailService {
             throw new IOException("Unsupported document type");
 
         return service.extractXMLText(f.toURI(),f);
-        
+
     }
     /**
      * 
@@ -299,7 +314,7 @@ public class ThumbnailService {
             return new byte[0];
 
     }
-    
+
     /**
      * 
      * This method will generate a SVG representation of the object indicated by
@@ -341,12 +356,12 @@ public class ThumbnailService {
         while ((cc = br.read(buf))!=-1) {
             sb.append(buf, 0, cc);
         }
-        
-       return br.toString();
+
+        return br.toString();
 
     }
-    
-    
+
+
     /**
      * 
      * This method will extract the list of fonts used in the object indicated by
@@ -371,7 +386,7 @@ public class ThumbnailService {
         if (service == null)
             throw new IOException("Unsupported document type");
         return service.extractFontList(f.toURI(),f);
-        
+
     }
     /**
      * 
@@ -382,7 +397,7 @@ public class ThumbnailService {
      * 
      * @param objectIdentifier
      *            The Object identifier; currently, only URI are supported
-  
+
      * @return a String
      * @throws MalformedURLException
      * @throws IOException
@@ -399,15 +414,15 @@ public class ThumbnailService {
             throw new IOException("Unsupported document type");
 
         return service.extractXMLText(f.toURI(),f);
-        
+
     }
-    
+
     @WebMethod(exclude = true)
     private File cache(URI u) throws MalformedURLException, IOException {
         File f = cacheF .get(u);
         if (f == null){
-         f =  copyToTemp(u.toURL().openStream(),"thum",u.toString().toLowerCase().substring(u.toString().length() - 3));
-        cacheF.put(u, f);}
+            f =  copyToTemp(u.toURL().openStream(),"thum",u.toString().toLowerCase().substring(u.toString().length() - 3));
+            cacheF.put(u, f);}
         return f;
     }
     @WebMethod(exclude = true)
@@ -432,7 +447,7 @@ public class ThumbnailService {
         return f;
 
     }
-    
+
     @WebMethod(exclude = true)
     public static File copyToTemp(byte[] data, String st, String en)
     throws IOException {
@@ -447,7 +462,7 @@ public class ThumbnailService {
         f.deleteOnExit();
         FileOutputStream os = new FileOutputStream(f);
         os.write(data, 0, data.length);
-     
+
         os.close();
         return f;
 
@@ -463,7 +478,7 @@ public class ThumbnailService {
         return ba;
     }
 
-    
+
     @WebMethod(exclude = true)
     public String guessFormat(File f) throws IOException {
 
@@ -473,14 +488,14 @@ public class ThumbnailService {
         file1.execute();
         String mime = out.toString().trim();
         //String us = u.toString().toLowerCase();
-//        if (us.endsWith("jt"))
-//            return JTService.JT_MIME;
-//        if (mime.contains("application/octet-stream")){
-//            if (us.endsWith("ppt"))
-//                return PPTService.PPT_MIME;
-//            if (us.endsWith("pdf"))
-//                return PDFService.PDF_MIME;
-        
+        //        if (us.endsWith("jt"))
+        //            return JTService.JT_MIME;
+        //        if (mime.contains("application/octet-stream")){
+        //            if (us.endsWith("ppt"))
+        //                return PPTService.PPT_MIME;
+        //            if (us.endsWith("pdf"))
+        //                return PDFService.PDF_MIME;
+
         return mime;
         //        String us = u.toString().toLowerCase();
         //        if (us.endsWith("jt"))
@@ -491,7 +506,7 @@ public class ThumbnailService {
         //            return PDF_MIME;
         //        return null;
     }
-    
+
     @WebMethod(exclude = true)
     public String guessFormat(File f, URI u) throws IOException {
 
@@ -522,8 +537,8 @@ public class ThumbnailService {
 
     @WebMethod
     public URI resolve(String identifier) throws IOException {
-        if (!allowed.contains(identifier))
-            throw new IOException("Access is allowed only to a sample URI; install a local copy that will work on any URI. ");
+        //        if (!allowed.contains(identifier))
+        //            throw new IOException("Access is allowed only to a sample URI; install a local copy that will work on any URI. ");
         try {
             return new URI(identifier);
         } catch (URISyntaxException e) {
