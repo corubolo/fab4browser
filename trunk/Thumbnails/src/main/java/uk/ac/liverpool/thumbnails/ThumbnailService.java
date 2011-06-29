@@ -89,7 +89,8 @@ public class ThumbnailService {
         //                new ThumbnailService());
 
         String[] testUris= new String[]{"http://www.ctan.org/tex-archive/info/lshort/english/lshort.pdf",
-                "http://www.schoolhistory.co.uk/year7links/1066/battlehastings.ppt"};
+                "http://www.schoolhistory.co.uk/year7links/1066/battlehastings.ppt",
+                "file:///Users/fabio/Downloads/BackOfBill.pdf"};
 
         ThumbnailService ts = new ThumbnailService();
         for (String test:testUris) {
