@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,6 +79,56 @@ public class ToHtml {
             "dashed 2pt", BORDER_MEDIUM_DASHED, "dashed 2pt", BORDER_NONE,
             "none", BORDER_SLANTED_DASH_DOT, "dashed 2pt", BORDER_THICK,
             "solid 3pt", BORDER_THIN, "dashed 1pt");
+
+    private final String css = "    .excelDefaults {\n" + 
+    "        background-color: white;\n" + 
+    "        color: black;\n" + 
+    "        text-decoration: none;\n" + 
+    "        direction: ltr;\n" + 
+    "        text-transform: none;\n" + 
+    "        text-indent: 0;\n" + 
+    "        letter-spacing: 0;\n" + 
+    "        word-spacing: 0;\n" + 
+    "        white-space: normal;\n" + 
+    "        unicode-bidi: normal;\n" + 
+    "        vertical-align: 0;\n" + 
+    "        background-image: none;\n" + 
+    "        text-shadow: none;\n" + 
+    "        list-style-image: none;\n" + 
+    "        list-style-type: none;\n" + 
+    "        padding: 0;\n" + 
+    "        margin: 0;\n" + 
+    "        border-collapse: collapse;\n" + 
+    "        white-space: pre;\n" + 
+    "        vertical-align: bottom;\n" + 
+    "        font-style: normal;\n" + 
+    "        font-family: sans-serif;\n" + 
+    "        font-variant: normal;\n" + 
+    "        font-weight: normal;\n" + 
+    "        font-size: 10pt;\n" + 
+    "        text-align: right;\n" + 
+    "}\n" + 
+    "\n" + 
+    ".excelDefaults td {\n" + 
+    "        padding: 1px 5px;\n" + 
+    "        border: 1px solid silver;\n" + 
+    "}\n" + 
+    "\n" + 
+    ".excelDefaults .colHeader {\n" + 
+    "        background-color: silver;\n" + 
+    "        font-weight: bold;\n" + 
+    "        border: 1px solid black;\n" + 
+    "        text-align: center;\n" + 
+    "        padding: 1px 5px;\n" + 
+    "}\n" + 
+    "\n" + 
+    ".excelDefaults .rowHeader {\n" + 
+    "        background-color: silver;\n" + 
+    "        font-weight: bold;\n" + 
+    "        border: 1px solid black;\n" + 
+    "        text-align: right;\n" + 
+    "        padding: 1px 5px;\n" + 
+    "}";
 
     @SuppressWarnings({"unchecked"})
     private static <K, V> Map<K, V> mapFor(Object... mapping) {
@@ -159,12 +210,12 @@ public class ToHtml {
      * @throws Exception Exception we don't recover from.
      */
     public static void main(String[] args) throws Exception {
-        if(args.length < 2){
+        if(args.length < 1){
             System.err.println("usage: ToHtml inputWorkbook outputHtmlFile");
             return;
         }
 
-        ToHtml toHtml = create(args[0], new PrintWriter(new FileWriter(args[1])));
+        ToHtml toHtml = create(args[0], System.out );//new PrintWriter(new FileWriter(args[1])));
         toHtml.setCompleteHTML(true);
         toHtml.printPage();
     }
@@ -223,16 +274,16 @@ public class ToHtml {
 
         // First, copy the base css
         BufferedReader in = null;
+        in =  new BufferedReader(new StringReader(css));
+        String line;
         try {
-            in = new BufferedReader(new InputStreamReader(
-                    getClass().getResourceAsStream("excelStyle.css")));
-            String line;
             while ((line = in.readLine()) != null) {
                 out.format("%s%n", line);
             }
-        } catch (IOException e) {
-            throw new IllegalStateException("Reading standard css", e);
-        } finally {
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+               } finally {
             if (in != null) {
                 try {
                     in.close();
@@ -325,7 +376,7 @@ public class ToHtml {
 
     private void printSheets() {
         ensureOut();
-        Sheet sheet = wb.getSheetAt(0);
+        Sheet sheet = wb.getSheetAt(1);
         printSheet(sheet);
     }
 

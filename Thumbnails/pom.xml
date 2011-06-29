@@ -89,7 +89,7 @@
 		<dependency>
 			<groupId>uk.ac.liverpool</groupId>
 			<artifactId>JTViewer</artifactId>
-			<version>0.6</version>
+			<version>0.7.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
