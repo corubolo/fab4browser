@@ -261,6 +261,8 @@ public class PDFService implements GenericService {
             fi.fontType= fontDictionary.getNameAsString(COSName.SUBTYPE);          
 
             String baseFont= fontDictionary.getNameAsString(COSName.BASE_FONT);
+            if (baseFont == null)
+                continue;
             if (Arrays.binarySearch(standard14, baseFont)>=0)
                 continue;
             COSDictionary fontDescriptor = (COSDictionary) fontDictionary.getDictionaryObject(COSName.FONT_DESC);
