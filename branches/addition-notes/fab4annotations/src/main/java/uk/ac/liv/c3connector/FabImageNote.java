@@ -127,7 +127,9 @@ public class FabImageNote extends Behavior {
 
 	int tw,th;
 
-	private String title = DistributedPersonalAnnos.author;
+	///SAM changed it to userid, since in my experiment names are anonymous:
+	private String title = DistributedPersonalAnnos.userid; //DistributedPersonalAnnos.author;
+	///
 
 	public Node getContent() { return win_; }
 

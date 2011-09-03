@@ -189,7 +189,8 @@ set	STARTUP-geom	640x700@200,0
 set	DEFINE-geom	600x300@400,100
 set	<HELP>-geom	500x400@400,375
 #set	homedir		file:/
-set	homepage	systemresource:/sys/About.html
+#set	homepage	systemresource:/sys/About.html
+set	homepage	http://hypatia.cs.ualberta.ca/CoRAL/exp1/intro.html
 #set	cachedir	///
 set	developer	true
 # cachecheck = never | once | always

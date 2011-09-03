@@ -50,6 +50,7 @@ import uk.ac.liverpool.fab4.PersonalAnnos;
 
 public class CitationInfoNote extends Behavior{
 
+	//test2
 //	VFrame win_ ;
 //	JDialog dialog ;
 	DocumentInfoRequester docInfoRequester;
@@ -76,10 +77,11 @@ public class CitationInfoNote extends Behavior{
 		String url = doc.getURI().toString();
 		try{		
 			needed = DistributedPersonalAnnos.askIfUrlLacksBibDoiKeywords(url);
-			if(!needed.equals("11")){
+//			if(!needed.equals("11")){
 				//while( Authenticator.running );
 				docInfoRequester = new DocumentInfoRequester(/*this, Fab4.getMVFrame(getBrowser())*/ null, true, /*uri,*/needed);
-			}
+//				docInfoRequester.setVisible(true);
+//			}
 			
 			boolean sthGiven = false;
 			if(DocumentInfoRequester.title != null){				
@@ -182,10 +184,10 @@ public class CitationInfoNote extends Behavior{
 	}
 	
 	public void setVisible(boolean vis){
-		if(vis)
+//		if(vis)
 			docInfoRequester.setVisible(true);
-		else
-			docInfoRequester.setVisible(false);
+		/*else
+			docInfoRequester.setVisible(false);*/
 	}
 
 	public boolean isModified(){

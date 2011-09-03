@@ -640,7 +640,8 @@ public class FabNote extends Behavior {
 		gs.setBackground(Colors.getColor(getAttr("background"), defbg_));
 		// font...
 		if (FabNote.FONT_TEXT == null)
-		    FabNote.FONT_TEXT = NFont.getInstance("Sans", NFont.WEIGHT_NORMAL,
+			////SAM it was 'Sans' I changed it to Arial
+		    FabNote.FONT_TEXT = NFont.getInstance("Arial", NFont.WEIGHT_NORMAL,
                         NFont.FLAG_EXPANDED, 14);
 		gs.setFont(FabNote.FONT_TEXT);
 		ss.put("note", gs);
@@ -677,6 +678,11 @@ public class FabNote extends Behavior {
 		//only for rest server add the positive/negative/... 
 		if(DistributedPersonalAnnos.currentServer == Servers.REST){
 		
+			/*createUI("separator", "separate", new SemanticEvent(getBrowser(), 
+					FabNote.MSG_SHOW, null //win_
+					, this, null)
+					null
+					, body, "RateAnno2", false);*/
 			
 		createUI("label", "-------------------", /*new SemanticEvent(getBrowser(), 
 				FabNote.MSG_SHOW, null //win_
@@ -757,8 +763,10 @@ public class FabNote extends Behavior {
 		gsR.setForeground(Colors.getColor(getAttr("foreground"), Color.BLACK));
 		gsR.setBackground(Colors.getColor(getAttr("background"), Color.CYAN));
 		// font...
-		NFont rateFont = NFont.getInstance("Sans", NFont.WEIGHT_LIGHT,
+		///SAM changed "Sans" to "Arial"
+		NFont rateFont = NFont.getInstance("Arial", NFont.WEIGHT_LIGHT,
                 NFont.FLAG_EXPANDED, 14);
+		///
 		
 		gsR.setFont(rateFont);
 		ss.put("hb", gs);
@@ -893,8 +901,8 @@ public class FabNote extends Behavior {
 	private StringBuffer getStringContent() {
 		StringBuffer csb = new StringBuffer(2000);
 		///SAM
-//		doc_.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
-		ed.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
+		doc_.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
+//		ed.clipboardBeforeAfter(csb);  // doesn't save character attributes yet
 		///
 		String trim = csb.substring(0).trim();
 		csb.setLength(0);

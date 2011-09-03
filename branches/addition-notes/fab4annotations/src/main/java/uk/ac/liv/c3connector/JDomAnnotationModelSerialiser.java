@@ -79,7 +79,7 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 			}
 		}
 		///
-		//am.printModel(System.out, am);
+		//am.printModel(System.out, am);		
 
 		return am;
 	}
@@ -123,13 +123,16 @@ public class JDomAnnotationModelSerialiser implements AnnotationModelSerialiser 
 		r.addContent(new Element("location").addContent(new Element("page_number").addContent(""+s.pageNumber)));
 		
 		///SAM
-		if(DistributedPersonalAnnos.currentServer == Servers.REST){
+//		if(DistributedPersonalAnnos.currentServer == Servers.REST){
+		
+		try{		
 			r.addContent(new Element("replyToSth").addContent(s.isReplyToSth()?"true":"false"));
 			r.addContent(new Element("replyToFabId").addContent(s.replyToFabId));
 			r.addContent(new Element("uniqueid").addContent(s.getUniqueId()!=null ? String.valueOf(s.getUniqueId()) : null ));
 			r.addContent(new Element("replyTo").addContent(s.getReplyTo()!=null ? String.valueOf(s.getReplyTo()) : null ));
 			r.addContent(new Element("resourceId").addContent(s.getResourceId()!=null ? String.valueOf(s.getResourceId()) : null ));
-		}
+//		}
+		}catch(Exception e){}
 		///
 		
 		Document d = new Document();

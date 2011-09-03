@@ -261,7 +261,12 @@ public interface AnnotationServerConnectorInterface {
 	
 	public int updateResourceBib(String url, String doi, String keywords);
 	
-	public String[] retreiveAllTags(String url);
+	/**
+	 * returns a tag cloud, considering sameUrl, sameBib or sameDigest
+	 * @param url
+	 * @return
+	 */
+	public HashMap<String,Integer> retreiveAllTags(String url);
 	
 	
 //	public void storePageAccess(String url, String username);

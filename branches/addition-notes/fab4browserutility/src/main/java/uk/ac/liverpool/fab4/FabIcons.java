@@ -74,6 +74,11 @@ public class FabIcons {
 	public ImageIcon ICOBMK;
 
 	public Image FAB4ICO;
+	
+	///SAM
+	public Image CORALICO;
+	public Image CORALWIDEICO;
+	////
 
 	public ImageIcon HAVENOTES_ICO;
 
@@ -284,6 +289,20 @@ public class FabIcons {
 		} catch (Exception e) {
 			FAB4ICO = null;
 		}
+		
+		///SAM
+		try {
+			CORALICO = ImageIO.read(c.getResource("/res/coral.png"));
+		} catch (Exception e) {
+			CORALICO = null;
+		}
+		try {
+			CORALWIDEICO = ImageIO.read(c.getResource("/res/coral3.png"));
+		} catch (Exception e) {
+			CORALWIDEICO = null;
+		}
+		///
+		
 		try {
 			NOTE_ICO_CALL = new ImageIcon(c.getResource("/res/comment_add.png"));
 		} catch (Exception e) {

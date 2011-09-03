@@ -210,7 +210,11 @@ DocInfo di = (DocInfo)arg;
 		} else if (SystemEvents.MSG_GO_HOME==msg) {  // maybe just use "openDocument $pref.HOMEPAGE"
 			//URL url = getClass().getResource("/sys/HomePage.html");
 			URI uri = null; //Multivalent.HOMEPAGE;
-			String home = getPreference("homepage", "systemresource:/sys/About.html");
+			
+			///SAM changed homepage
+//			String home = getPreference("homepage", "systemresource:/sys/About.html");
+			String home = getPreference("homepage", "http://hypatia.cs.ualberta.ca/CoRAL/exp1/intro.html");
+			
 			// maybe just let scripts handle this
 			//System.out.println("*** HOMEPAGE = "+home);
 			try { uri = new URI("file:/dir/con.txt").resolve(home); } catch (URISyntaxException badhome) { uri = Multivalent.HOME_SITE; }

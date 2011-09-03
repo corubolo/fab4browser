@@ -98,6 +98,10 @@ public class PersonalAnnos extends Behavior {
 	protected static final String MSG_COPY = "CopyNotes";
 
 	public static boolean useRemoteServer = true;
+	
+	///SAM
+	public static boolean authenticated = false;
+	///
 
 	public SWListModel user = new SWListModel();
 

@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Map;
 
+import com.pt.awt.NFont;
+
 import phelps.awt.Colors;
 import phelps.lang.Booleans;
 import phelps.lang.Integers;
@@ -141,6 +143,11 @@ public class TagResource extends Behavior{
 		gs.setForeground(Colors.getColor(getAttr("foreground"), deffg_));
 		gs.setBackground(Colors.getColor(getAttr("background"), defbg_));
 		// font...
+		///SAM
+		if (FabNote.FONT_TEXT == null)
+			////SAM it was 'Sans' I changed it to Arial
+		    FabNote.FONT_TEXT = NFont.getInstance("Arial", NFont.WEIGHT_NORMAL,
+                        NFont.FLAG_EXPANDED, 14);
 		gs.setFont(FabNote.FONT_TEXT);
 		ss.put("note", gs);
 		gs = new CLGeneral();

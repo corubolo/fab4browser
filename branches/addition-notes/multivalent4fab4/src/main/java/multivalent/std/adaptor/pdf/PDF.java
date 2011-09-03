@@ -2320,6 +2320,8 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				doctype = null;*/
 		}
 		
+
+		try{
 		
 		if( doctype != null && doctype.equals("pdf")){
 			INode text = (INode) rootcontent.findBFS("text");
@@ -2348,7 +2350,8 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 					int firstleafsizeofline = 0;
 					
 					if(leaf instanceof LeafText){								
-						firstleafsizeofline = ((LeafUnicode)leaf).baseline;
+//						firstleafsizeofline = ((LeafUnicode)leaf).baseline;
+						firstleafsizeofline = ((LeafText)leaf).baseline;
 					}					
 					
 					boolean endswithdot = false;
@@ -2356,10 +2359,10 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 					
 					while( leaf != null){							
 						if(leaf instanceof LeafText){								
-							thisline += ((LeafUnicode)leaf).getText() +" ";
-							if(((LeafUnicode)leaf).baseline != firstleafsizeofline 
-									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline+errIn1Line 
-									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline-errIn1Line)
+							thisline += ((LeafText)leaf).getText() +" ";
+							if(((LeafText)leaf).baseline != firstleafsizeofline 
+									&& ((LeafText)leaf).baseline != firstleafsizeofline+errIn1Line 
+									&& ((LeafText)leaf).baseline != firstleafsizeofline-errIn1Line)
 								allsamesize = false;
 						}
 						
@@ -2399,7 +2402,7 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 						}
 					}
 					
-					System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
+//					System.out.println("last section found: "+lastSectionsFound[0]+","+lastSectionsFound[1]);
 					
 //					while( leaf != null){
 						/*if(leaf instanceof LeafText){ //find section
@@ -2475,8 +2478,14 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				
 			}
 		}
+		
+		}
+		catch(Exception e){
+			System.out.println("cannot extract pdf info or text snapshot (partially or completely)");
+			e.printStackTrace();			
+		}
 //		textsnapshot += "</body> </html>";
-		System.out.println("\n"+textsnapshot+"\n\n\n");
+//		System.out.println("\n"+textsnapshot+"\n\n\n");
 		
 		info.put("lines", textsnapshot);
 		info.put("section1", lastSectionsFound[0]);
@@ -2522,17 +2531,18 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 				doctype = "html";			
 			else if((rootcontent = docrootcontent.findBFS("pdf"/*,null,null,2*/)) != null)
 				doctype = "pdf";
-			else if((rootcontent = docrootcontent.findBFS("Loading..."/*,null,null,2*/)) != null){
-				info.put("loading", "true");
-				return info;
-			}
-				
 			/*if( rootcontent != null && docrootcontent. == -1 ) //if 'pdf' or 'html' are not direct childs
 				doctype = null;*/
+			else if((rootcontent = docrootcontent.findBFS("Loading..."/*,null,null,2*/)) != null){
+				info.put("loading", "");
+				return info;
+			}
 		}
 		
 		if(doctype == null || doctype.equals("html"))
 			return null;
+		
+		try{
 		
 		if( doctype.equals("pdf")){
 			INode text = (INode) rootcontent.findBFS("text");
@@ -2586,7 +2596,7 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 					while( leaf != null){							
 						if(leaf instanceof LeafText){								
 							thisline += ((LeafUnicode)leaf).getText() +" ";
-							if(((LeafUnicode)leaf).baseline != firstleafsizeofline 
+							if(((LeafText)leaf).baseline != firstleafsizeofline 
 									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline+errIn1Line 
 									&& ((LeafUnicode)leaf).baseline != firstleafsizeofline-errIn1Line)
 								allsamesize = false;
@@ -2692,6 +2702,10 @@ System.out.println("ends="+ends.size()+", starts="+starts.size()+", swaps="+swap
 	    	info.put("fullAuthorInfo",authorsFullInfo);
 		}
 
+		}
+		catch(Exception e){
+			System.out.println("abstract and other paper info cannot be extracted (partially or completely)");
+		}
     	
     	return info;
     }
