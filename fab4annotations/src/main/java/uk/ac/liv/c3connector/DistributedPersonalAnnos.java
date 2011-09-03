@@ -19,6 +19,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -37,8 +38,10 @@ import java.security.KeyPair;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -47,6 +50,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.concurrent.Semaphore;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -70,6 +74,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.FontUIResource;
 
 import multivalent.Behavior;
 import multivalent.Browser;
@@ -170,22 +175,23 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 
 	/** Default publishing service URL */
 	public static String publishServiceURL = 
-//		"http://localhost:8888/publishService"; 
-		"http://hypatia.cs.ualberta.ca:8888/publishService";
+		"http://localhost:8888/publishService"; 
+//		"http://hypatia.cs.ualberta.ca:8888/publishService";
 		// 
 		//"http://shaman.cheshire3.org/sword/annotations/";
 
 	/** Default search service URL */
 	public static String searchServiceURL = 
-//		"http://localhost:8888/searchService"; 
-		"http://hypatia.cs.ualberta.ca:8888/searchService"; 
+		"http://localhost:8888/searchService"; 
+//		"http://hypatia.cs.ualberta.ca:8888/searchService"; 
 		// 
 		//"http://shaman.cheshire3.org/services/annotations";
 	
 	private static String RESTpublish =
-//		"http://localhost:8888/publishService";
+//				"http://localhost:8888/publishService";
 //		"http://hypatia.cs.ualberta.ca:8880/publishService";
 		"http://hypatia.cs.ualberta.ca:8888/publishService";
+
 	private static String RESTsearch = 
 //		"http://localhost:8888/searchService";
 //		"http://hypatia.cs.ualberta.ca:8880/searchService";
@@ -271,6 +277,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	Component[] toDisableIfNotOwn;
 
 	Thread loadThread;
+	
+	///SAM
+	Thread docInfo;
+	///
 
 	protected Object[] prevSelected = null;
 
@@ -664,6 +674,14 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			JMenu em = new JMenu("Export...");
 			JMenu im = new JMenu("Import...");
 			JMenu dm = new JMenu("Delete...");
+			
+			///SAM make its font consistent with menuitems:
+			Font regular = new FontUIResource("Arial", Font.PLAIN, 12);
+			em.setFont(regular);
+			im.setFont(regular);
+			dm.setFont(regular);
+			///
+			
 			JMenuItem ila = new JMenuItem("Private annotation database");
 			JMenuItem ipr = new JMenuItem("Preferences and identity");
 			JMenuItem ipr2 = new JMenuItem("Preferences");
@@ -1498,6 +1516,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		prevSelected = null;
 		final boolean mod = false;
 		final String uri = mvDocument.getURI().toString();
+		
+		///SAM
+		Fab4.setUrl(uri);
+		///
+		
 		final Browser br = getBrowser();
 		final URI urio = mvDocument.getURI();
 		Fab4 f = Fab4.getMVFrame(br);
@@ -1515,10 +1538,21 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		
 		///SAM
 //		Document doc = (Document) getBrowser().getRoot().findBFS("content");
+		boolean aut = false;
 		if(currentServer == Servers.REST && useRemoteServer){
-			boolean aut = authenticate();
-			if( aut )
-				askForDocumentInfo(mvDocument.getURI().toString(), mvDocument);
+			aut = authenticate();	
+			if( aut ){
+				//final String urii = ;
+				//final Document doc = docc;
+				docInfo = new Thread(new Runnable() {					
+					public void run() {
+						if(docInfo == Thread.currentThread() && loadThread == null)
+							askForDocumentInfo(mvDocument.getURI().toString(), mvDocument);
+					}
+				});
+				docInfo.start();
+					
+			}
 		}
 		///
 		
@@ -1744,10 +1778,14 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					}
 
 				}
-			}
+				///SAM
+				loadThread = null;
+				///
+			}			
 		});
 		sem.acquireUninterruptibly();
 		loadThread.start();
+				
 	}
 
 	/* Support methods and classes */
@@ -1812,7 +1850,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			
 			if (newlay instanceof FabNote) {
 				FabNote fabNote = (FabNote) newlay;
-				if (fa.getSigner() != null) {
+				///SAM commented this for anonymity (names are encoded, very ugly)
+/*				if (fa.getSigner() != null) {
 					if (fa.getVerificationStatus() != 1) {
 						fabNote.setFontTitle(VFrame.FONT_TITLE_LIGHT);
 						fabNote.setTitle("(" + fa.getSigner().getName() + ")");
@@ -1822,7 +1861,9 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					} else
 						fabNote.setTitle(fa.getSigner().getName());
 
-				} else {
+				} else*/ 
+				///
+				{
 					fabNote.setFontTitle(VFrame.FONT_TITLE_LIGHT);
 					///SAM
 					if(currentServer == Servers.RDF_SWORD ) ///
@@ -2371,7 +2412,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 			setWasToLocalOrRemote();			
 			while (ras == null) //TODO once I encountered an exception here, may be because of ras. how come ras is sometimes null?
 				getRemote();
-			String[] tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
+			/*String[] tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
 			if(tags == null || tags.length == 0){
 				tags = new String[1];
 				tags[0] = "No tags yet assigned";
@@ -2381,7 +2422,89 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 					getBrowser(),
 					tags,
 					"This resource's tags",
+					JOptionPane.INFORMATION_MESSAGE);*/
+			
+			HashMap<String,Integer> tags = ras.retreiveAllTags(br.getCurDocument().uri.toString());
+			if(tags == null || tags.size() == 0){
+				tags = new HashMap<String,Integer>();
+//				tags.put("No tags",0);
+			}
+			
+			int segments = 7; //xx-small, x-small, small, medium, large, x-large, xx-large
+			ArrayList<String> sortedTags = new ArrayList<String>();
+			HashMap<Integer,ArrayList<String>> distinctVals = new HashMap<Integer, ArrayList<String>>();
+			
+			for(String label : tags.keySet()){
+				Integer val = tags.get(label);
+				if(!distinctVals.containsKey(val)){
+					distinctVals.put(val, new ArrayList<String>());
+				}				
+				distinctVals.get(val).add(label);				
+			}
+			
+			Integer[] valArr = new Integer[distinctVals.keySet().size()];
+			int ii = 0;
+			for(Integer in : distinctVals.keySet()){
+				valArr[ii] = in;
+				ii++;
+			}
+			Arrays.sort(valArr); //ascending
+			
+			String beginWith = "<html><body><h3>First 10 (or less) frequent tags:</h3>" +
+			"<div style=\"font-weight: normal;\">"; 
+			String message = "";
+			for(int i = 0, j = 0 ; (j < 10 && i < valArr.length) ; i++){
+				ArrayList<String> labels = distinctVals.get(valArr[i]);
+				for(String label : labels){
+					message = label + " ("+valArr[i]+")<br/>" + message;
+					j++;
+				}
+			}
+			//here, message only contains tags
+			
+			message += "</div>";
+			
+			if(tags.size() == 0)
+				message = "<html><body><h3>No tags</h3>";
+			else
+				message = beginWith + message;
+			
+			message += "</body></html>";
+			
+			
+			JOptionPane
+			.showMessageDialog(
+					getBrowser(),
+					message,
+					"This resource's tags",
 					JOptionPane.INFORMATION_MESSAGE);
+			
+		}
+		else if(msg != null && msg.equals("loginRequest")){
+			authenticate();
+			Fab4.getMVFrame(br).updateAnnoIcon();
+			Fab4.getMVFrame(br).setStatus("");
+		}
+		else if(msg != null && msg.equals("logoutRequest")){
+			pass = null;
+			PersonalAnnos.authenticated = false;
+			//TODO : go to private mode
+			Fab4.getMVFrame(br).updateAnnoIcon();
+			Fab4.getMVFrame(br).setStatus("");
+		}
+		else if(msg != null && msg.equals("registerRequest")){
+			try{
+				Authenticator au = new Authenticator(this, Fab4.getMVFrame(getBrowser()), true, Authenticator.SIGNUP);
+				au.setAlwaysOnTop(true);		
+				au.setVisible(true);
+				au.setLocationRelativeTo(null);
+			}catch(Exception e){
+				System.out.println("****** caught:");
+				e.printStackTrace();
+				System.out.println("******");
+			}
+			Fab4.getMVFrame(br).updateAnnoIcon();
+			Fab4.getMVFrame(br).setStatus("");
 		}
 		///
 		else if (Document.MSG_OPENED == msg) {
@@ -2956,6 +3079,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		//for (int i = 0; i < m.length; i++) {
 		FabAnnotation fa = (FabAnnotation) m[m.length-1];
 		Behavior replyTo = fa.getBehaviour();
+		if(replyTo == null)
+			return;
 		//}
 		//create an anchored note
 		
@@ -2978,8 +3103,8 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 		}
 		hh.put("replyOnFabId", fa.getAnn().getId());
 		
-		hh.put("px", replyTo.getValue("x"));
-		hh.put("py", replyTo.getValue("y"));
+		hh.put("px", (replyTo.getValue("x") == null) ? "" : replyTo.getValue("x"));
+		hh.put("py", (replyTo.getValue("y") == null) ? "" : replyTo.getValue("y"));
 		///needed: f.getCurDoc().getLayer(Layer.PERSONAL) I thought I can use: (TODO: make sure)
 		Document mvDocument = (Document) getBrowser().getRoot().findBFS("content");
 		Layer personal = mvDocument.getLayer(Layer.PERSONAL);
@@ -3024,6 +3149,11 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				msg = "Going to public zone canceled.. Returning to private annotations.";
 			}
 			
+			if(pass != null && !pass.equals("")){
+				PersonalAnnos.authenticated = true;
+				Fab4.setUsername(userid);
+			}
+			
 		}catch(Exception e){
 			System.out.println("******** caught:");
 			e.printStackTrace();
@@ -3051,8 +3181,10 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	
 	private Integer addPaperInfo(String uri, Document content){
 		HashMap<String,String> paperInfo = PDF.getPaperInfoAsaPublication(content);
+				
+//		while(Authenticator.running);
 		
-		if(ras == null){
+		while(ras == null){
 			try {
 				ras = generateRemote();			
 			} catch (InstantiationException e) {
@@ -3063,15 +3195,27 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 				e.printStackTrace();
 			}
 		}
-		if( ras == null ){
+		/*if( ras == null ){
 			return -1;
-		}
+		}*/
 		
-		if(paperInfo != null && paperInfo.containsKey("loading")){
+		int a = 0;
+		while(paperInfo != null && paperInfo.containsKey("loading")){
+			if(a==0){
+				System.out.println("thread: loading...");
+				a++;
+			}
+			paperInfo = PDF.getPaperInfoAsaPublication(content);
+		}
+		System.out.println("**Thread finished!**");
+		
+		/*if(paperInfo != null && paperInfo.containsKey("loading")){
 			return -2;
-		}
+		}*/
 		
-		if(paperInfo == null || !paperInfo.containsKey("title") || paperInfo.get("title") == null || paperInfo.get("title").length() == 0){
+		if(paperInfo == null || !paperInfo.containsKey("title") || 
+				paperInfo.get("title") == null || paperInfo.get("title").length() == 0
+				|| paperInfo.get("title").length() > 160){
 			/*int id = requestBibOrUrl(uri);
 			if( id > 0 )
 				return id;
@@ -3184,7 +3328,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 * @return HashMap<String,String> where key: state, values is: 0: ok, 1: wrong pass, 2:no such user, 3: exception
 	 *  exactly as taken from the server
 	 */
-	public HashMap<String,String> isAuthenticated(String username, String pass){
+	public static HashMap<String,String> isAuthenticated(String username, String pass){
 		/*if( DistributedPersonalAnnos.copyToPub )
 			return ras.authenticated(username, pass);
 		else*/ 
@@ -3227,7 +3371,7 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	 * @return status code: 0: ok, return 1: username exists, return 2: email already taken, 3: exception
 	 *  exactly as taken from the server (unless remote server is not available: returns 3)
 	 */
-	public int createNewUser(String username, String passw, String email, String name, String des, String aff){
+	public static int createNewUser(String username, String passw, String email, String name, String des, String aff){
 		
 		//assumption: private annos don't need user being added. so, here we assume only ras
 		/*if( was != null )
@@ -3299,37 +3443,46 @@ public class DistributedPersonalAnnos extends PersonalAnnos {
 	}*/
 	
 	public void askForDocumentInfo(String uri, Document doc){
+		/*final String uri = urii;
+		final Document doc = docc;
+		new Thread(new Runnable() {
+			
+			public void run() {*/
+				
+				int pn = doc.getAttr(Document.ATTR_PAGE) != null ? Integer
+						.parseInt(doc.getAttr(Document.ATTR_PAGE)) : 1; //only for first page
+				if( !bibForDocument.containsKey(uri) && PersonalAnnos.useRemoteServer
+						&& pn <= 1){	//FIXME what about copy to server?		
+					try {
+						/*HashMap<URI,Integer> info = requestBibOrUrl(new URI(uri));
+						Set<URI> key = info.keySet();
+						URI newUrl;
+						
+							newUrl = new URI(uri);
+						
+						Integer resourceId = null;
+						for(URI k : key ){
+							newUrl = k;
+							resourceId = info.get(k);
+						}
+						uri = newUrl.toString(); //FIXME, why no setter?
+		*/				URI temp = new URI(uri); // to check correctness of the url
+//						Integer resourceId = requestBibOrUrl(new URI(uri),doc);
+						Integer resourceId = addPaperInfo(uri,doc);
+						//even if resourceId==-1, because we don't want to bother user
+						if(resourceId != -2) //if not loading
+							bibForDocument.put(uri,resourceId);
+						//else, try again later
+					} catch (URISyntaxException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}													
+			/*}
+		}, "addPaperThread").run();*/
 		
 		///SAM
-		int pn = doc.getAttr(Document.ATTR_PAGE) != null ? Integer
-				.parseInt(doc.getAttr(Document.ATTR_PAGE)) : 1; //only for first page
-		if( !bibForDocument.containsKey(uri) && PersonalAnnos.useRemoteServer
-				&& pn <= 1){	//FIXME what about copy to server?		
-			try {
-				/*HashMap<URI,Integer> info = requestBibOrUrl(new URI(uri));
-				Set<URI> key = info.keySet();
-				URI newUrl;
-				
-					newUrl = new URI(uri);
-				
-				Integer resourceId = null;
-				for(URI k : key ){
-					newUrl = k;
-					resourceId = info.get(k);
-				}
-				uri = newUrl.toString(); //FIXME, why no setter?
-*/				URI temp = new URI(uri); // to check correctness of the url
-//				Integer resourceId = requestBibOrUrl(new URI(uri),doc);
-				Integer resourceId = addPaperInfo(uri,doc);
-				//even if resourceId==-1, because we don't want to bother user
-				if(resourceId != -2) //if not loading
-					bibForDocument.put(uri,resourceId);
-				//else, try again later
-			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
 	}
 	
 	public static String getCurrentRemoteServer(){

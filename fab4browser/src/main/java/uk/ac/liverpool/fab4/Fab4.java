@@ -24,6 +24,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Point;
@@ -68,6 +72,7 @@ import javax.imageio.ImageReader;
 import javax.imageio.spi.IIORegistry;
 import javax.imageio.spi.ImageReaderSpi;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -92,14 +97,25 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileView;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.BorderUIResource.CompoundBorderUIResource;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.text.JTextComponent;
+
+import ca.ualberta.cs.corallook.CoRALFrame;
+import ca.ualberta.cs.corallook.CoRALLAF;
+import ca.ualberta.cs.corallook.ListenerForFab4FrameChange;
+
 
 import jbig2dec.LibJPEGNestedReaderSPI;
 
@@ -148,7 +164,10 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     public static Multivalent mv;
 
-    public static final String title = "Fab4";
+    ///SAM commented:
+    //public static final String title = "Fab4";
+    //replaced with:
+    public static final String title = "CoRAL Viewer";
 
     public final static String dest = PersonalAnnos.dest;
 
@@ -293,7 +312,17 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             System.setProperty("apple.awt.fileDialogForDirectories", "true");
         } else
             try {
+            	
+            	Fab4.changeUIProps();
+            	
                 UIManager.setLookAndFeel(lookAndFeel);
+//                UIManager.put("InternalFrame.activeTitleBackground", Color.red);
+
+                ///SAM: want to change the color of title bar
+                /*UIManager.put("activeCaption", new javax.swing.plaf.ColorUIResource(  
+                		Color.black));  
+                		setDefaultLookAndFeelDecorated(true);*/  
+                ///
             } catch (Exception e) {
             }
             Fab4.fr = new Vector<Fab4>(1);
@@ -336,6 +365,137 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     }
 
+    ///SAM 
+    /**
+     * a copy of main, as a static method, to be called by CoRALFrame 
+     */
+    public static Fab4 getFab4Frame(String[] args) {
+
+
+        String appId = "uk.ac.uliv.Fab4Browser";
+
+
+        for (String a : args)
+            if (a.compareTo("-single")==0)
+                Fab4.singleInstance = true;
+        // single instance (with or without webstart)
+        if (Fab4.singleInstance){
+            try {
+                JUnique.acquireLock(appId);
+            } catch (AlreadyLockedException e) {
+                for (String a : args)
+                    if (a.startsWith("-")) {
+                    } else {
+                        String target = completeAddress(a);
+                        JUnique.sendMessage(appId, target);
+                    }
+                System.out.println("sent message; done");
+                return null;
+            }
+            JUnique.releaseLock(appId);
+
+        }
+
+        Fab4.prefs = new FabPreferences();
+        String target = null;
+        for (String a : args)
+            if (a.startsWith("-aserver=")) {
+                a = a.replaceAll("-aserver=", "").trim();
+                Fab4.prefs.wsserver = a;
+                System.out.println("Override sword server: "+ a);
+
+            } else if (a.startsWith("-aserveruser=")) {
+                a = a.replaceAll("-aserveruser=", "").trim();
+                System.out.println("Override sword user: "+ a);
+                Fab4.prefs.wsuser = a;
+            } else if (a.startsWith("-aserverpass=")) {
+                a = a.replaceAll("-aserverpass=", "").trim();
+                System.out.println("Override sword password: "+ a);
+                Fab4.prefs.wspass = a;
+
+            } else if (a.startsWith("-asearchserver=")) {
+                a = a.replaceAll("-asearchserver=", "").trim();
+                System.out.println("Override SRU server: "+ a);
+                Fab4.prefs.searchaddress = a;
+
+            } else if (!a.startsWith("-"))
+                target = a;
+
+        String lookAndFeel = "com.jgoodies.looks.plastic.PlasticXPLookAndFeel";
+        if (System.getProperty("os.name").indexOf("Mac") >= 0) {
+            lookAndFeel = "apple.laf.aqualaf";
+            UIManager.put("OptionPane.border",
+                    new javax.swing.plaf.BorderUIResource.EmptyBorderUIResource(
+                            15 - 3, 24 - 3, 20 - 3, 24 - 3));
+            UIManager.put("OptionPane.messageAreaBorder",
+                    new javax.swing.plaf.BorderUIResource.EmptyBorderUIResource(0,
+                            0, 0, 0));
+            UIManager.put("OptionPane.buttonAreaBorder",
+                    new javax.swing.plaf.BorderUIResource.EmptyBorderUIResource(
+                            16 - 3, 0, 0, 0));
+            // UIManager.put("TabbedPane.useSmallLayout", Boolean.TRUE);
+            Color MAC_OS_SELECTED_ROW_COLOR = new Color(0.24f, 0.50f, 0.87f);
+            UIManager.put("List.selectionBackground", MAC_OS_SELECTED_ROW_COLOR);
+            UIManager.put("List.selectionForeground", Color.WHITE);
+            UIManager.put("Table.selectionBackground", MAC_OS_SELECTED_ROW_COLOR);
+            UIManager.put("Table.selectionForeground", Color.WHITE);
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("apple.awt.fileDialogForDirectories", "true");
+        } else
+            try {
+//            	UIManager.put("JFrame.activeTitleBackground", Color.red);
+                UIManager.setLookAndFeel(lookAndFeel);
+//                UIManager.put("JFrame.activeTitleBackground", Color.red);
+                ///SAM: want to change the color of title bar
+                /*UIManager.put("activeCaption", new javax.swing.plaf.ColorUIResource(  
+                		Color.black));  
+                		setDefaultLookAndFeelDecorated(true);*/  
+                ///
+            } catch (Exception e) {
+            }
+            Fab4.fr = new Vector<Fab4>(1);
+            final Fab4 f = new Fab4();
+
+            if (Fab4.singleInstance)
+                try {
+                    JUnique.acquireLock(appId, f);
+                } catch (AlreadyLockedException e1) {
+                    for (String a : args)
+                        if (a.startsWith("-")) {
+                        } else {
+                            target = completeAddress(a);
+                            JUnique.sendMessage(appId, target);
+                        }
+                }
+                Multivalent.getLogger().setLevel(Level.CONFIG);
+                System.out
+                .println("Distributed annotation extension:" + hasDistrAnno());
+
+                // !!!!!!!!!!!!!!!!!!!!!
+                Multivalent.getInstance().getGenreMap().put("mp3", "MP3AudioMA");
+
+
+                target = completeAddress(target);
+
+                try {
+                    f.populate(target);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                //		Iterator<String> i = Multivalent.getInstance().prefKeyIterator();
+                //		Set<Entry<String, String>> s = Multivalent.getInstance().getGenreMap().entrySet();
+                //		while (i.hasNext())
+                //			System.out.println(i.next());
+                //		for (Entry<String, String>e : s)
+                //			System.out.println(e.getKey() + " "+ e.getValue());
+
+        return f;
+    }
+
+    
+    
     private static String completeAddress(String target) {
         if (target != null)
             if (!target.startsWith("http") && !target.startsWith("ftp")&& !target.startsWith("file")
@@ -384,6 +544,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     public JMenu mlens = null;
 
     public JMenu mhelp = null;
+    
+    ///SAM
+    public JMenu mmeta = null;
+    public JMenu mreports = null;
+    ///
 
     TopButtobBar topButtonBar = null;
 
@@ -396,6 +561,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     private JMenuItem msave = null, neww = null, open = null;
 
+    ///SAM
+    private JMenuItem login_out = null, register = null;
+    private JMenuItem tags = null;
+    ///
+    
     private JMenuItem mcut = null, mcopy = null, mclear = null;
 
     private JButton np, pp, fp, lp;
@@ -424,7 +594,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     public JMenu manno = null;
     
     ///SAM
-	public JMenu mtag = null;
+//	public JMenu mtag = null;
 	///
 
     public JMenu mcopyed = null;
@@ -458,6 +628,23 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 	///SAM
 	JMenuItem mtagThis;
 	JMenuItem mshowTags;
+	JMenuItem mcitation;
+	JMenuItem mviewbibtex;
+	JMenuItem mrate;
+	JMenuItem mviewrate;
+	JMenuItem mpaperreport;
+	JMenuItem mmyreport;
+	JMenuItem mreporter;
+	
+	private static String username;
+	private static String url;
+	
+	public static void setUsername(String u){
+		username = u;
+	}
+	public static void setUrl(String u){
+		url = u;
+	}
 	///
 
     JMenuItem msearch;
@@ -896,7 +1083,24 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     	ap.citeInfo.setEnabled(PersonalAnnos.useRemoteServer);
     	mtagThis.setEnabled(PersonalAnnos.useRemoteServer);
     	mshowTags.setEnabled(PersonalAnnos.useRemoteServer);
-        
+    	mcitation.setEnabled(PersonalAnnos.useRemoteServer);
+    	mviewbibtex.setEnabled(PersonalAnnos.useRemoteServer);
+    	mrate.setEnabled(PersonalAnnos.useRemoteServer);
+    	mviewrate.setEnabled(PersonalAnnos.useRemoteServer);
+    	mpaperreport.setEnabled(PersonalAnnos.useRemoteServer);
+    	
+    	//if authenticated
+    	register.setEnabled(!PersonalAnnos.authenticated);
+    	mmyreport.setEnabled(PersonalAnnos.authenticated);
+    	
+    	if(PersonalAnnos.authenticated){
+    		login_out.setText("Log out");
+//    		register.setEnabled(false);    	
+    	}
+    	else{
+    		login_out.setText("Log in");    		
+    	}
+    	
     	/*try {
 			Class disAnnos = Class.forName("uk.ac.liv.c3connector.DistributedPersonalAnnos");			
 			String curServer = (String) disAnnos.getDeclaredMethod("getCurrentRemoteServer").invoke(null);
@@ -1250,7 +1454,9 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             jJMenuBar.add(getMbookmarks());
             jJMenuBar.add(getManno());
             ///SAM
-			jJMenuBar.add(getTagmenu());
+            jJMenuBar.add(getMmeta());
+            jJMenuBar.add(getMreport());
+//			jJMenuBar.add(getTagmenu());
 			///
             jJMenuBar.add(getMcopyed());
             jJMenuBar.add(getMstyle());
@@ -1259,6 +1465,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             jJMenuBar.add(getMTools());
 
             jJMenuBar.add(getMhelp());
+            
+            
+            /*UIManager.
+            jJMenuBar.setFont(new FontUIResource("Serif",Font.ITALIC,12));*/
+                        
         }
         return jJMenuBar;
     }
@@ -1368,15 +1579,15 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
   ///SAM
 	/** This method initializes Tag menu */
-	private JMenu getTagmenu() {
+	/*private JMenu getTagmenu() {
 		mtag = new JMenu("Tags");
-		mtag.setMnemonic(java.awt.event.KeyEvent.VK_A);
+		//mtag.setMnemonic(java.awt.event.KeyEvent.VK_A);
 //		JMenuItem tm;
 		
 		mtagThis = new JMenuItem("Tag this page");
 		
 		//mtagThis.setIcon(FabIcons.getIcons().NOTE_ICO);
-		mtagThis.setMnemonic(java.awt.event.KeyEvent.VK_M);
+		//mtagThis.setMnemonic(java.awt.event.KeyEvent.VK_M);
 		mtagThis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//if (annotationExtension)
@@ -1384,10 +1595,10 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 							"uk.ac.liv.c3connector.TagResource", null,
 							new HashMap<String, Object>(1), getCurDoc()
 							.getLayer(Layer.PERSONAL));
-				/*else
+				else
 					Behavior.getInstance("Note", "multivalent.std.Note", null,
 							new HashMap<String, Object>(1), getCurDoc()
-							.getLayer(Layer.PERSONAL));*/
+							.getLayer(Layer.PERSONAL));
 
 			}
 		});
@@ -1402,7 +1613,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 		mshowTags.setEnabled(true);
 		mtag.add(mshowTags);
 		return mtag;
-	}
+	}*/
 ///
     
     void publishAnnos() {
@@ -1413,6 +1624,17 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
     ///SAM
 	void showAllTags(){
 		getCurBr().eventq("showAllTags", "");	
+	}
+	
+	void login_or_out(){
+		if(login_out.getText().equals("Log in"))
+			getCurBr().eventq("loginRequest", "");
+		else
+			getCurBr().eventq("logoutRequest", "");
+	}
+	
+	void registerReq(){
+		getCurBr().eventq("registerRequest", "");
 	}
 	///
 	
@@ -1628,7 +1850,8 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     /** This method initializes File menu */
     private JMenu getMfile() {
-        mfile = new JMenu("File");
+    	
+        mfile = new JMenu("File");        
         mfile.setMnemonic(java.awt.event.KeyEvent.VK_F);
         mfile.setName("menufile");
         //		neww = new JMenuItem();
@@ -1663,6 +1886,19 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         setAction(mprint, "print");
         mfile.add(mprint);
         mfile.addSeparator();
+        ///SAM
+        //login/logout - register
+        
+        login_out = new JMenuItem("Log in");
+        setAction(login_out, "login_or_out");
+        mfile.add(login_out);
+        
+        register = new JMenuItem("Register");
+        setAction(register, "registerReq");
+        mfile.add(register);
+        
+        mfile.addSeparator();
+        ///
         mclose = new JMenuItem("Close Tab", new ImageIcon(getClass()
                 .getResource("/res/close.png")));
         mclose.setMnemonic(java.awt.event.KeyEvent.VK_C);
@@ -1674,10 +1910,157 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
         setAction(mexit, "closeWindow");
 
         mfile.add(mexit);
-
+        
         return mfile;
     }
+    
+    /** This method initializes Metadata menu */
+    private JMenu getMmeta() {
+        mmeta = new JMenu("Metadata");
+//        mfile.setMnemonic(java.awt.event.KeyEvent.VK_F);
+        mmeta.setName("menumeta");        
+        mtagThis = new JMenuItem("Tag this page");
+		
+		//mtagThis.setIcon(FabIcons.getIcons().NOTE_ICO);
+		//mtagThis.setMnemonic(java.awt.event.KeyEvent.VK_M);
+		mtagThis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//if (annotationExtension)
+					Behavior.getInstance("tag",
+							"uk.ac.liv.c3connector.TagResource", null,
+							new HashMap<String, Object>(1), getCurDoc()
+							.getLayer(Layer.PERSONAL));
+				/*else
+					Behavior.getInstance("Note", "multivalent.std.Note", null,
+							new HashMap<String, Object>(1), getCurDoc()
+							.getLayer(Layer.PERSONAL));*/
 
+			}
+		});
+		
+		mmeta.add(mtagThis);
+		
+		mshowTags = new JMenuItem("Show all tags");
+		
+		//mtagThis.setIcon(FabIcons.getIcons().NOTE_ICO);
+		
+		setAction(mshowTags, "showAllTags");
+		mshowTags.setEnabled(true);
+		mmeta.add(mshowTags);
+
+        mmeta.addSeparator();
+        
+        mcitation = new JMenuItem("Provide citation info");
+        mcitation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {						
+					HashMap hh = new HashMap<String, Object>(1);
+					Layer layer = getCurDoc().getLayer(Layer.PERSONAL);
+					Behavior beh = layer.getBehavior("bibtex");
+					/*if( beh != null){
+						beh.restore(null, beh.getAttributes(), layer);
+					}
+					else*/{
+//					hh.put("callout", "");
+						Behavior.getInstance("bibtex",
+							"uk.ac.liv.c3connector.CitationInfoNote", null, hh, getCurDoc().getLayer(Layer.PERSONAL));
+					}
+					updateAnnoIcon();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+        mmeta.add(mcitation);
+        
+        mviewbibtex = new JMenuItem("View bibtex");
+        mviewbibtex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("not implemented");
+			}
+		});
+        mmeta.add(mviewbibtex);
+        
+        mmeta.addSeparator();
+        mrate = new JMenuItem("Rate this resource");
+        mrate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try{
+					
+					HashMap hh = new HashMap<String, Object>(1);
+					Layer layer = getCurDoc().getLayer(Layer.PERSONAL);
+					Behavior beh = layer.getBehavior("rate");
+					if( beh != null){
+						beh.restore(null, beh.getAttributes(), layer);
+					}
+					else{
+//					hh.put("callout", "");
+						Behavior.getInstance("rate",
+							"uk.ac.liv.c3connector.RateResource", null, hh, getCurDoc().getLayer(Layer.PERSONAL));
+					}
+					updateAnnoIcon();
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+        mmeta.add(mrate);
+        
+        mviewrate = new JMenuItem("View aggregated rating");
+        mviewrate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("not implemented");
+			}
+		});
+        mmeta.add(mviewrate);
+        
+        return mmeta;
+    }
+
+    
+    private JMenu getMreport(){
+        mreports = new JMenu("Reports");
+//        mfile.setMnemonic(java.awt.event.KeyEvent.VK_F);
+        mreports.setName("menureports");
+
+        
+        
+        mreporter = new JMenuItem("Open the CoRAL Reporter");
+        mpaperreport = new JMenuItem("Open this paper's reports page");
+        mmyreport = new JMenuItem("Open your reports page");
+        
+        final JFrame f = this;
+        mreporter.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				CoRALLAF.openCoRALHome(f);
+			}				
+		});
+        
+        mmyreport.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				CoRALLAF.openUserProfile(username, f);
+			}				
+		});
+        
+        mpaperreport.addActionListener(new ActionListener() {			
+			public void actionPerformed(ActionEvent e) {
+				CoRALLAF.openPaperView(url, f);
+			}				
+		});
+        
+        mreports.add(mreporter);
+        mreports.add(mpaperreport);
+        mreports.add(mmyreport);
+		
+		
+		//setAction(mshowTags, "showAllTags");
+		                
+        return mreports;
+    }
+    
     /** This method initializes Help menu */
     private JMenu getMhelp() {
         if (mhelp == null) {
@@ -1905,6 +2288,11 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
             p2.add(getMediaControl(), BorderLayout.EAST);
             //getMediaControl();
             pstatus.add(p2, BorderLayout.CENTER);
+            
+            ///SAM change color
+            //add buttomrighttoolbar
+            ///
+            
             pstatus.validate();
 
         }
@@ -2403,10 +2791,49 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
 
     /** initialises the Fab4 frame */
     void initialize() {
-        setContentPane(getJContentPane());
-        setJMenuBar(getJJMenuBar());
+    	
+    	///SAM: add another frame, to show coral's frame
+    	
+    	JPanel contentPane = new JPanel();
+    	
+    	JPanel logo_menu = new JPanel();
+    	
+        ImageIcon icon = new ImageIcon(FabIcons.getIcons().CORALWIDEICO);
+        JLabel coralLabel = new JLabel(icon);
+//        CoRALFrame internal = new CoRALFrame(coralLabel);
+        
+        coralLabel.setBackground(Color.black);
+        contentPane.setLayout(new BorderLayout());
+        logo_menu.setLayout(new BorderLayout());
+        logo_menu.add(coralLabel, BorderLayout.LINE_START);
+        contentPane.setBackground(Color.black);
+        logo_menu.setBackground(Color.black);
+//        contentPane.setBorder(new LineBorder(Color.black));
+//    	contentPane.add(internal);//, BorderLayout.CENTER);
+    	setContentPane(contentPane);
+    	
+    	///
+    	logo_menu.add(getJJMenuBar(), BorderLayout.SOUTH);
+    	contentPane.add(logo_menu, BorderLayout.NORTH);
+    	contentPane.add(getJContentPane(), BorderLayout.CENTER);
+        /*internal.setContentPane(getJContentPane());
+        internal.setJMenuBar(getJJMenuBar());*/
+    	
+    	///Not SAM (was this:)
+    	/*setContentPane(getJContentPane());
+        setJMenuBar(getJJMenuBar());*/
+        ///
+    	
         setTitle(Fab4.title);
+        
+        ///SAM
+//        this.addComponentListener(new ListenerForFab4FrameChange(internal));
+//        internal.pack();      
+        //internal.setVisible(true);
+        ///
+        
         pack();
+        
 
         Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
         s.width-=100;
@@ -2428,11 +2855,137 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
                 setBounds(p.x, p.y, s.width, s.height);
             else
                 setLocationRelativeTo(null);
+            
+            ///SAM
+//            internal.setSize(getSize());
+            /*internal.setPreferredSize(new Dimension(s.width+CoRALFrame.REL_WIDTH, s.height+CoRALFrame.REL_HEIGHT));
+            coralLabel.setPreferredSize(new Dimension(s.width, coralLabel.getHeight()));
+//            internal.setSize(s.width-50, s.height-50);
+            
+            if (p!=null)
+                internal.setBounds(p.x+CoRALFrame.REL_LOC_X, p.y+CoRALFrame.REL_LOC_Y, s.width+CoRALFrame.REL_WIDTH, s.height+CoRALFrame.REL_HEIGHT);
+            else
+            	internal.setLocation(CoRALFrame.REL_LOC_X, CoRALFrame.REL_LOC_Y);*/
+            ///
+            
+            /*internal.resize(s.width, s.height);
+            coralLabel.setPreferredSize(new Dimension(s.width, coralLabel.getHeight()));
+            if (p!=null)
+                internal.resize(p.x, p.y, s.width, s.height);
+            else
+            	internal.setLocation(CoRALFrame.REL_LOC_X, CoRALFrame.REL_LOC_Y);*/
+            
             validate();
             setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             addWindowListener(this);
+            
+//            internal.validate();
+//            internal.setVisible(true);
+            
+            ///SAM change fonts:
+            
+            ///
+            
             setVisible(true);
     }
+    
+    ///SAM change fonts:
+    public static void changeUIProps(){
+/*    	UIManager.put("Button.font",sf);
+    	UIManager.put("ToggleButton.font",sf);
+    	UIManager.put("RadioButton.font",sf);
+    	UIManager.put("CheckBox.font",sf);
+    	UIManager.put("ColorChooser.font",sf);
+    	UIManager.put("ToggleButton.font",sf);
+    	UIManager.put("ComboBox.font",sf);
+    	UIManager.put("ComboBoxItem.font",sf);
+    	UIManager.put("InternalFrame.titleFont",sf);
+    	UIManager.put("Label.font",sf);
+    	
+    	UIManager.put("List.font",sf);*/
+    	/*Font bigBoldSerif = new FontUIResource("Serif", Font.BOLD, 15);
+    	Font regularSerif = new FontUIResource("Serif", Font.PLAIN, 13);
+    	Font boldSerif = new FontUIResource("Serif", Font.BOLD, 12);*/
+    	
+    	Font regular = new FontUIResource("Arial", Font.PLAIN, 12);    	
+    	Font bigBold = new FontUIResource("Arial", Font.BOLD, 15);
+    	Font bold = new FontUIResource("Arial", Font.BOLD, 12);
+    	
+    	ColorUIResource blue = new ColorUIResource(99,130,191);
+    	ColorUIResource black = new ColorUIResource(51, 51, 51);
+    	ColorUIResource gray_lightlyblue = new ColorUIResource(230, 230, 232);
+    	ColorUIResource gray_blue = new ColorUIResource(230, 230, 240);
+    	
+    	Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+    	Border raisedbevel = BorderFactory.createRaisedBevelBorder();
+    	Border emptyborder = BorderFactory.createEmptyBorder();
+    	Border empty_inset = BorderFactory.createEmptyBorder(3, 6, 3, 6);
+    	Border loweredetched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
+    
+    	CompoundBorderUIResource deepborder = new CompoundBorderUIResource(loweredbevel, emptyborder);
+    	CompoundBorderUIResource raisedborder = new CompoundBorderUIResource(raisedbevel, emptyborder);
+    	CompoundBorderUIResource etchedborder = new CompoundBorderUIResource(loweredetched, emptyborder);
+    	CompoundBorderUIResource etchedborder_inset = new CompoundBorderUIResource(loweredetched, empty_inset);
+    	
+    	CompoundBorderUIResource raisedborder_inset = new CompoundBorderUIResource(raisedbevel, empty_inset);
+    	CompoundBorderUIResource deepborder_inset = new CompoundBorderUIResource(loweredbevel, empty_inset);
+    	
+    	//menu
+    	
+    	UIManager.put("MenuBar.font",bigBold);
+    	UIManager.put("Menu.font",bigBold);
+    	UIManager.put("MenuItem.font",regular);
+    	UIManager.put("CheckBoxMenuItem.font",regular);
+    	UIManager.put("menuText",blue);
+    	
+    	//labels, 
+    	UIManager.put("Label.font",bold);
+    	
+    	//text fields, and areas    	
+    	UIManager.put("TextField.font",regular);
+    	UIManager.put("TextField.border",deepborder);
+    	UIManager.put("PasswordField.border",deepborder);
+    	UIManager.put("TextArea.font",regular);
+    	
+    	//button
+    	UIManager.put("Button.font",regular);
+    	UIManager.put("Button.background",gray_lightlyblue);
+    	UIManager.put("ToggleButton.background",gray_blue);
+    	UIManager.put("Button.border", etchedborder_inset);
+    	UIManager.put("ToggleButton.border", etchedborder_inset);
+    	
+    	//panel
+    	UIManager.put("Panel.background", gray_lightlyblue);
+    	
+    	//drop down
+    	UIManager.put("ComboBox.font",regular);
+    	
+    	//radio button
+    	UIManager.put("RadioButton.font",regular);
+    	
+    	/*UIManager.put("RadioButtonMenuItem.font",sf);
+    	UIManager.put("CheckBoxMenuItem.font",sf);
+    	UIManager.put("PopupMenu.font",sf);
+    	UIManager.put("OptionPane.font",sf);
+    	UIManager.put("Panel.font",sf);
+    	UIManager.put("ProgressBar.font",sf);
+    	UIManager.put("ScrollPane.font",sf);
+    	UIManager.put("Viewport",sf);
+    	UIManager.put("TabbedPane.font",sf);
+    	UIManager.put("TableHeader.font",sf);
+    	UIManager.put("TextField.font",sf);
+    	UIManager.put("PasswordFiled.font",sf);
+    	UIManager.put("TextArea.font",sf);
+    	UIManager.put("TextPane.font",sf);
+    	UIManager.put("EditorPane.font",sf);
+    	UIManager.put("TitledBorder.font",sf);
+    	UIManager.put("ToolBar.font",sf);
+    	UIManager.put("ToolTip.font",sf);
+    	UIManager.put("Tree.font",sf);*/
+
+//    	config.applyLookAndFeel(config.LOOK_AND_FEEL);
+    	} 
+    ///
 
     void memgc() {
         System.gc();
@@ -2564,7 +3117,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
                 ///SAM changed homepage:
                 Fab4.mv.putPreference("homepage",
                 //"http://bodoni.lib.liv.ac.uk/fab4/About.html");
-                		"http://hypatia.cs.ualberta.ca/CoRAL/exp1/");
+                		"http://hypatia.cs.ualberta.ca/CoRAL/exp1/intro.html");
                 ///
                 Fab4.JAVA_WS = true;
             } catch (ClassNotFoundException e) {
@@ -2576,7 +3129,12 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
                     getRootPane()));
         }
         initialize();
-        setIconImage(FabIcons.getIcons().FAB4ICO);
+        ///SAM commented:
+        //setIconImage(FabIcons.getIcons().FAB4ICO);
+        //replaced with:
+        setIconImage(FabIcons.getIcons().CORALICO);//.getScaledInstance(64, 64, Image.SCALE_AREA_AVERAGING));
+        
+        
         ptabs.addTab("---", null, createBrowser(), null);
 
         String ta = target == null ? Fab4.mv.getPreference("homepage", null)

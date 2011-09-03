@@ -1,5 +1,6 @@
 package ca.ualberta.cs.RESTServerConnector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,6 +45,9 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	private WebResource resourceBibInfoWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/resources/info/needed");
 	private WebResource resourceBibInfoUpdateWR = client.resource(DistributedPersonalAnnos.publishServiceURL+"/resources/info/update");
 	private WebResource searchTagsWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/allTags");
+	private WebResource tagCloudUrlWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/tagsByUrl");
+	private WebResource tagCloudBibWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/tagsByBib");
+	private WebResource tagCloudDigestWR = client.resource(DistributedPersonalAnnos.searchServiceURL+"/tagsByDigest");
 	
 	public String IDSearch(String ID) {
 		// TODO Auto-generated method stub
@@ -93,14 +97,14 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 			return deleteAnnotationByUniqueId(annoid, user, secret);
 		}
 		catch(Exception e){ //if id is fabid
-			List<JAXBBean> reqArr = wrapRequest("annoIdFab", id, "username", user, "secret", secret);
+			List<JAXBBean> reqArr = wrapRequest("annoIdFab", id, "username", user, "password", secret);
 			String response = (String) delWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 			return Integer.parseInt(response);
 		}
 	}	
 	
 	private int deleteAnnotationByUniqueId(Integer id, String user, String secret) { //deleteby unique id
-		List<JAXBBean> reqArr = wrapRequest("annoId", String.valueOf(id), "username", user, "secret", secret);
+		List<JAXBBean> reqArr = wrapRequest("annoId", String.valueOf(id), "username", user, "password", secret);
 		String response = (String) delWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 		return Integer.parseInt(response);
 	}
@@ -167,7 +171,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 
 	public int postAnnotation(String annotation, String user, String secret) throws Exception {
 		
-		List<JAXBBean> reqArr = wrapRequest("anno", annotation, "username", user, "secret", secret);		
+		List<JAXBBean> reqArr = wrapRequest("anno", annotation, "username", user, "password", secret);		
 		String response = (String) publishWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 		return Integer.parseInt(response);
 	}
@@ -184,7 +188,8 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 
 	public int updateAnnotation(String replacement, String user, String secret)
 			throws Exception {
-		List<JAXBBean> reqArr = wrapRequest("updated", replacement, "username", user, "secret", secret);		
+		
+		List<JAXBBean> reqArr = wrapRequest("updated", replacement, "username", user, "password", secret);		
 		String response = (String) updateWR.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
 		return Integer.parseInt(response);
 	}
@@ -208,7 +213,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 	public HashMap<String, String> authenticated(String username, String pass) {
 		HashMap<String,String> ret = new HashMap<String, String>();
 		
-		List<JAXBBean> reqArr = wrapRequest("username", username, "pass", pass, "", "");
+		List<JAXBBean> reqArr = wrapRequest("username", username, "password", pass, "", "");
 		
 		GenericType<Collection<JAXBBean>> resType = new GenericType<Collection<JAXBBean>>() {};
 		Collection<JAXBBean> respons ;//= null;
@@ -310,9 +315,6 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return annos;
 	}
 
-	/**
-	 * @return String, '0' if no bib available , otherwise 'ab': a and b can be 0 or 1. a: 0 means no DOI in DB, 1: DOI available. b: talks about existence of keywords
-	 */
 	public String urlLacksBibDoiKeywords(String url) {
 		if(url.startsWith("file:/"))
 			url = DistributedPersonalAnnos.userid + ":" + url;
@@ -327,7 +329,7 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		return Integer.parseInt(response);
 	}
 
-	public String[] retreiveAllTags(String url) {
+	/*public String[] retreiveAllTags(String url) {
 		if(url.startsWith("file:/"))
 			url = DistributedPersonalAnnos.userid + ":" + url;
 		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
@@ -338,8 +340,112 @@ public class RESTAnnotationServer implements AnnotationServerConnectorInterface{
 		for(int i = 0 ; i < res.size() ; i++ )
 			tags[i] = res.get(i).getKey();
 		return tags;
-	}
+	}*/
 
+	public HashMap<String,Integer> retreiveAllTags(String url) {
+		if(url.startsWith("file:/"))
+			url = DistributedPersonalAnnos.userid + ":" + url;
+		GenericType<Collection<JAXBBean>> genericXmlType = new GenericType<Collection<JAXBBean>>() {};
+		HashMap<String,Integer> cloud = new HashMap<String, Integer>();
+		List<JAXBBean> res = new ArrayList<JAXBBean>();
+		
+		if(DistributedPersonalAnnos.sameUrl){
+	        Collection<JAXBBean> response = tagCloudUrlWR.type("text/plain").accept("application/json").post(genericXmlType, url);			
+			res.addAll((List<JAXBBean>) response);
+		}
+		if(DistributedPersonalAnnos.sameBib){
+	        Collection<JAXBBean> response = tagCloudBibWR.type("text/plain").accept("application/json").post(genericXmlType, url);			
+	        res.addAll((List<JAXBBean>) response);
+		}
+		if(DistributedPersonalAnnos.sameDigest){
+	        Collection<JAXBBean> response = tagCloudDigestWR.type("text/plain").accept("application/json").post(genericXmlType, url);			
+	        res.addAll((List<JAXBBean>) response);
+		}
+		
+		for(JAXBBean bean : res){
+			try{
+				cloud.put(bean.getKey(), Integer.parseInt(bean.getVal()));
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+		}		
+		return cloud;
+	}
 	
+	
+	
+	public int requestFriendship(String requester, String pass, String requested){
+		WebResource webresource = client.resource(DistributedPersonalAnnos.publishServiceURL+"/friends/request");
+		List<JAXBBean> reqArr = wrapRequest("requester",requester, "password", pass, "requested", requested);		
+		String response = (String) webresource.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
+		return Integer.parseInt(response);
+	}
+	
+	public int acceptFriendship(String requester, String pass, String requested){
+		WebResource webresource = client.resource(DistributedPersonalAnnos.publishServiceURL+"/friends/accept");
+		List<JAXBBean> reqArr = wrapRequest("requester",requester, "password", pass, "requested", requested);		
+		String response = webresource.type("application/json").post(String.class, new GenericEntity<List<JAXBBean>> (reqArr){});
+		return Integer.parseInt(response);
+	}
+	
+	public String[] listFriendships(String username, String pass){
+		WebResource webresource = client.resource(DistributedPersonalAnnos.publishServiceURL+"/friends/listFriends");
+		List<JAXBBean> reqArr = wrapRequest("username",username, "password", pass, "", null);
+		GenericType<Collection<User>> genericXmlType = new GenericType<Collection<User>>() {};
+		Collection<User> response = webresource.type("application/json").accept("application/json").post(genericXmlType, new GenericEntity<List<JAXBBean>> (reqArr){});
+		List<User> res = (List<User>) response;
+		String[] friends = new String[res.size()];
+		for(int i = 0 ; i < res.size() ; i++ )
+			friends[i] = res.get(i).getUsername();
+		return friends;
+	}
+	
+	public String[] listRequests(String username, String pass){
+		WebResource webresource = client.resource(DistributedPersonalAnnos.publishServiceURL+"/friends/listRequests");
+		List<JAXBBean> reqArr = wrapRequest("username",username, "password", pass, "", null);
+		GenericType<Collection<User>> genericXmlType = new GenericType<Collection<User>>() {};
+		Collection<User> response = webresource.type("application/json").accept("application/json").post(genericXmlType, new GenericEntity<List<JAXBBean>> (reqArr){});
+		List<User> res = (List<User>) response;
+		String[] requests = new String[res.size()];
+		for(int i = 0 ; i < res.size() ; i++ )
+			requests[i] = res.get(i).getUsername();
+		return requests;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		String requester = "samaneh";
+		String pass = "sama";
+		String requested = "ramin";		
+		
+		RESTAnnotationServer rest = new RESTAnnotationServer();
+		
+		rest.createNewUser("ramin", "rama", "samaneh.bayat@gmail.com", "ramin b", "researcher", "RAD3");
+		rest.createNewUser("samaneh", "sama", "samaneh@ualberta.ca", "samaneh b", "student", "CS");
+		
+		int req = rest.requestFriendship(requester, pass, requested);
+		System.out.println("request returned code:"+req);
+		String[] requests = rest.listRequests(requested, "rama");
+		System.out.println("requests:");
+		for(String r: requests)
+			System.out.print(r);
+		System.out.println();
+		
+		System.out.println("Hit enter to accept friendship...");
+		System.in.read();
+		
+		int acc = rest.acceptFriendship(requester, "rama", requested);
+		System.out.println("accept returned code:"+acc);
+		String[] friends = rest.listFriendships(requested, "rama");
+		System.out.println(requested+"'s friendships:");
+		for(String r: friends)
+			System.out.print(r);
+		System.out.println();
+		friends = rest.listFriendships(requester, "sama");
+		System.out.println(requester+"'s friendships:");
+		for(String r: friends)
+			System.out.print(r);
+		System.out.println();
+	}
 
 }

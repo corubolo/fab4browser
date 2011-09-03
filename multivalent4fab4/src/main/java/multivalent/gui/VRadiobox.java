@@ -11,11 +11,14 @@
  */
 package multivalent.gui;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.util.Map;
+
+import javax.swing.plaf.FontUIResource;
 
 import multivalent.Context;
 import multivalent.INode;
@@ -99,7 +102,13 @@ public void paintNode(Rectangle docclip, Context cx) {
     Graphics2D g = cx.g;
     g.translate(dx,dy);
     //g.setColor(cx.foreground); if (getState()) g.fillPolygon(diamond_); else g.drawPolygon(diamond_);
-    g.setColor(cx.foreground); 
+    g.setColor(cx.foreground);
+    
+    ///SAM:
+    Font regular = new FontUIResource("Arial", Font.PLAIN, 12);
+    g.setFont(regular);    
+    ///
+    
     if (inside_) {
         g.setColor(darkGray); 
         g.fill(diamond_);

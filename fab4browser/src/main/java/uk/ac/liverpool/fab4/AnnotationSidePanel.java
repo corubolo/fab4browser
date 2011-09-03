@@ -158,7 +158,7 @@ public class AnnotationSidePanel extends JPanel {
 		cb.setToolTipText("Sort notes by:");
 		cb.setEditable(false);
 		JPanel t = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 1));
-		t.add(new JLabel("sort"));
+		t.add(new JLabel("sort "));
 		t.add(cb);
 		topp.add(BorderLayout.SOUTH, t);
 
@@ -401,6 +401,9 @@ class AnnoToolBar extends JToolBar {
 
 		} catch (Exception edd) {
 		}
+		
+		///SAM commented this:
+		/*
 		try {
                     Class.forName("uk.ac.liverpool.fab4.jreality.SceneNote");
                     create = new JButton("3d model note", FabIcons.getIcons().NOTE_ICO_CALL);
@@ -419,7 +422,8 @@ class AnnoToolBar extends JToolBar {
                     add(create);
 
             } catch (Exception edd) {
-            }
+            }*/
+		
 		JButton high = f.getSpanButton("Mark", "Highlight",
 				"multivalent.std.span.BackgroundSpan", false, null, FabIcons
 				.getIcons().ICOHIGHLIGHT);
@@ -432,13 +436,17 @@ class AnnoToolBar extends JToolBar {
 		high.setToolTipText("New comment on highlight");
 		high.setFont(nf);
 		add(high);
+		
+		
+		///SAM commented this:
+		/*
 		high = f.getSpanButton("New Citation note", "CitesSpanNote",
 				"uk.ac.liverpool.fab4.behaviors.CitesSpanNote", true, null,
 				FabIcons.getIcons().ICOCOM);
 		high.setToolTipText("New comment on highlight");
 		high.setFont(nf);
 		add(high);
-		
+		*/
 		///SAM
 		try {
 			//Class.forName("uk.ac.liv.c3connector.CalloutNote");
@@ -470,7 +478,7 @@ class AnnoToolBar extends JToolBar {
 				}
 			});
 			asp.rateResource.setFont(nf);
-			add(asp.rateResource);
+			//add(asp.rateResource);
 			
 			asp.tag = new JButton("Tag", FabIcons.getIcons().NOTE_ICO_CALL);
 			asp.tag.setToolTipText("Tag this resource");
@@ -496,7 +504,7 @@ class AnnoToolBar extends JToolBar {
 				}
 			});
 			asp.tag.setFont(nf);
-			add(asp.tag);
+			//add(asp.tag);
 			
 			asp.citeInfo = new JButton("Citation", FabIcons.getIcons().NOTE_ICO_CALL);
 			asp.citeInfo.setToolTipText("Provide citation info");
@@ -525,7 +533,7 @@ class AnnoToolBar extends JToolBar {
 				}
 			});
 			asp.citeInfo.setFont(nf);
-			add(asp.citeInfo);
+			//add(asp.citeInfo);
 //			asp.citeInfo.setEnabled(false);
 
 		} catch (Exception edd) {

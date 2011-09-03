@@ -568,7 +568,7 @@ public class LocalLuceneConnector implements AnnotationServerConnectorInterface 
 		return null;
 	}
 
-	public String[] retreiveAllTags(String url) {
+	public HashMap<String,Integer> retreiveAllTags(String url) {
 		// TODO Auto-generated method stub
 		return null;
 	}
