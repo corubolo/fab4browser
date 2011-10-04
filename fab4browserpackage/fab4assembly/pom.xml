@@ -68,8 +68,12 @@
 			<groupId>uk.ac.liverpool.fab4browser</groupId>
 			<artifactId>pptmediaadaptor</artifactId>
 			<scope>compile</scope>
-
-
+		</dependency>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>MXFmediaadaptor</artifactId>
+			<version>0.99</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
