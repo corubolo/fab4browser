@@ -52,6 +52,7 @@ public class FileGuess {
 			{ 5, 0x5B, 0x61, 0x3B, 0x22, 0x58, 0x44, 0x4F, 0x43, 0x2E },
 			{ 6, 0x50, 0x4B, 0x03, 0x04 }, { 7, (byte) 0xF7, 0x2 },
 			{ 8, (byte) 0xFF, (byte) 0xD8, (byte) 0xFF },
+			{ 9, 0x06,  0x0E , 0x2B , 0x34 , 0x02 , 0x05  ,0x01 , 0x01  ,0x0D , 0x01 , 0x02}
 			/* { 9, 0x00 , 0x01 , 0x00 , 0x00 , 0x00}, */
 
 	};
@@ -64,7 +65,7 @@ public class FileGuess {
 	private static String[] mimeTypes = new String[] { "application/pdf",
 		"image/png", "image/gif", "application/vnd.ms-powerpoint", 
 		"application/postscript", "application/vnd.x-doc",
-		"application/zip", "application/x-dvi", "image/jpeg", /* "font/truetype" */};
+		"application/zip", "application/x-dvi", "image/jpeg", "application/mxf"/* "font/truetype" */};
 	/**
 	 * this contains the map (mime type) -> (list of file extensions) All of
 	 * this is lowercase (taken from /etc/mime.types )

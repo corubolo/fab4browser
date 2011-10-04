@@ -85,6 +85,7 @@
 		<module>simplx</module>
 		<module>file</module>
 		<module>JT-MediaEngine</module>
+		<module>mxfmediaadaptor</module>
 	</modules>
 	<repositories>
 		<repository>

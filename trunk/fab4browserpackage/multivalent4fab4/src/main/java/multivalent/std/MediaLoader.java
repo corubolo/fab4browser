@@ -515,7 +515,8 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         "audio/x-mpg" , 
         "audio/x-mpegaudio",
         "application/mpeg", 
-    "video/mxf"};
+    "video/mxf", 
+        "application/mxf"};
 
     public static boolean isStreaming(String ct) {
         if (ct == null)
@@ -556,6 +557,7 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         byte[] digest = md.digest(); // 128 bit or 16 bytes
         MD5Cache.put(uri2, digest);
         FileCache.put(uri2, f);
+        try {
         FileMagic file1 = new FileMagic("--mime", "-b", f.getAbsolutePath());
         StringWriter out = new StringWriter();
         file1.setOutput(out);
@@ -565,6 +567,11 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         if (mime2.contains("application/octet-stream"))
             mime2 = null;
         return mime2;
+        } catch (Exception x) { 
+            x.printStackTrace();
+            return  null;
+        }
+
 
 
     }
@@ -600,6 +607,7 @@ public class MediaLoader extends Behavior /* implements Runnable */{
         iu.close();
         if (iu.getSource() instanceof File && mime == null) {
             File f = (File) iu.getSource();
+            try {
             FileMagic file1 = new FileMagic("--mime", "-b", f.getAbsolutePath());
             StringWriter out = new StringWriter();
             file1.setOutput(out);
@@ -607,6 +615,9 @@ public class MediaLoader extends Behavior /* implements Runnable */{
             mime = out.toString().trim();
             if (mime.contains("application/octet-stream"))
                 mime = null;
+            } catch (Exception x) { 
+                x.printStackTrace();
+            }
         } 
         
         return mime;
