@@ -220,7 +220,7 @@ public class Fab4 extends JFrame implements TabCloseListener, ActionListener,Mes
      * @param args
      */
     public static void main(String[] args) {
-
+    	
 
         String appId = "uk.ac.uliv.Fab4Browser";
 

@@ -7,7 +7,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>uk.ac.liverpool.fab4browser</groupId>
 	<artifactId>audioma</artifactId>
 	<name>Audio Media adaptor (mp3) </name>
 	<description>a media adaptor using JavaZoom pure Java MP3 decoder implementation</description>

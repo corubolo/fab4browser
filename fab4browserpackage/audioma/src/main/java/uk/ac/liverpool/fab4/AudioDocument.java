@@ -36,9 +36,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import multivalent.CLGeneral;
 import multivalent.INode;
 import multivalent.StyleSheet;
+import multivalent.gui.VButton;
 import multivalent.node.HR;
 import multivalent.node.IParaBox;
 import multivalent.node.IVBox;
+import multivalent.node.LeafImage;
 import multivalent.node.LeafUnicode;
 import phelps.awt.Colors;
 import uk.ac.liverpool.fab4.behaviors.TimedMedia;
@@ -86,6 +88,8 @@ public class AudioDocument extends IVBox implements TimedMedia, Runnable {
     private long prevtt;
 
     private Boolean global = true;
+    
+    public final String MSG_NEXT = "frame.next";
 
     /**
 	 * 
@@ -234,8 +238,20 @@ public class AudioDocument extends IVBox implements TimedMedia, Runnable {
         for (Entry<String, Object> od : i) {
             putLine(od.getKey() + " = " + od.getValue(), null);
         }
+        
+        
+//        VButton submit = new VButton("Next frame", null, this,"event "+MSG_NEXT + " button");
+////					try {
+////				new LeafImage(null, null, submit, baseURI_
+////						.resolve(attr));
+////			} catch (IllegalArgumentException usetext) {
+////			}
+//			new LeafUnicode("Next Frame", null, submit);
+//		// just send submitForm event, and catch
 
     }
+    
+    
 
     private String remove(Map<String, Object> om, String key) {
         String s = null;
