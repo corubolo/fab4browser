@@ -17,9 +17,8 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.theora.cortado</groupId>
-			<artifactId>cortado-modified</artifactId>
-			<version>0.6</version>
+			<groupId>uk.ac.liv</groupId>
+			<artifactId>jmxf</artifactId>
 		</dependency>
 	</dependencies>
 </project>

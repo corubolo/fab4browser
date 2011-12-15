@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<mxf title="MXF behaviors">
+  <Events behavior="uk.ac.liverpool.MXF.MXFBehaviour" />	
+  
+<MenuItem Behavior='SemanticUI' SCRIPT='event newBrowserInstance' title='Test Jerome' parent='File' category='File' TYPE='Button' />			 
+</mxf>
