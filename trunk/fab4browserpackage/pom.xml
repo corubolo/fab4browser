@@ -86,6 +86,8 @@
 		<module>file</module>
 		<module>JT-MediaEngine</module>
 		<module>mxfmediaadaptor</module>
+		<module>MP4JcodecMA</module>
+<!-- 		<module>JMFAdaptor</module> -->
 	</modules>
 	<repositories>
 		<repository>

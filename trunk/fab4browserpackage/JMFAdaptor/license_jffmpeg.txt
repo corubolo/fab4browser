@@ -1,0 +1,41 @@
+GPL Licensing
+
+Classes under the GPL license implement the GPLLicense interface, and are clearly marked in the source code. The following codecs are licensed under the GPL license:
+
+    * AC3 audio
+    * VOB demultiplexer
+    * The class net.sourceforge.jffmpeg.GPLLicense
+
+The GPL classes may be separated from the rest of JFFMPEG by simply removing all classes that implement the GPLLicense interface.
+LGPL Licensing
+
+The majority of JFFMPEG is under an LGPL license. This include the following:
+
+    * the Codec management framework
+    * the Native codecs
+    * parts of ffmpeg (native library)
+
+The LGPL code may be shipped with GPL code.
+BSD-Style License
+
+The Ogg Vorbis demultiplexer and codec is a separate codebase for licensing purposes. See the Ogg Vorbis COPYING file for details. The Ogg Vorbis code may be shipped separately under its BSD style license. Similarly the rest of JFFMPEG can be shipped separately under the appropriate license terms.
+
+Ogg Vorbis and the rest of JFFMPEG cannot be shipped under a single license, they are two different codebases licensed under two different licenses.
+
+Note that this is a legal, not technical issue. If in doubt consult a lawyer.
+
+    Copyright Notice
+
+    This product contains code from the Xiph.org Foundation.
+
+    Copyright (c) 2002, Xiph.org Foundation
+
+    Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+    - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+    - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+    - Neither the name of the Xiph.org Foundation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 

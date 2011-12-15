@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.liverpool</groupId>
+  <artifactId>MP4JcodecMA</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Media engine using JCODEC for decoding and presenting MPEG4-part 10 AVC/h264 content</name>
+  <repositories>
+		<repository>
+			<id>google.code.fab4project</id>
+			<name>google.code.fab4project</name>
+			<url>http://fab4browser.googlecode.com/svn/trunk/repository/</url>
+		</repository>
+
+	</repositories>
+  <dependencies>
+    <dependency>
+      <groupId>uk.ac.liverpool.fab4browser</groupId>
+      <artifactId>fab4browser</artifactId>
+      <version>0.99</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>javcodec</groupId>
+    	<artifactId>javcodec</artifactId>
+    	<version>0.0.1-SNAPSHOT</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
