@@ -1,6 +1,5 @@
-mediaadaptor	mxf MXFma
+mediaadaptor	mxf 			MXF
+mediaadaptor	application/mxf	MXF
 
-mediaadaptor	application/mxf	MXFma
+remap	MXF		uk.ac.liverpool.MXF.MXFma
 
-
-remap	MXFma		uk.ac.liverpool.fab4.MXFma
