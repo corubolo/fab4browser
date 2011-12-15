@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>uk.ac.liverpool</groupId>
+  <artifactId>JMFAdaptor</artifactId>
+  <name>JMF media adaptor (Video)</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>e media adaptor to decode video encoded with JMF</description>
+  <repositories>
+		<repository>
+			<id>google.code.fab4project</id>
+			<name>google.code.fab4project</name>
+			<url>http://fab4browser.googlecode.com/svn/trunk/repository/</url>
+		</repository>
+
+	</repositories>
+  <dependencies>
+		<dependency>
+			<groupId>uk.ac.liverpool.fab4browser</groupId>
+			<artifactId>fab4browser</artifactId>
+			<version>0.99</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>javax.media</groupId>
+			<artifactId>jmf</artifactId>
+			<version>2.1.1e</version>
+		</dependency>
+		<dependency>
+			<groupId>jffmpeg</groupId>
+			<artifactId>jffmpeg</artifactId>
+			<version>1.1</version>
+		</dependency>
+  </dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,6 @@
+
+mediaadaptor	video/mp4 JCodecMA
+mediaadaptor	mp4 JCodecMA
+mediaadaptor	h264 JCodecMA
+remap	JCodecMA		uk.ac.liverpool.media.jcodecma.LeafVideoJCodecMA
+

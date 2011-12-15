@@ -1,0 +1,7 @@
+mediaadaptor	video/mpeg	LeafVideoJMFFormat
+mediaadaptor	video/mpeg	LeafVideoJMFFormat
+mediaadaptor	video/avi LeafVideoJMFFormat
+mediaadaptor	video/msvideo LeafVideoJMFFormat
+mediaadaptor	avi LeafVideoJMFFormat
+mediaadaptor	mpg LeafVideoJMFFormat
+remap	LeafVideoJMFFormat		uk.ac.liverpool.fab4.VideoMA
